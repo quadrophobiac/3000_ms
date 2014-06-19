@@ -1,0 +1,92 @@
+<html>
+	<head>
+	<meta charset="utf-8">
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script>
+		
+		$( document ).ready(function() {
+		  console.log( 'ready!' );
+		  $( '#test' ).css('background-color','lightskyblue');
+		});
+		console.log($( '#test' ));
+
+		$( document ).ready(function() {
+		//var array = ["six","seven","eight","nine","ten"];
+		var array = ["one","two","three","four","five"];
+		console.log("array = "+array);
+		for(var x=0; x<array.length; x++){
+			var elm = '<div class="' + array[x] + '">';
+		    elm.append('<div class="' + array[x] + '">' + array[x] + '</div>');
+		}
+		});
+		</script>
+		<style type="text/css">
+		div {
+		    height:50px;
+		    width:100%;
+		    display: inline-block;
+		}
+
+		</style>
+	</head>
+	<body>
+		Oh Hai<br>
+		<div id="test">
+			Yo
+		
+		<br>
+		</div>
+		<div class = "one">
+		<!-- <div class="radio-guessed"> -->
+              <input class="radio-input" id="guessed" type="radio" name="one" required="required">
+              <label class="guessed" for="radio">Guessed?</label>
+        <!-- </div> -->
+            <!-- <div class="radio-skip"> -->
+              <input class="radio-input" id="guessed" type="radio" name="one" required="required">
+              <label class="skip" for="radio-2">Skip?</label>
+            <!-- </div> -->
+		</div>
+		<div class = "two">
+		<!-- <div class="radio-guessed"> -->
+              <input class="radio-input" id="guessed" type="radio" name="two" required="required">
+              <label class="guessed" for="radio">Guessed?</label>
+        <!-- </div> -->
+            <!-- <div class="radio-skip"> -->
+              <input class="radio-input" id="guessed" type="radio" name="two" required="required">
+              <label class="skip" for="radio-2">Skip?</label>
+            <!-- </div> -->
+		</div>
+		<div class = "three">
+		<!-- <div class="radio-guessed"> -->
+              <input class="radio-input" id="guessed" type="radio" name="three" required="required">
+              <label class="guessed" for="radio">Guessed?</label>
+        <!-- </div> -->
+            <!-- <div class="radio-skip"> -->
+              <input class="radio-input" id="guessed" type="radio" name="three" required="required">
+              <label class="skip" for="radio-2">Skip?</label>
+            <!-- </div> -->
+		</div>
+		<div class = "four">
+		<!-- <div class="radio-guessed"> -->
+              <input class="radio-input" id="guessed" type="radio" name="four" required="required">
+              <label class="guessed" for="radio">Guessed?</label>
+        <!-- </div> -->
+            <!-- <div class="radio-skip"> -->
+              <input class="radio-input" id="guessed" type="radio" name="four" required="required">
+              <label class="skip" for="radio-2">Skip?</label>
+            <!-- </div> -->
+		</div>
+		<div class = "five">
+		<!-- <div class="radio-guessed"> -->
+              <input class="radio-input" id="guessed" type="radio" name="five" required="required">
+              <label class="guessed" for="radio">Guessed?</label>
+        <!-- </div> -->
+            <!-- <div class="radio-skip"> -->
+              <input class="radio-input" id="guessed" type="radio" name="five" required="required">
+              <label class="skip" for="radio-2">Skip?</label>
+            <!-- </div> -->
+		</div>
+
+	</body>
+
+</html>
