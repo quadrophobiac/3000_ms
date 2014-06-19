@@ -11,13 +11,26 @@
 		console.log($( '#test' ));
 
 		$( document ).ready(function() {
-		//var array = ["six","seven","eight","nine","ten"];
+		// var newtings = ["six","seven","eight","nine","ten"];
+		
+		// for(var x=0; x<newtings.length; x++){
+		//     $('body').append('<div id="' + newtings[x] + '">' + newtings[x] + '</div>');
+		// }
+		
 		var array = ["one","two","three","four","five"];
 		console.log("array = "+array);
 		for(var x=0; x<array.length; x++){
-			var elm = '<div class="' + array[x] + '">';
-		    elm.append('<div class="' + array[x] + '">' + array[x] + '</div>');
+			//var elm = '<div class="' + array[x] + '">';
+			var elm = $("."+array[x]);
+			console.log(elm);
+		    //elm.append('<div class="' + array[x] + '">' + array[x] + '</div>');
+		    elm.prepend(array[x]);
 		}
+		// below just creates multiple divs with the same class identifier
+		// $.each(array, function(idx, value){
+		//   var newdiv = $('<div>',{class: 'array', text: value});
+		//   $('body').append( newdiv  );
+		// });
 		});
 		</script>
 		<style type="text/css">
