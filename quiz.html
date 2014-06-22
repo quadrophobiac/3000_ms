@@ -16,21 +16,39 @@
 		// for(var x=0; x<newtings.length; x++){
 		//     $('body').append('<div id="' + newtings[x] + '">' + newtings[x] + '</div>');
 		// }
-
+		function forEachIn(object, action) {
+			for (var property in object) {
+			if (Object.prototype.hasOwnProperty.call(object, property))
+				action(property, object[property]);
+			}
+		}
+		function forEach(array, action) {
+			for (var i = 0; i < array.length; i++)
+			action(array[i]);
+		}
 		var array = ["one","two","three","four","five"]; // need this to be an object I guess
+		var JSON = [
+			{'name':"one"},
+			{'name':"two"},
+			{'name':"three"},
+			{'name':"four"},
+			{'name':"five"}
+			];
+		console.log(JSON[0].name);
 		console.log("array = "+array);
-		for(var x=0; x<array.length; x++){
+		for(var x=0; x<JSON.length; x++){
 			//var elm = '<div class="' + array[x] + '">';
-			var elm = $("."+array[x]);
+			var elm = $("."+JSON[x].name);
 			console.log(elm);
 		    //elm.append('<div class="' + array[x] + '">' + array[x] + '</div>');
-		    elm.prepend(array[x]);
+		    elm.prepend("<span>"+JSON[x].name+"</span>");
 		}
 		// below just creates multiple divs with the same class identifier
 		// $.each(array, function(idx, value){
 		//   var newdiv = $('<div>',{class: 'array', text: value});
 		//   $('body').append( newdiv  );
 		// });
+		$('span').css("visibility", "hidden"); // set to hidden until button
 		});
 		// below is one of those always on functions
 		$(function() {
@@ -38,12 +56,13 @@
             	console.log("BOOYA");
             	console.log($(".guessed"));
             	console.log($(this).parent());
-            	$(this).parent().css( "background-color", "red" );
+            	$(this).parent().css( "display", "none" );
 	            });
         }); // end always on function
 		$(function() {
             $(".skip").change(function() {
             	console.log("LOSER");
+            	$(this).parent().css( "background-color", "red" );
 	            });
         }); // end always on function
 		</script>
