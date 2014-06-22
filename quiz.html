@@ -34,6 +34,17 @@
 			{'name':"four"},
 			{'name':"five"}
 			];
+		var jArray = $.getJSON( "cards.json", function( data ) {
+			var items = [];
+			$.each( data, function( key, val ) {
+			items.push( "<li id='" + key + "'>" + val + "</li>" );
+			});
+			$( "<ul/>", {
+				"class": "my-new-list",
+				html: items.join( "" )
+			}).appendTo( "body" );
+		});
+		console.log(jArray);
 		console.log(JSON[0].name);
 		console.log("array = "+array);
 		for(var x=0; x<JSON.length; x++){
@@ -65,6 +76,10 @@
             	$(this).parent().css( "background-color", "red" );
 	            });
         }); // end always on function
+        function commence(){
+        	$('span').css("visibility", "block");
+        	return false;
+        }
 		</script>
 		<style type="text/css">
 		div {
@@ -79,7 +94,7 @@
 		Oh Hai<br>
 		<div id="test">
 			Yo
-		
+		<button class="button" onclick="return commence()">Show me</button>
 		<br>
 		</div>
 		<div class = "one">
