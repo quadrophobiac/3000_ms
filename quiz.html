@@ -3,7 +3,43 @@
 	<meta charset="utf-8">
 		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 		<script>
-		
+
+		function forEachIn(object, action) {
+			for (var property in object) {
+			if (Object.prototype.hasOwnProperty.call(object, property))
+				action(property, object[property]);
+			}
+		}
+		function forEach(array, action) {
+			for (var i = 0; i < array.length; i++)
+			action(array[i]);
+		}
+
+		console.log(JSON.parse('[1, 5, "false"]'));
+		var json = $.getJSON("cards.json", function(data) {
+			var items = [];
+		    for (var i in data.statements) {
+		    items.push(data.statements[i].name);
+			}
+			// $.each( data, function( key, val ) {
+			// console.log(val);
+			// items.push( val );
+			// });
+			console.log(items);
+		    //return json.statements; // this will show the info it in firebug console
+		    return items;
+		});
+
+		function createArray(action){
+		    $.getJSON("cards.json", function(json) {
+		        var myArray = [];
+		        $.each(json, function(key,val) {
+		            myArray.push(val); // creates an array of arrays of objects
+		        });
+		        return action(myArray);
+		    });
+		}
+
 		$( document ).ready(function() {
 		  console.log( 'ready!' );
 		  $( '#test' ).css('background-color','lightskyblue');
@@ -16,51 +52,40 @@
 		// for(var x=0; x<newtings.length; x++){
 		//     $('body').append('<div id="' + newtings[x] + '">' + newtings[x] + '</div>');
 		// }
-		function forEachIn(object, action) {
-			for (var property in object) {
-			if (Object.prototype.hasOwnProperty.call(object, property))
-				action(property, object[property]);
+
+			var array = ["one","two","three","four","five"]; // need this to be an object I guess
+			var JSON = [
+				{'name':"one"},
+				{'name':"two"},
+				{'name':"three"},
+				{'name':"four"},
+				{'name':"five"}
+				];
+
+
+			console.log(JSON[0].name);
+			//console.log("array = "+array);
+			for(var x=0; x<JSON.length; x++){
+				//var elm = '<div class="' + array[x] + '">';
+				var elm = $("."+JSON[x].name);
+				console.log(elm);
+			    //elm.append('<div class="' + array[x] + '">' + array[x] + '</div>');
+			    elm.prepend("<span>"+JSON[x].name+"</span>");
 			}
-		}
-		function forEach(array, action) {
-			for (var i = 0; i < array.length; i++)
-			action(array[i]);
-		}
-		var array = ["one","two","three","four","five"]; // need this to be an object I guess
-		var JSON = [
-			{'name':"one"},
-			{'name':"two"},
-			{'name':"three"},
-			{'name':"four"},
-			{'name':"five"}
-			];
-		var jArray = $.getJSON( "cards.json", function( data ) {
-			var items = [];
-			$.each( data, function( key, val ) {
-			items.push( "<li id='" + key + "'>" + val + "</li>" );
-			});
-			$( "<ul/>", {
-				"class": "my-new-list",
-				html: items.join( "" )
-			}).appendTo( "body" );
+			// below just creates multiple divs with the same class identifier
+			// $.each(array, function(idx, value){
+			//   var newdiv = $('<div>',{class: 'array', text: value});
+			//   $('body').append( newdiv  );
+			// });
+			$('span').css("visibility", "hidden"); // set to hidden until button
+			console.log(json);
+			// createArray( function(array) { console.log(array);} );
+			//createArray( function(arr) { forEach(arr, function(a) {console.log(a);});} );
+			//create( function (arrO) { forEach(arrO, function(a) {console.log(a);}); return rArray; } );
+			var aaRR = createArray( function (arrO) { var rArray = []; for(var x=0; x<arrO.length; x++){rArray.push(arrO[x]);console.log(rArray);} return rArray; } );
+			console.log(aaRR);
 		});
-		console.log(jArray);
-		console.log(JSON[0].name);
-		console.log("array = "+array);
-		for(var x=0; x<JSON.length; x++){
-			//var elm = '<div class="' + array[x] + '">';
-			var elm = $("."+JSON[x].name);
-			console.log(elm);
-		    //elm.append('<div class="' + array[x] + '">' + array[x] + '</div>');
-		    elm.prepend("<span>"+JSON[x].name+"</span>");
-		}
-		// below just creates multiple divs with the same class identifier
-		// $.each(array, function(idx, value){
-		//   var newdiv = $('<div>',{class: 'array', text: value});
-		//   $('body').append( newdiv  );
-		// });
-		$('span').css("visibility", "hidden"); // set to hidden until button
-		});
+
 		// below is one of those always on functions
 		$(function() {
             $(".guessed").change(function() {
@@ -94,7 +119,7 @@
 		Oh Hai<br>
 		<div id="test">
 			Yo
-		<button class="button" onclick="return commence()">Show me</button>
+		<button class="button" onclick="return commence()">Start Game</button>
 		<br>
 		</div>
 		<div class = "one">
