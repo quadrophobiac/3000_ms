@@ -15,11 +15,10 @@
 			action(array[i]);
 		}
 
-		console.log(JSON.parse('[1, 5, "false"]'));
 		var json = $.getJSON("cards.json", function(data) {
-			var items = [];
+			var items = []; // won't work because closure
 		    for (var i in data.statements) {
-		    items.push(data.statements[i].name);
+		    items.push(data.statements[i].name); // this way became redundant when I added additional array to cards.json
 			}
 			// $.each( data, function( key, val ) {
 			// console.log(val);
@@ -34,9 +33,11 @@
 		    $.getJSON("cards.json", function(json) {
 		        var myArray = [];
 		        $.each(json, function(key,val) {
+		        	//forEach(val, function(v){myArray.push(v.name);}); // creates a single array of any object with a name handle
 		            myArray.push(val); // creates an array of arrays of objects
 		        });
-		        return action(myArray);
+		        action(myArray);
+		        //return myArray; // presumably does nothing because this is the only part still waiting to execute after async
 		    });
 		}
 
@@ -79,11 +80,19 @@
 			// });
 			$('span').css("visibility", "hidden"); // set to hidden until button
 			console.log(json);
-			// createArray( function(array) { console.log(array);} );
-			//createArray( function(arr) { forEach(arr, function(a) {console.log(a);});} );
-			//create( function (arrO) { forEach(arrO, function(a) {console.log(a);}); return rArray; } );
-			var aaRR = createArray( function (arrO) { var rArray = []; for(var x=0; x<arrO.length; x++){rArray.push(arrO[x]);console.log(rArray);} return rArray; } );
-			console.log(aaRR);
+
+			var booya = []; // still involves doing a global variable which is eveil 
+//			createArray( function(array) { console.log(array);} ); // prints to console as object array
+			createArray( function(arr) { // prints every element of the arr array
+				forEach(arr, function(a) {
+					console.log(a);
+					booya.push(a);
+				});
+			});
+
+			//createArray( function(arr){booya = arr;});
+			console.log(booya);
+
 		});
 
 		// below is one of those always on functions
