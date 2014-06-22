@@ -66,7 +66,7 @@
 
 			console.log(JSON[0].name);
 			//console.log("array = "+array);
-			for(var x=0; x<JSON.length; x++){
+			for(var x=0; x<JSON2.length; x++){
 				//var elm = '<div class="' + array[x] + '">';
 				var elm = $("."+JSON[x].name);
 				console.log(elm);
@@ -80,18 +80,20 @@
 			// });
 			$('span').css("visibility", "hidden"); // set to hidden until button
 			console.log(json);
-
-			var booya = []; // still involves doing a global variable which is eveil 
-//			createArray( function(array) { console.log(array);} ); // prints to console as object array
-			createArray( function(arr) { // prints every element of the arr array
-				forEach(arr, function(a) {
-					console.log(a);
-					booya.push(a);
+			function genArray() {
+				var booya = []; // still involves doing a global variable which is eveil 
+			//			createArray( function(array) { console.log(array);} ); // prints to console as object array
+				createArray( function(arr) { // prints every element of the arr array
+					forEach(arr, function(a) {
+						console.log(a);
+						booya.push(a);
+					});
 				});
-			});
-
+				return booya;
+			}
+			var booya2 = genArray();;
 			//createArray( function(arr){booya = arr;});
-			console.log(booya);
+			console.log(booya2);
 
 		});
 
