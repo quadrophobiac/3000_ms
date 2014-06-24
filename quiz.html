@@ -1,11 +1,9 @@
 <html>
-
-
-
 	<head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/themes/3000ms.css" />
+	<link rel="stylesheet" href="css/themes/3000ms.css" />  
+	<!-- <link rel="stylesheet" href="css/themes/base.css" /> -->
 	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile.structure-1.4.2.min.css" /> 
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
@@ -162,18 +160,18 @@
 		<button class="ui-btn" style="pointer-events:none;opacity:0.2" onclick="return flip()">Next Questions</button>
 		<br>
 		</div>
-		<div id = "one">
+		<div id = "one" class="ui-block-a">
 		<!-- <div class="radio-guessed"> -->
 		<!--| alternative class designation = <input class="radio-input" |-->
-              <input class="guessed" id="oneG" type="radio" name="guessed" required="required">
+              <input class=".radio-left" id="oneG" type="radio" name="guessed" required="required">
               <label class="ui-mobile" name="guessed" for="radio">Guessed?</label>
         <!-- </div> -->
             <!-- <div class="radio-skip"> -->
-              <input class="skip" id="oneS" type="radio" name="skip" required="required">
+              <input class=".radio-right" id="oneS" type="radio" name="skip" required="required">
               <label class="skip" name="skip" for="radio-2">Skip?</label>
             <!-- </div> -->
 		</div>
-		<div id = "two">
+		<div id = "two" class="ui-block-b">
 		<!-- <div class="radio-guessed"> -->
               <input class="guessed" id="twoG" type="radio" name="guessed" required="required">
               <label class="ui-mobile" name="guessed" for="radio">Guessed?</label>
@@ -183,7 +181,7 @@
               <label class="skip" name="skip" for="radio-2">Skip?</label>
             <!-- </div> -->
 		</div>
-		<div id = "three">
+		<div id = "three" class="ui-block-c">
 		<!-- <div class="radio-guessed"> -->
               <input class="guessed" id="threeG" type="radio" name="guessed" required="required">
               <label class="ui-mobile" name="guessed" for="radio">Guessed?</label>
@@ -193,7 +191,7 @@
               <label class="skip" name="skip" for="radio-2">Skip?</label>
             <!-- </div> -->
 		</div>
-		<div id = "four">
+		<div id = "four" class="ui-block-d">
 		<!-- <div class="radio-guessed"> -->
               <input class="guessed" id="fourG" type="radio" name="guessed" required="required">
               <label class="ui-mobile" name="guessed" for="radio">Guessed?</label>
@@ -203,7 +201,7 @@
               <label class="skip" name="skip" for="radio-2">Skip?</label>
             <!-- </div> -->
 		</div>
-		<div id = "five">
+		<div id = "five" class="ui-block-e">
 		<!-- <div class="radio-guessed"> -->
               <input class="guessed" id="fiveG" type="radio" name="guessed" required="required">
               <label class="ui-mobile" name="guessed" for="radio">Guessed?</label>
@@ -213,7 +211,22 @@
               <label class="skip" name="skip" for="radio-2">Skip?</label>
             <!-- </div> -->
 		</div>
+		                        <legend>Choose a pet:</legend>
+                        <div class="ui-block-a">
+                             <input type="radio" name="radio-choice-1" id="radio-choice-1" value="choice-1" checked="checked" />
+                             <label for="radio-choice-1">Cat</label>
 
+                             <input type="radio" name="radio-choice-1" id="radio-choice-2" value="choice-2"  />
+                             <label for="radio-choice-2">Dog</label>
+                        </div>
+                        <div class="ui-block-b">
+
+                             <input type="radio" name="radio-choice-1" id="radio-choice-3" value="choice-3"  />
+                             <label for="radio-choice-3">Hamster</label>
+
+                             <input type="radio" name="radio-choice-1" id="radio-choice-4" value="choice-4"  />
+                             <label for="radio-choice-4">Lizard</label>
+                        </div>
 	</body>
 
 </html>

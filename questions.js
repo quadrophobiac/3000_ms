@@ -1,11 +1,16 @@
-var ALL_QUESTIONS {
+var questions {
 [
-/*[0]*/topic: [statements[0]...statements[N]],
-....
-/*[N]*/topic: [statements[0]...statements[N]]
+/*[0]topic: [statements[0]...statements[N]],*/
+'tv':  [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'],
+'movie': ['blade runner', 'godfather','goodfellas', 'king kong', 'star wars', 'star trek', 'serenity', 'primer','blues brothers', 'taxi driver'],
+'book': ['we3', 'gravitys rainbow', 'chaos' 'ubiq','sandman','invisibles','transmetropolitan','watchmen','lord of the rings','2666',],
+'location': ['dublin', 'london', 'new york', 'brighton', 'glasgow', 'galway','cork','kildare','maynooth', 'goldsmiths'],
+'person': ['ronaldo','messi','suarez','pele','andy murray','roy mcelroy','barack obama','sepp blater','david cameron','tony blair'],
+'event': ['glastonbury', 'world cup', 'wimbledon', 'election', 'wedding', 'holiday', 'baptism', 'christening','funeral', 'finale']
+/*[N]topic: [statements[0]...statements[N]] */
 ]
 };
-
+console.log("hello");
 /*
 Interface..
 remove(int index){
@@ -59,3 +64,5 @@ grabNext5( [ arrayIndexes as args ] ) {
 		// might be able to avail of bind, and the remove methods defined earlier
 		thisRound.push(q);
 	} */
+
+

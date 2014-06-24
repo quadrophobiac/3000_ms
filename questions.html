@@ -10,21 +10,43 @@ function forEachIn(object, action) {
 		action(property, object[property]);
 	}
 }
+// function forEach(array, action) {
+//   for (var i = 0; i < array.length; i++)
+//     action(array[i]);
+// }
 console.log("hello");
 var questions = {
 	/*[0]topic: [statements[0]...statements[N]],*/
-	'tv': [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'],
+	0: [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'],
 	1: ['blade runner', 'godfather','goodfellas', 'king kong', 'star wars', 'star trek', 'serenity', 'primer','blues brothers', 'taxi driver'],
 	2: ['dublin', 'london', 'new york', 'brighton', 'glasgow', 'galway','cork','kildare','maynooth', 'goldsmiths'],
 	3 : ['ronaldo','messi','suarez','pele','andy murray','roy mcelroy','barack obama','sepp blater','david cameron','tony blair'],
 	4: ['glastonbury', 'world cup', 'wimbledon', 'election', 'wedding', 'holiday', 'baptism', 'christening','funeral', 'finale'],
 	5: ['we3', 'gravitys rainbow', 'chaos', 'ubiq','sandman','invisibles','transmetropolitan','watchmen','lord of the rings','2666'],
 	/*[N]topic: [statements[0]...statements[N]] */
+	count : function() {
+		// check for number index
+		var toPrint = Object.keys(this);
+		toPrint.forEach(function(element, index, array){
+			if (!isNaN(element)){console.log(element);}
+		});
+		//console.log(toPrint);
+	}
 };
 console.log("goodbye");
 //console.log(questions[0].tv); // for array of object with arrays
-console.log(questions.tv[0]);
-forEachIn(questions, function(q){console.log(property, property[q]);});
+//console.log(questions[1][0]);
+forEachIn(questions, function(k, v){console.log(v[0]);});
+
+console.log(Object.keys(questions));
+questions.count();
+
+// checking number checking
+forEach(Object.keys(questions), function(a){alert(isNaN(a));});
+
+// questions.prototype.count = function(first_argument) {
+// 	console.log(this.keys);
+// };
 
 /*
 Interface..
