@@ -25,22 +25,27 @@ var questions = {
 	4: ['glastonbury', 'world cup', 'wimbledon', 'election', 'wedding', 'holiday', 'baptism', 'christening','funeral', 'finale'],
 	5: ['we3', 'gravitys rainbow', 'chaos', 'ubiq','sandman','invisibles','transmetropolitan','watchmen','lord of the rings','2666'],
 	/*[N]topic: [statements[0]...statements[N]] */
-	count : function() {
-		// check for number index
-		var toPrint = Object.keys(this);
-		toPrint.forEach(function(element, index, array){
-			if (!isNaN(element)){console.log(element);}
-		});
-		//console.log(toPrint);
-	}
 };
+count = function(subjects) {
+	// check for number index
+	var indices = [];
+	indices = Object.keys(subjects);
+	console.log(typeof indices);
+	indices.forEach(function(element, index, array){
+		// using these three vars advised
+		alert(array.length);
+	});
+	//console.log(toPrint);
+}
+
+
 console.log("goodbye");
 //console.log(questions[0].tv); // for array of object with arrays
 //console.log(questions[1][0]);
 forEachIn(questions, function(k, v){console.log(v[0]);});
 
-console.log(Object.keys(questions));
-questions.count();
+console.log(typeof Object.keys(questions));
+count(questions);
 
 // checking number checking
 forEach(Object.keys(questions), function(a){alert(isNaN(a));});
