@@ -30,20 +30,23 @@ count = function(subjects) {
 	// check for number index
 	var totalTopics = Object.keys(subjects).length;
 	var cnt = {};
-	cnt['total'] = 0;
+	//cnt['total'] = 0;
 	forEachIn(subjects, function(k,v){
 		l=v.length;
 		cnt[k] = l;
-		cnt['total']+=l;
+		//cnt['total']+=l;
 	});
 	return cnt;
 }
 
 evenSpread = function(count){ // this function could be bundled into count object
-	var mean = count['total']/(Object.keys(count).length-1); // have to minus one because of total
+	var total = 0;
+	forEachIn(count, function(k,v){total+=v;});
+	var mean = total/(Object.keys(count).length);
+	console.log("total = "+total+" mean = "+mean);
 
 	forEachIn(count, function(k,v){
-		if(v===mean){console.log("should be seeing this"+v);}
+		if(v===mean){console.log("should be seeing this "+v);}
 		else{console.log("wtf?"+v);}
 	});
 
