@@ -41,7 +41,7 @@ count = function(subjects) {
 
 evenSpread = function(count){ // this function could be bundled into count object
 	var mean = count['total']/(Object.keys(count).length-1); // have to minus one because of total
-	// forEachIn(count, function(k,v){});
+
 	forEachIn(count, function(k,v){
 		if(v===mean){console.log("should be seeing this"+v);}
 		else{console.log("wtf?"+v);}
