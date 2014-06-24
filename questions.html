@@ -28,7 +28,9 @@ var questions = {
 };
 count = function(subjects) {
 	// check for number index
-	forEachIn(subjects, function(){});
+	cnt = 0;
+	forEachIn(subjects, function(k,v){cnt+=v.length;});
+	return cnt;
 }
 
 
@@ -39,10 +41,10 @@ forEachIn(questions, function(k, v){console.log(v[0]);});
 
 console.log("object questions = "+ typeof questions);
 console.log("invoking Object.keys on object questions, returns :."+typeof Object.keys(questions));
-//count(questions);
-
+var num = count(questions);
+console.log(num);
 // checking number checking
-forEach(Object.keys(questions), function(a){console.log(isNaN(a));});
+//forEach(Object.keys(questions), function(a){console.log(isNaN(a));});
 
 // questions.prototype.count = function(first_argument) {
 // 	console.log(this.keys);
