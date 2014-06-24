@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html>
-	<head>
-	<meta charset="utf-8">
-	<script>
-	console.log("hello");
-var questions = [
-/*[0]topic: [statements[0]...statements[N]],*/
-{'tv': [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful']},
-{'movie': ['blade runner', 'godfather','goodfellas', 'king kong', 'star wars', 'star trek', 'serenity', 'primer','blues brothers', 'taxi driver']},
-{'location': ['dublin', 'london', 'new york', 'brighton', 'glasgow', 'galway','cork','kildare','maynooth', 'goldsmiths']},
-{'person': ['ronaldo','messi','suarez','pele','andy murray','roy mcelroy','barack obama','sepp blater','david cameron','tony blair']},
-{'event': ['glastonbury', 'world cup', 'wimbledon', 'election', 'wedding', 'holiday', 'baptism', 'christening','funeral', 'finale']},
-{'book': ['we3', 'gravitys rainbow', 'chaos', 'ubiq','sandman','invisibles','transmetropolitan','watchmen','lord of the rings','2666']},
-/*[N]topic: [statements[0]...statements[N]] */
-];
+<head>
+<meta charset="utf-8">
+<script>
+
+function forEachIn(object, action) {
+	for (var property in object) {
+	if (Object.prototype.hasOwnProperty.call(object, property))
+		action(property, object[property]);
+	}
+}
+console.log("hello");
+var questions = {
+	/*[0]topic: [statements[0]...statements[N]],*/
+	'tv': [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'],
+	1: ['blade runner', 'godfather','goodfellas', 'king kong', 'star wars', 'star trek', 'serenity', 'primer','blues brothers', 'taxi driver'],
+	2: ['dublin', 'london', 'new york', 'brighton', 'glasgow', 'galway','cork','kildare','maynooth', 'goldsmiths'],
+	3 : ['ronaldo','messi','suarez','pele','andy murray','roy mcelroy','barack obama','sepp blater','david cameron','tony blair'],
+	4: ['glastonbury', 'world cup', 'wimbledon', 'election', 'wedding', 'holiday', 'baptism', 'christening','funeral', 'finale'],
+	5: ['we3', 'gravitys rainbow', 'chaos', 'ubiq','sandman','invisibles','transmetropolitan','watchmen','lord of the rings','2666'],
+	/*[N]topic: [statements[0]...statements[N]] */
+};
 console.log("goodbye");
-console.log(questions[0].tv);
+//console.log(questions[0].tv); // for array of object with arrays
+console.log(questions.tv[0]);
+forEachIn(questions, function(q){console.log(property, property[q]);});
+
 /*
 Interface..
 remove(int index){
