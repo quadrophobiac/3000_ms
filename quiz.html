@@ -5,8 +5,15 @@
 	<head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<link rel="stylesheet" href="css/themes/3000ms.css" />
+	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile.structure-1.4.2.min.css" /> 
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<!-- above throws some deprecation warnings :. very little consensus on which ver of CDN to use-->
+	<!-- <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script> -->
+	
+	<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script> 
+<!-- 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
 		<script>
 
 		function forEachIn(object, action) {
@@ -102,7 +109,7 @@
 
 		});
 
-		$(function() {
+		$(function() { // note, this new way does not remove the labels
 			$('input').change(function(){
 				console.log("an input change detected!");
 				if($(this).context.name == "guessed"){
@@ -139,11 +146,11 @@
         }
 		</script>
 		<style type="text/css">
-		div {
+/*		div {
 		    height:50px;
 		    width:100%;
 		    display: inline-block;
-		}
+		}*/
 
 		</style>
 	</head>
