@@ -30,14 +30,32 @@ count = function(subjects) {
 	// check for number index
 	var totalTopics = Object.keys(subjects).length;
 	var cnt = {};
+	cnt['total'] = 0;
 	forEachIn(subjects, function(k,v){
 		l=v.length;
 		cnt[k] = l;
+		cnt['total']+=l;
 	});
 	return cnt;
 }
-leastUsed = function(){
+
+evenSpread = function(count){ // this function could be bundled into count object
+	var mean = count['total']/(Object.keys(count).length-1); // have to minus one because of total
+	// forEachIn(count, function(k,v){});
+	forEachIn(count, function(k,v){
+		if(v===mean){console.log("should be seeing this"+v);}
+		else{console.log("wtf?"+v);}
+	});
+
+}
+
+topicPool = function(count){
 	// sorting algorithm time!
+	if (count['total']/5){ // not the best way of doing this
+		console.log("divisible by 5");
+	} else {
+
+	}
 }
 
 console.log("goodbye");
@@ -50,6 +68,7 @@ console.log("invoking Object.keys on object questions, returns :."+typeof Object
 var num = count(questions);
 console.log(num);
 console.log(Object.keys(questions).length);
+evenSpread(num);
 // checking number checking
 //forEach(Object.keys(questions), function(a){console.log(isNaN(a));});
 
