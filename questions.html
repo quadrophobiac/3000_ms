@@ -10,10 +10,10 @@ function forEachIn(object, action) {
 		action(property, object[property]);
 	}
 }
-// function forEach(array, action) {
-//   for (var i = 0; i < array.length; i++)
-//     action(array[i]);
-// }
+function forEach(array, action) {
+  for (var i = 0; i < array.length; i++)
+    action(array[i]);
+}
 console.log("hello");
 // method invocation pattern - however mixing data and methdos looks likely to cause problems
 var questions = {
@@ -28,14 +28,7 @@ var questions = {
 };
 count = function(subjects) {
 	// check for number index
-	var indices = [];
-	indices = Object.keys(subjects);
-	console.log(typeof indices);
-	indices.forEach(function(element, index, array){
-		// using these three vars advised
-		alert(array.length);
-	});
-	//console.log(toPrint);
+	forEachIn(subjects, function(){});
 }
 
 
@@ -44,11 +37,12 @@ console.log("goodbye");
 //console.log(questions[1][0]);
 forEachIn(questions, function(k, v){console.log(v[0]);});
 
-console.log(typeof Object.keys(questions));
-count(questions);
+console.log("object questions = "+ typeof questions);
+console.log("invoking Object.keys on object questions, returns :."+typeof Object.keys(questions));
+//count(questions);
 
 // checking number checking
-forEach(Object.keys(questions), function(a){alert(isNaN(a));});
+forEach(Object.keys(questions), function(a){console.log(isNaN(a));});
 
 // questions.prototype.count = function(first_argument) {
 // 	console.log(this.keys);
