@@ -59,14 +59,24 @@ evenSpread = function(count){ // this function could be bundled into count objec
 	});
 	return isEven;
 }
-
+// somewhere between above and below needs to be the edge case of No Statements Left!
 topicPool = function(count){
 	// sorting algorithm time!
 	console.log("within TopicPool "+typeof count);
 	if (evenSpread(count)) {
 		console.log("no need to prioritise!");
+	} else {
+		// sorting algo
 	}
 }
+
+chooseFive = function(arrayNum, dataObject){
+	forEach(arrayNum, function(a){console.log(a);}); //  how can I get dataObject in there?
+}
+
+// chooseFive test
+var arr = [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'];
+forEach(arr, function(a){console.log(a);});
 
 console.log("goodbye");
 //console.log(questions[0].tv); // for array of object with arrays
@@ -79,7 +89,7 @@ var num = count(questions);
 console.log(num);
 console.log(Object.keys(questions).length);
 console.log(evenSpread(num));
-topicPool(count);
+topicPool(num);
 // checking number checking
 //forEach(Object.keys(questions), function(a){console.log(isNaN(a));});
 
