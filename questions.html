@@ -40,24 +40,31 @@ count = function(subjects) {
 }
 
 evenSpread = function(count){ // this function could be bundled into count object
+	console.log("within EvenSpread "+typeof count);
+	var isEven = false;
 	var total = 0;
 	forEachIn(count, function(k,v){total+=v;});
-	var mean = total/(Object.keys(count).length);
+	var mean = Math.ceil(total/(Object.keys(count).length));
 	console.log("total = "+total+" mean = "+mean);
 
 	forEachIn(count, function(k,v){
-		if(v===mean){console.log("should be seeing this "+v);}
-		else{console.log("wtf?"+v);}
+		if(v<mean){
+			console.log("should be seeing this if lower "+v);
+			isEven = false;
+			mean = v;
+		} else if (v===mean) {
+			console.log("wtf?"+v);
+			isEven = true;
+		}
 	});
-
+	return isEven;
 }
 
 topicPool = function(count){
 	// sorting algorithm time!
-	if (count['total']/5){ // not the best way of doing this
-		console.log("divisible by 5");
-	} else {
-
+	console.log("within TopicPool "+typeof count);
+	if (evenSpread(count)) {
+		console.log("no need to prioritise!");
 	}
 }
 
@@ -71,7 +78,8 @@ console.log("invoking Object.keys on object questions, returns :."+typeof Object
 var num = count(questions);
 console.log(num);
 console.log(Object.keys(questions).length);
-evenSpread(num);
+console.log(evenSpread(num));
+topicPool(count);
 // checking number checking
 //forEach(Object.keys(questions), function(a){console.log(isNaN(a));});
 
