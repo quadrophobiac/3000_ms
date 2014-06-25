@@ -36,11 +36,43 @@ var questions = {
 
 var arr = [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'];
 var numArr = [1,2,5];
-
+console.log(numArr);
 console.log(arr[0]);
 arr.splice(0,1);
 console.log(arr[0]);
 //forEach(arr, function(a){alert(a);});
+function makeAdder(amount) {
+return function(number) {
+return number + amount;
+};
+}
+var addTwo = makeAdder(2);
+addTwo(3);
 
+function add(a, b) {
+return a + b;
+}
+forEach([],function(a){console.log(a);})
+function reduce(nuArray, array) { // array is here the one from which the elements are plucked
+	forEach(array, function (element) { element = Math.floor((Math.random() * 9)); nuArray.push(array.splice(element))});
+	return nuArray;
+};
+// below tests if you can do arr == assignment
+var nuArr = numArr;
+console.log(nuArr);
+
+function forEachIn(object, action) {
+	for (var property in object) {
+	if (Object.prototype.hasOwnProperty.call(object, property))
+		action(property, object[property]);
+	}
+}
+
+function shuffle(nuArray, array, object) { // array is here the one from which the elements are plucked
+	forEachIn(object, function (k,v,element) { element = Math.floor((Math.random() * 9)); console.log(element); nuArray.push(v.splice(element))});
+	return nuArray;
+};
+nuArr = shuffle([],numArr,questions);
+console.log(nuArr);
 </script>
 </html>
