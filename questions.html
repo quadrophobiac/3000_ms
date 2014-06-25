@@ -72,6 +72,15 @@ topicPool = function(count){
 
 chooseFive = function(arrayNum, dataObject){
 	forEach(arrayNum, function(a){console.log(a);}); //  how can I get dataObject in there?
+/*TOTALLY UNTESTED!!!!!!!!!!!!!!!!!!!!!!!*/
+	var rR = ; // randRange:. need to count the length of each array, and return the lowest ones length here
+	var l = arrayNum.length;
+	for(var i = 0; i <= l;i++) {
+		topic = arrayNum[i];
+		dataObject.topic.remove(rR);
+		//forEachIn(dataObject, function (key, val) { thisRound.push(remove(val[rR])) }); 
+		// to test this need to see if key val arrays can be accessed in such a manner
+	}
 }
 
 // chooseFive test
