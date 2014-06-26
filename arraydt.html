@@ -36,7 +36,7 @@ var questions = {
 
 var arr = [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'];
 var numArr = [1,2,5];
-console.log(numArr);
+console.log(typeof numArr);
 console.log(arr[0]);
 arr.splice(0,1);
 console.log(arr[0]);
@@ -55,6 +55,8 @@ return a + b;
 forEach([],function(a){console.log(a);})
 function reduce(nuArray, array) { // array is here the one from which the elements are plucked
 	forEach(array, function (element) { element = Math.floor((Math.random() * 9)); nuArray.push(array.splice(element))});
+	// what is going wrong is that the splice function expects two arguments, the 2nd being howMany!
+	// If no howMany parameter is specified all elements after index are removed.
 	return nuArray;
 };
 // below tests if you can do arr == assignment
@@ -69,10 +71,20 @@ function forEachIn(object, action) {
 }
 
 function shuffle(nuArray, array, object) { // array is here the one from which the elements are plucked
-	forEachIn(object, function (k,v,element) { element = Math.floor((Math.random() * 9)); console.log(element); nuArray.push(v.splice(element))});
+	//forEachIn(object, function (k,v,element) { element = Math.floor((Math.random() * 9)); console.log(element); nuArray.push(v.splice(element))});
+	// forEachIn is wrong
+	// element = Math.floor((Math.random() * 9)) // gen random number
+	console.log(nuArray.length);
+	console.log(typeof nuArray);
+	forEach(array, function (a) { element = 2; console.log(object[a][element]); nuArray.push(object[a].splice(element, 1))});
+	// the prob with above is that it returns an array of arrays
+	// this is because object[a].splice(element, 1) returns an array, - test with console.log to be certain
+	console.log(nuArray);
+	console.log(typeof nuArray);
 	return nuArray;
 };
-nuArr = shuffle([],numArr,questions);
-console.log(nuArr);
+rr = [];
+rr = shuffle(rr,numArr,questions);
+console.log(rr);
 </script>
 </html>
