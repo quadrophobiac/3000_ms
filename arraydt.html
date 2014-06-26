@@ -9,19 +9,7 @@ function forEach(array, action) {
     action(array[i]);
 }
 
-chooseFive = function(arrayNum, dataObject){
-	//forEach(arrayNum, function(a){console.log(a);}); //  how can I get dataObject in there?
-/*TOTALLY UNTESTED!!!!!!!!!!!!!!!!!!!!!!!*/
-	var returnArray = [];
-	var rR = 0; // randRange:. need to count the length of each array, and return the lowest ones length here
-	var l = arrayNum.length;
-	for(var i = 0; i <= l;i++) {
-		topic = arrayNum[i];
-		dataObject.topic.remove(rR);
-		//forEachIn(dataObject, function (key, val) { thisRound.push(remove(val[rR])) }); 
-		// to test this need to see if key val arrays can be accessed in such a manner
-	}
-}
+
 
 var questions = {
 	/*[0]topic: [statements[0]...statements[N]],*/
@@ -36,29 +24,9 @@ var questions = {
 
 var arr = [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'];
 var numArr = [1,2,5];
-console.log(typeof numArr);
-console.log(arr[0]);
-arr.splice(0,1);
-console.log(arr[0]);
-//forEach(arr, function(a){alert(a);});
-function makeAdder(amount) {
-return function(number) {
-return number + amount;
-};
-}
-var addTwo = makeAdder(2);
-addTwo(3);
 
-function add(a, b) {
-return a + b;
-}
-forEach([],function(a){console.log(a);})
-function reduce(nuArray, array) { // array is here the one from which the elements are plucked
-	forEach(array, function (element) { element = Math.floor((Math.random() * 9)); nuArray.push(array.splice(element))});
-	// what is going wrong is that the splice function expects two arguments, the 2nd being howMany!
-	// If no howMany parameter is specified all elements after index are removed.
-	return nuArray;
-};
+//forEach(arr, function(a){alert(a);});
+
 // below tests if you can do arr == assignment
 var nuArr = numArr;
 console.log(nuArr);
@@ -70,7 +38,7 @@ function forEachIn(object, action) {
 	}
 }
 
-function shuffle(nuArray, array, object) { // array is here the one from which the elements are plucked
+function chooseFive(nuArray, array, object) { // array is here the one from which the elements are plucked
 	//forEachIn(object, function (k,v,element) { element = Math.floor((Math.random() * 9)); console.log(element); nuArray.push(v.splice(element))});
 	// forEachIn is wrong
 	// element = Math.floor((Math.random() * 9)) // gen random number
@@ -78,7 +46,6 @@ function shuffle(nuArray, array, object) { // array is here the one from which t
 	console.log(typeof nuArray);
 	forEach(array, function (a) {
 		element = Math.floor((Math.random() * 9));
-		console.log(object[a].splice(element, 1));
 		nuArray.push(object[a][element]);
 		object[a].splice(element, 1);
 	});
@@ -92,15 +59,9 @@ function shuffle(nuArray, array, object) { // array is here the one from which t
 rr = [];
 rr = shuffle(rr,numArr,questions);
 console.log(rr);
-console.log(questions[1]);
-console.log(questions[2]);
-console.log(questions[5]);
+forEachIn(questions, function(k,v){console.log("new length for "+k+" = "+v.length);});
 
-// testing objects and arrays
-console.log("questions and answers, object[key], object[key][arrayIndex], object[key].splice(index,howMany)");
-console.log(questions[1]);
-console.log(questions[1][0]);
-console.log(questions[1].splice(0, 1));
+
 // answer: arraySplice return methods If only one element is removed, an array of one element is returned
 
 </script>
