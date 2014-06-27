@@ -69,13 +69,13 @@ function shuffle(array) {
   return array;
 }
 
-round1 = [0,1,2,3,4];
-round2 = [5,6,7,8,9];
+// round1 = [0,1,2,3,4];
+// round2 = [5,6,7,8,9];
 
 // this needs to happen for every iteration when choosing randomly
-// allTopics = shuffle(Object.keys(questions));
-// var round1 = allTopics.slice(0,5);
-// var round2 = allTopics.slice(5,10);
+allTopics = shuffle(Object.keys(questions));
+var round1 = allTopics.slice(0,5);
+var round2 = allTopics.slice(5,10);
 
 
 first = chooseFive([],round2,questions, false);
@@ -85,7 +85,7 @@ console.log(first);
 //forEach(flip[1], function(a){console.log("round2 element from topic array index = "+a);});
 console.log(flip);
 
-forEachIn(questions, function(k,v){console.log("new length for "+k+" = "+v.length);});
+forEachIn(questions, function(k,v){console.log("FIRST: new length for "+k+" = "+v.length);});
 
 // console.log(questions[round2[0]][0]); // works!
 // console.log(questions[0][flip[1][0]]); // works
@@ -96,11 +96,14 @@ forEachIn(questions, function(k,v){console.log("new length for "+k+" = "+v.lengt
 function remove(microObject, object) {
 	forEachIn(microObject, function(k,v){
 		//console.log("key of mObject: "+k+" val of mObject: "+v);
-		console.log(object[k][v]);
+		//console.log(object[k][v]+":"+v);
+		object[k].splice(v, 1);
 	});
 };
 
 remove(flip, questions);
+
+forEachIn(questions, function(k,v){console.log("flip triggered new length for "+k+" = "+v.length);});
 
 // function remove(topics, object, indices){
 // 	forEach(topics, function(a){
