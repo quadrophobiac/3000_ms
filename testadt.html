@@ -34,20 +34,11 @@ var questions = {
 };
 
 function chooseFive(topic, object) {
-	// params, nuArray = empty array to populate, array = top topic indices, object = game data structure peek = boolean
-	// var remove = [];
-	// forEach(topic, function (a) {
-	// 	element = Math.floor((Math.random() * 9));
-	// 	remove.push(element);
-	// 	nuArray.push(object[a][element]);
-	// 	if (!peek) {
-	// 	object[a].splice(element, 1);
-	// 	}
-	// });
+
 		var genObj = {};
 		for (var c = 0; c < topic.length; c++){
-			//genObj[topic[c]] = remove[c];
-			genObj[topic[c]] = Math.floor((Math.random() * 9));
+			var l = (object[topic[c]].length)-1;
+			genObj[topic[c]] = Math.floor((Math.random() * l));
 		}
 		return genObj;
 };

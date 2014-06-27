@@ -24,10 +24,16 @@ var questions = {
 	3 : ['ronaldo','messi','suarez','pele','andy murray','roy mcelroy','barack obama','sepp blater','david cameron','tony blair'],
 	4: ['glastonbury', 'world cup', 'wimbledon', 'election', 'wedding', 'holiday', 'baptism', 'christening','funeral', 'finale'],
 	5: ['we3', 'gravitys rainbow', 'chaos', 'ubiq','sandman','invisibles','transmetropolitan','watchmen','lord of the rings','2666'],
+	6: ['refrigerator', 'a.i.', 'neon', 'vinyl', 'tv', 'radio', 'telegraph', 'telephone', 'film', 'engine'],
+	7: ['beef', 'noodles', 'pizza', 'rice', 'pasta', 'potatoes', 'chips', 'fries', 'tortilla', 'nachos'],
+	8: ['youtube','gmail','internet','twitter','facebook','flickr','linkedin','tumblr','yahoo','pornhub'],
+	9: ['range-rover', 'toyota','nissan','suzuki','volvo','volkswagen','mini','bmw','ford','mazda']
+	// to test sorting algorithm, there follows some deliberately diminished arrays
+
 	/*[N]topic: [statements[0]...statements[N]] */
 };
 count = function(subjects) {
-	// check for number index
+	// returns a hash object of statement number : number of entitites in array
 	var totalTopics = Object.keys(subjects).length;
 	var cnt = {};
 	//cnt['total'] = 0;
@@ -39,7 +45,9 @@ count = function(subjects) {
 	return cnt;
 }
 
-evenSpread = function(count){ // this function could be bundled into count object
+evenSpread = function(count){
+// determine whether every statement array in questions is even or not
+// this function could be bundled into count object
 	console.log("within EvenSpread "+typeof count);
 	var isEven = false;
 	var total = 0;
@@ -61,7 +69,7 @@ evenSpread = function(count){ // this function could be bundled into count objec
 }
 // somewhere between above and below needs to be the edge case of No Statements Left!
 topicPool = function(count){
-	// sorting algorithm time!
+	// this function returns the statement arrays which have the most elements remaining
 	console.log("within TopicPool "+typeof count);
 	if (evenSpread(count)) {
 		console.log("no need to prioritise!");
@@ -70,27 +78,9 @@ topicPool = function(count){
 	}
 }
 
-chooseFive = function(arrayNum, dataObject){
-	forEach(arrayNum, function(a){console.log(a);}); //  how can I get dataObject in there?
-/*TOTALLY UNTESTED!!!!!!!!!!!!!!!!!!!!!!!*/
-	var rR = ; // randRange:. need to count the length of each array, and return the lowest ones length here
-	var l = arrayNum.length;
-	for(var i = 0; i <= l;i++) {
-		topic = arrayNum[i];
-		dataObject.topic.remove(rR);
-		//forEachIn(dataObject, function (key, val) { thisRound.push(remove(val[rR])) }); 
-		// to test this need to see if key val arrays can be accessed in such a manner
-	}
-}
-
-// chooseFive test
-var arr = [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'];
-forEach(arr, function(a){console.log(a);});
 
 console.log("goodbye");
-//console.log(questions[0].tv); // for array of object with arrays
-//console.log(questions[1][0]);
-forEachIn(questions, function(k, v){console.log(v[0]);});
+
 
 console.log("object questions = "+ typeof questions);
 console.log("invoking Object.keys on object questions, returns :."+typeof Object.keys(questions));
