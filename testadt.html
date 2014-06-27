@@ -68,17 +68,20 @@ function shuffle(array) {
   return array;
 }
 
-// this needs to happen for every iteration
-allTopics = shuffle(Object.keys(questions));
-var round1 = allTopics.slice(0,5);
-var round2 = allTopics.slice(5,10);
+round1 = [0,1,2,3,4];
+round2 = [5,6,7,8,9];
+
+// this needs to happen for every iteration when choosing randomly
+// allTopics = shuffle(Object.keys(questions));
+// var round1 = allTopics.slice(0,5);
+// var round2 = allTopics.slice(5,10);
 
 
 first = chooseFive([],round1,questions, false);
 //pk=[];
 flip = chooseFive([],round2,questions,true); // in practice numArr will be different
 console.log(first);
-forEach(flip[1], function(a){console.log("round2 element from topic array index = "+a+" corresponding val "+flip[0][a]);});
+forEach(flip[1], function(a){console.log("round2 element from topic array index = "+a);});
 console.log(flip);
 
 forEachIn(questions, function(k,v){console.log("new length for "+k+" = "+v.length);});
@@ -92,6 +95,7 @@ function remove(topics, object, indices){
 		//forEachIn(object, function(k,v){
 			console.log("forEach fetched index = "+a);
 			console.log("indices array indexed by above = "+indices[a]);
+			// indices only ever ranges from 0-4, whereas random assignment means that a could be anywhere between 0-9
 			//console.log(object[a][indices[a]]);
 
 			//object[a].splice(e, 1); // how is E remembered??
