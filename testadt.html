@@ -33,27 +33,23 @@ var questions = {
 	/*[N]topic: [statements[0]...statements[N]] */
 };
 
-function chooseFive(nuArray, topic, object, peek) {
+function chooseFive(topic, object) {
 	// params, nuArray = empty array to populate, array = top topic indices, object = game data structure peek = boolean
-	var remove = [];
-	forEach(topic, function (a) {
-		element = Math.floor((Math.random() * 9));
-		remove.push(element);
-		nuArray.push(object[a][element]);
-		if (!peek) {
-		object[a].splice(element, 1);
-		}
-	});
-	if(peek){
+	// var remove = [];
+	// forEach(topic, function (a) {
+	// 	element = Math.floor((Math.random() * 9));
+	// 	remove.push(element);
+	// 	nuArray.push(object[a][element]);
+	// 	if (!peek) {
+	// 	object[a].splice(element, 1);
+	// 	}
+	// });
 		var genObj = {};
 		for (var c = 0; c < topic.length; c++){
-			console.log(topic[c]+":"+remove[c]);
-			genObj[topic[c]] = remove[c];
+			//genObj[topic[c]] = remove[c];
+			genObj[topic[c]] = Math.floor((Math.random() * 9));
 		}
 		return genObj;
-	} else {
-		return nuArray;
-	}
 };
 
 //var allTopics = Object.keys(questions); //  = returns strings rather than numbers - but still functions as desired!!
@@ -78,9 +74,10 @@ var round1 = allTopics.slice(0,5);
 var round2 = allTopics.slice(5,10);
 
 
-first = chooseFive([],round2,questions, false);
+first = chooseFive(round2,questions);
+remove(first, questions);
 //pk=[];
-flip = chooseFive([],round1,questions,true); // in practice numArr will be different
+flip = chooseFive(round1,questions); // in practice numArr will be different
 console.log(first);
 //forEach(flip[1], function(a){console.log("round2 element from topic array index = "+a);});
 console.log(flip);
@@ -93,17 +90,28 @@ forEachIn(questions, function(k,v){console.log("FIRST: new length for "+k+" = "+
 
 // all below needs revision because it is now an object not an array of arrays
 
+function presentStatements(nuArray,microObject, object) {
+	forEachIn(microObject, function(k,v){
+		nuArray.push(object[k][v]);
+	});
+	return(nuArray);
+};
+
 function remove(microObject, object) {
 	forEachIn(microObject, function(k,v){
-		//console.log("key of mObject: "+k+" val of mObject: "+v);
-		//console.log(object[k][v]+":"+v);
 		object[k].splice(v, 1);
 	});
 };
 
+var secondRound = presentStatements([],flip,questions);
+
+forEach(secondRound, function(a){console.log("question:"+a);});
+
 remove(flip, questions);
 
 forEachIn(questions, function(k,v){console.log("flip triggered new length for "+k+" = "+v.length);});
+
+console.log(questions);
 
 // function remove(topics, object, indices){
 // 	forEach(topics, function(a){
