@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <script>
 
+// potential alt implementation = http://ejohn.org/blog/javascript-array-remove/
+
 function forEach(array, action) {
   for (var i = 0; i < array.length; i++)
     action(array[i]);
@@ -19,6 +21,10 @@ var questions = {
 	3 : ['ronaldo','messi','suarez','pele','andy murray','roy mcelroy','barack obama','sepp blater','david cameron','tony blair'],
 	4: ['glastonbury', 'world cup', 'wimbledon', 'election', 'wedding', 'holiday', 'baptism', 'christening','funeral', 'finale'],
 	5: ['we3', 'gravitys rainbow', 'chaos', 'ubiq','sandman','invisibles','transmetropolitan','watchmen','lord of the rings','2666'],
+	6: ['refrigerator', 'a.i.', 'neon', 'vinyl', 'tv', 'radio', 'telegraph', 'telephone', 'film', 'engine'],
+	7: ['beef', 'noodles', 'pizza', 'rice', 'pasta', 'potatoes', 'chips', 'fries', 'tortilla', 'nachos'],
+	8: ['youtube','gmail','internet','twitter','facebook','flickr','linkedin','tumblr','yahoo','pornhub'],
+	9: ['range-rover', 'toyota','nissan','suzuki','volvo','volkswagen','mini','bmw','ford','mazda']
 	/*[N]topic: [statements[0]...statements[N]] */
 };
 
@@ -38,31 +44,58 @@ function forEachIn(object, action) {
 	}
 }
 
-function chooseFive(nuArray, array, object) { // array is here the one from which the elements are plucked
-	//forEachIn(object, function (k,v,element) { element = Math.floor((Math.random() * 9)); console.log(element); nuArray.push(v.splice(element))});
-	// forEachIn is wrong
-	// element = Math.floor((Math.random() * 9)) // gen random number
-	console.log(nuArray.length);
-	console.log(typeof nuArray);
-	forEach(array, function (a) {
+function chooseFive(nuArray, topic, object, peek) {
+	// params, nuArray = empty array to populate, array = top topic indices, object = game data structure peek = boolean
+	var remove = [];
+	forEach(topic, function (a) {
 		element = Math.floor((Math.random() * 9));
+		remove.push(element);
 		nuArray.push(object[a][element]);
+		if (!peek) {
 		object[a].splice(element, 1);
+		}
 	});
 	// the prob with above is that it returns an array of arrays
 	// this is because object[a].splice(element, 1) returns an array, - test with console.log to be certain
 	// nuArray.push(object[a].splice(element, 1)) <- this is the attempt to assign and remove in the one go
-	console.log(nuArray);
-	console.log(typeof nuArray);
+	if(peek){
+		// create a callback function, or return both nuArray, with a function var
+		return [nuArray, remove];
+	} else {
 	return nuArray;
+	}
 };
-rr = [];
-rr = shuffle(rr,numArr,questions);
-console.log(rr);
+//rr = [];
+first = chooseFive([],numArr,questions, false);
+//pk=[];
+flip = chooseFive([],numArr,questions,true); // in practice numArr will be different
+console.log(first);
+console.log(flip);
 forEachIn(questions, function(k,v){console.log("new length for "+k+" = "+v.length);});
 
+function remove(topics, object, indices){
+	forEach(topics, function(a){
+		//forEachIn(object, function(k,v){
+			console.log(object[a][0]);
+			//object[a].splice(e, 1); // how is E remembered??
+		//});
+	});
+};
+//remove(numArr,questions);
 
 // answer: arraySplice return methods If only one element is removed, an array of one element is returned
 
 </script>
+<body>
+	<div id="First">
+			Yo
+		<button class="button" onclick="return commence()">First 5 questions</button>
+		<br>
+	</div>
+	<div id="Flip">
+			Yo
+		<button class="button" onclick="return commence()">Flip for next 5 Questions</button>
+		<br>
+	</div>
+</body>
 </html>
