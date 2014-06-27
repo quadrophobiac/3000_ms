@@ -44,14 +44,15 @@ function chooseFive(nuArray, topic, object, peek) {
 		object[a].splice(element, 1);
 		}
 	});
-	// the prob with above is that it returns an array of arrays
-	// this is because object[a].splice(element, 1) returns an array, - test with console.log to be certain
-	// nuArray.push(object[a].splice(element, 1)) <- this is the attempt to assign and remove in the one go
 	if(peek){
-		// create a callback function, or return both nuArray, with a function var
-		return [nuArray, remove]; // return array of arrays, 
+		var genObj = {};
+		for (var c = 0; c < topic.length; c++){
+			console.log(topic[c]+":"+remove[c]);
+			genObj[topic[c]] = remove[c];
+		}
+		return genObj;
 	} else {
-	return nuArray;
+		return nuArray;
 	}
 };
 
@@ -81,7 +82,7 @@ first = chooseFive([],round2,questions, false);
 //pk=[];
 flip = chooseFive([],round1,questions,true); // in practice numArr will be different
 console.log(first);
-forEach(flip[1], function(a){console.log("round2 element from topic array index = "+a);});
+//forEach(flip[1], function(a){console.log("round2 element from topic array index = "+a);});
 console.log(flip);
 
 forEachIn(questions, function(k,v){console.log("new length for "+k+" = "+v.length);});
@@ -90,22 +91,33 @@ forEachIn(questions, function(k,v){console.log("new length for "+k+" = "+v.lengt
 // console.log(questions[0][flip[1][0]]); // works
 // console.log(questions[round2[0]][flip[1][0]]); // works!
 
-function remove(topics, object, indices){
-	forEach(topics, function(a){
-		//forEachIn(object, function(k,v){
-			console.log("forEach fetched index = "+a);
-			console.log("indices array indexed by above = "+indices[a]);
-			// indices only ever ranges from 0-4, whereas random assignment means that a could be anywhere between 0-9
-			//console.log(object[a][indices[a]]);
+// all below needs revision because it is now an object not an array of arrays
 
-			//object[a].splice(e, 1); // how is E remembered??
-		//});
+function remove(microObject, object) {
+	forEachIn(microObject, function(k,v){
+		//console.log("key of mObject: "+k+" val of mObject: "+v);
+		console.log(object[k][v]);
 	});
 };
-//remove(numArr,questions);
-console.log("testing remove function, first printing the elements in second round of questions");
-forEach(flip[0], function(a){console.log("statement = "+a)});
-remove(round1, questions, flip[1]);
+
+remove(flip, questions);
+
+// function remove(topics, object, indices){
+// 	forEach(topics, function(a){
+// 		//forEachIn(object, function(k,v){
+// 			console.log("forEach fetched index = "+a);
+// 			console.log("indices array indexed by above = "+indices[a]);
+// 			// indices only ever ranges from 0-4, whereas random assignment means that a could be anywhere between 0-9
+// 			//console.log(object[a][indices[a]]);
+
+// 			//object[a].splice(e, 1); // how is E remembered??
+// 		//});
+// 	});
+// };
+// //remove(numArr,questions);
+// console.log("testing remove function, first printing the elements in second round of questions");
+// forEach(flip[0], function(a){console.log("statement = "+a)});
+// remove(round1, questions, flip[1]);
 // answer: arraySplice return methods If only one element is removed, an array of one element is returned
 
 </script>
