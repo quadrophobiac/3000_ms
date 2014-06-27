@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script>
+
+// potential alt implementation = http://ejohn.org/blog/javascript-array-remove/
+
+function forEach(array, action) {
+  for (var i = 0; i < array.length; i++)
+    action(array[i]);
+}
+function forEachIn(object, action) {
+	for (var property in object) {
+	if (Object.prototype.hasOwnProperty.call(object, property))
+		action(property, object[property]);
+	}
+}
+
+
+var questions = {
+	/*[0]topic: [statements[0]...statements[N]],*/
+	0: [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'],
+	1: ['blade runner', 'godfather','goodfellas', 'king kong', 'star wars', 'star trek', 'serenity', 'primer','blues brothers', 'taxi driver'],
+	2: ['dublin', 'london', 'new york', 'brighton', 'glasgow', 'galway','cork','kildare','maynooth', 'goldsmiths'],
+	3 : ['ronaldo','messi','suarez','pele','andy murray','roy mcelroy','barack obama','sepp blater','david cameron','tony blair'],
+	4: ['glastonbury', 'world cup', 'wimbledon', 'election', 'wedding', 'holiday', 'baptism', 'christening','funeral', 'finale'],
+	5: ['we3', 'gravitys rainbow', 'chaos', 'ubiq','sandman','invisibles','transmetropolitan','watchmen','lord of the rings','2666'],
+	6: ['refrigerator', 'a.i.', 'neon', 'vinyl', 'tv', 'radio', 'telegraph', 'telephone', 'film', 'engine'],
+	7: ['beef', 'noodles', 'pizza', 'rice', 'pasta', 'potatoes', 'chips', 'fries', 'tortilla', 'nachos'],
+	8: ['youtube','gmail','internet','twitter','facebook','flickr','linkedin','tumblr','yahoo','pornhub'],
+	9: ['range-rover', 'toyota','nissan','suzuki','volvo','volkswagen','mini','bmw','ford','mazda']
+	/*[N]topic: [statements[0]...statements[N]] */
+};
+
+function chooseFive(nuArray, topic, object, peek) {
+	// params, nuArray = empty array to populate, array = top topic indices, object = game data structure peek = boolean
+	var remove = [];
+	forEach(topic, function (a) {
+		element = Math.floor((Math.random() * 9));
+		remove.push(element);
+		nuArray.push(object[a][element]);
+		if (!peek) {
+		object[a].splice(element, 1);
+		}
+	});
+	// the prob with above is that it returns an array of arrays
+	// this is because object[a].splice(element, 1) returns an array, - test with console.log to be certain
+	// nuArray.push(object[a].splice(element, 1)) <- this is the attempt to assign and remove in the one go
+	if(peek){
+		// create a callback function, or return both nuArray, with a function var
+		return [nuArray, remove]; // return array of arrays, 
+	} else {
+	return nuArray;
+	}
+};
+// randTopics = shuffle(allTopics); = returns strings rather than numbers - so annoying!
+var allTopics = [0,1,2,3,4,5,6,7,8,9];
+console.log(allTopics);
+//Object.keys(questions);
+
+function shuffle(array) {
+  var tmp, current, top = array.length;
+  if(top) while(--top) {
+    current = Math.floor(Math.random() * (top + 1));
+    tmp = array[current];
+    array[current] = array[top];
+    array[top] = tmp;
+  }
+  return array;
+}
+
+// this needs to happen for every iteration
+allTopics = shuffle(allTopics);
+var round1 = allTopics.slice(0,5);
+var round2 = allTopics.slice(5,10);
+
+console.log(round1);
+console.log(round2);
+
+first = chooseFive([],round1,questions, false);
+//pk=[];
+flip = chooseFive([],round2,questions,true); // in practice numArr will be different
+console.log(first);
+console.log(flip);
+forEachIn(questions, function(k,v){console.log("new length for "+k+" = "+v.length);});
+
+function remove(topics, object, indices){
+	forEach(topics, function(a){
+		//forEachIn(object, function(k,v){
+			console.log(object[a][0]);
+			//object[a].splice(e, 1); // how is E remembered??
+		//});
+	});
+};
+//remove(numArr,questions);
+
+// answer: arraySplice return methods If only one element is removed, an array of one element is returned
+
+</script>
+<body>
+	<div id="First">
+			Yo
+		<button class="button" onclick="return commence()">First 5 questions</button>
+		<br>
+	</div>
+	<div id="Flip">
+			Yo
+		<button class="button" onclick="return commence()">Flip for next 5 Questions</button>
+		<br>
+	</div>
+</body>
+</html>
