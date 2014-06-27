@@ -78,6 +78,7 @@ first = chooseFive([],round1,questions, false);
 //pk=[];
 flip = chooseFive([],round2,questions,true); // in practice numArr will be different
 console.log(first);
+forEach(flip[1], function(a){console.log("round2 element from topic array index = "+a+" corresponding val "+flip[0][a]);});
 console.log(flip);
 
 forEachIn(questions, function(k,v){console.log("new length for "+k+" = "+v.length);});
@@ -98,7 +99,8 @@ function remove(topics, object, indices){
 	});
 };
 //remove(numArr,questions);
-console.log("testing remove function");
+console.log("testing remove function, first printing the elements in second round of questions");
+forEach(flip[0], function(a){console.log("statement = "+a)});
 remove(round2, questions, flip[1]);
 // answer: arraySplice return methods If only one element is removed, an array of one element is returned
 
