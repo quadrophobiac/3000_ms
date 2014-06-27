@@ -10,7 +10,12 @@ function forEach(array, action) {
   for (var i = 0; i < array.length; i++)
     action(array[i]);
 }
-
+function forEachIn(object, action) {
+	for (var property in object) {
+	if (Object.prototype.hasOwnProperty.call(object, property))
+		action(property, object[property]);
+	}
+}
 
 
 var questions = {
@@ -28,22 +33,6 @@ var questions = {
 	/*[N]topic: [statements[0]...statements[N]] */
 };
 
-var arr = [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'];
-var numArr = [1,2,5];
-
-//forEach(arr, function(a){alert(a);});
-
-// below tests if you can do arr == assignment
-var nuArr = numArr;
-console.log(nuArr);
-
-function forEachIn(object, action) {
-	for (var property in object) {
-	if (Object.prototype.hasOwnProperty.call(object, property))
-		action(property, object[property]);
-	}
-}
-
 function chooseFive(nuArray, topic, object, peek) {
 	// params, nuArray = empty array to populate, array = top topic indices, object = game data structure peek = boolean
 	var remove = [];
@@ -60,15 +49,39 @@ function chooseFive(nuArray, topic, object, peek) {
 	// nuArray.push(object[a].splice(element, 1)) <- this is the attempt to assign and remove in the one go
 	if(peek){
 		// create a callback function, or return both nuArray, with a function var
-		return [nuArray, remove];
+		return [nuArray, remove]; // return array of arrays, 
 	} else {
 	return nuArray;
 	}
 };
-//rr = [];
-first = chooseFive([],numArr,questions, false);
+
+var allTopics = [0,1,2,3,4,5,6,7,8,9];
+console.log(allTopics);
+
+function shuffle(array) {
+  var tmp, current, top = array.length;
+  if(top) while(--top) {
+    current = Math.floor(Math.random() * (top + 1));
+    tmp = array[current];
+    array[current] = array[top];
+    array[top] = tmp;
+  }
+  return array;
+}
+
+allTopics = shuffle(allTopics);
+console.log(allTopics);
+
+// randTopics = shuffle(allTopics); = returns strings rather than numbers - so annoying!
+var round1 = allTopics.slice(0,5);
+var round2 = allTopics.slice(5,10);
+
+console.log(round1);
+console.log(round2);
+
+first = chooseFive([],round1,questions, false);
 //pk=[];
-flip = chooseFive([],numArr,questions,true); // in practice numArr will be different
+flip = chooseFive([],round2,questions,true); // in practice numArr will be different
 console.log(first);
 console.log(flip);
 forEachIn(questions, function(k,v){console.log("new length for "+k+" = "+v.length);});
