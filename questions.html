@@ -75,14 +75,23 @@ isEven = false;
 	return isEven;
 }
 // somewhere between above and below needs to be the edge case of No Statements Left!
-topicPool = function(count){
+topicPool = function(aList){
 	// this function returns the statement arrays which have the most elements remaining
-	console.log("within TopicPool "+typeof count);
-	if (evenSpread(count)) {
+	console.log("within TopicPool "+typeof aList);
+	if (evenSpread(aList)) {
 		console.log("no need to prioritise!");
 	} else {
+
+		for (var i = 1; i < aList.length; i++){
+			keyElem = aList.splice(i,1); // will return a key val object
+			pos = i-1;
+			while((i >= 0) && (aList.get(i).compareTo(key) > 0 )) {i--}
+				// an insert val into array method is needed!!!
+		}
 		// sorting algo
-		/*
+		/* Insertion Sort: Pseudo Code
+		// An insertion sort works by separating an array into two sections, a sorted section and an unsorted section
+		// the java implementations return a reordered arrayList
 		for i = 1 up to i< numOfElements, i++ {
 			keyelement = elementAt(i);
 			pos = i; //position of the key element
