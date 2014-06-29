@@ -86,13 +86,18 @@ sortDesc = function(aList){
 	// 	contents:
 	// 	ref: 
 	// }
+	topics = []; // empty topics necessary so that an array of objects is not returned
 	console.log("within TopicPool "+typeof aList);
 	if (evenSpread(aList)) {
 		console.log("no need to prioritise!");
 	} else {
 		nuOrder = aList.sort(function(a,b){return a.contents - b.contents});
 	}
-	return nuOrder.reverse(); // we are interested in the highest counts, so the reverse method is requisite
+	nuOrder = nuOrder.reverse(); // we are interested in the highest counts, so the reverse method is requisite
+	forEach(nuOrder, function(a){
+		topics.push(a.ref);
+	});
+	return topics;
 }
 
 function chooseFive(topic, object) {
@@ -121,11 +126,22 @@ function remove(microObject, object) {
 
 console.log("goodbye");
 
-var num = count(questions);
-var topFive = sortDesc(num).slice(0,5);
-console.log(topFive);
+var topicTally = count(questions);
+console.log(topicTally);
+var round1 = sortDesc(topicTally).slice(0,5);
+var first = chooseFive(round1,questions);
+remove(first,questions);
 
-forEach(topFive, function(a){console.log(a.ref);});
+var topicTally = count(questions);
+var round2 = sortDesc(topicTally).slice(0,5);
+flip = chooseFive(round2,questions);
+
+console.log("round1: flip not triggered");
+forEachIn(questions, function(k,v){console.log("round 1 "+k+" = "+v.length);});
+
+// var topFive = sortDesc(num).slice(0,5);
+// console.log(topFive);
+// forEach(topFive, function(a){console.log(a.ref);});
 
 </script>
 </html>
