@@ -46,7 +46,8 @@ count = function(subjects) {
 		l=v.length;
 		//obj[k] = l;
 		obj.contents = l;
-		obj.ref = parseInt(k); // this toInt explication might be unnecessary, given how Object keys functioned in testadt
+		obj.ref = parseInt(k);
+		// this toInt explication necessary because chooseFive determines length with referene to array[index] and index must = num
 		cnt.push(obj);
 		//cnt['total']+=l;
 	});
@@ -124,24 +125,35 @@ function remove(microObject, object) {
 	});
 };
 
+function shuffle(array) {
+  var tmp, current, top = array.length;
+  if(top) while(--top) {
+    current = Math.floor(Math.random() * (top + 1));
+    tmp = array[current];
+    array[current] = array[top];
+    array[top] = tmp;
+  }
+  return array;
+}
+
 console.log("goodbye");
 
-var topicTally = count(questions);
-console.log(topicTally);
-var round1 = sortDesc(topicTally).slice(0,5);
-var first = chooseFive(round1,questions);
-remove(first,questions);
+	for (var c = 0; c < 5; c++) {
+		var topicTally = shuffle(count(questions));
+		var round1 = sortDesc(topicTally).slice(0,5); // round1 is an array of topic indexes
+		var first = chooseFive(round1,questions);
+		remove(first,questions);
+		console.log(presentStatements([],first,questions)); // present statements 
+		topicTally = count(questions);
+		var round2 = sortDesc(topicTally).slice(0,5);
+		var flip = chooseFive(round2,questions);
+		console.log("...");
+		console.log(presentStatements([],flip,questions));
+		remove(flip,questions);
+	}
 
-var topicTally = count(questions);
-var round2 = sortDesc(topicTally).slice(0,5);
-flip = chooseFive(round2,questions);
-
-console.log("round1: flip not triggered");
-forEachIn(questions, function(k,v){console.log("round 1 "+k+" = "+v.length);});
-
-// var topFive = sortDesc(num).slice(0,5);
-// console.log(topFive);
-// forEach(topFive, function(a){console.log(a.ref);});
+	var topicTally = count(questions);
+	console.log(topicTally);
 
 </script>
 </html>
