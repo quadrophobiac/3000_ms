@@ -23,13 +23,15 @@ var questions = {
 	2: ['dublin', 'london', 'new york', 'brighton', 'glasgow', 'galway','cork','kildare','maynooth', 'goldsmiths'],
 	3 : ['ronaldo','messi','suarez','pele','andy murray','roy mcelroy','barack obama','sepp blater','david cameron','tony blair'],
 	4: ['glastonbury', 'world cup', 'wimbledon', 'election', 'wedding', 'holiday', 'baptism', 'christening','funeral', 'finale'],
-	5: ['we3', 'gravitys rainbow', 'chaos', 'ubiq','sandman','invisibles','transmetropolitan','watchmen','lord of the rings','2666'],
+	5: ['m','n','o','p','q','r','s','t','u','v','w','x','y','z'],
 	6: ['refrigerator', 'a.i.', 'neon', 'vinyl', 'tv', 'radio', 'telegraph', 'telephone', 'film', 'engine'],
 	7: ['beef', 'noodles', 'pizza', 'rice', 'pasta', 'potatoes', 'chips', 'fries', 'tortilla', 'nachos'],
 	8: ['youtube','gmail','internet','twitter','facebook','flickr','linkedin','tumblr','yahoo','pornhub'],
-	9: ['range-rover', 'toyota','nissan','suzuki','volvo','volkswagen','mini','bmw','ford','mazda']
+	9: ['range-rover', 'toyota','nissan','suzuki','volvo','volkswagen','mini','bmw','ford','mazda'],
 	// to test sorting algorithm, there follows some deliberately diminished arrays
-
+	10: ['just the one'],
+	11: ['a','b','c','d','e','f','g','h','i','j','k','l'],
+	12: ['we3', 'gravitys rainbow', 'chaos', 'ubiq','sandman','invisibles','transmetropolitan','watchmen','lord of the rings','2666']
 	/*[N]topic: [statements[0]...statements[N]] */
 };
 count = function(subjects) {
@@ -42,7 +44,8 @@ count = function(subjects) {
 		var obj = {};
 		l=v.length;
 		//obj[k] = l;
-		obj.c = l;
+		obj.contents = l;
+		obj.ref = parseInt(k);
 		cnt.push(obj);
 		//cnt['total']+=l;
 	});
@@ -82,13 +85,15 @@ topicPool = function(aList){
 	if (evenSpread(aList)) {
 		console.log("no need to prioritise!");
 	} else {
-		aList.sort(compareNumbers);
+		//nuOrder = aList.sort(compareNumbers);
+		nuOrder = aList.sort(function(a,b){return a.contents - b.contents});
 	}
+	return nuOrder.reverse();
 }
 function compareNumbers(a, b) {
-	console.log(a+" - "+b); // returns object Object
-  	console.log(a.c+" - "+b.c);
-  	return a - b;
+	// console.log(a+" - "+b); // returns object Object
+ //  	console.log(a.c+" - "+b.c);
+  	return a.contents - b.contents;
 }
 console.log("goodbye");
 
@@ -104,8 +109,11 @@ forEachIn(num, function(k,v){
 });
 //console.log(Object.keys(questions).length);
 console.log(evenSpread(num));
-console.log(topicPool(num));
-console.log(topicPool([1,2,4,7]));
+//console.log(topicPool(num));
+var topFive = topicPool(num).slice(0,5);
+console.log(topFive);
 
+forEach(topFive, function(a){console.log(a.ref);});
+forEach([2,8,4,1,6],function(a){console.log(a);});
 </script>
 </html>
