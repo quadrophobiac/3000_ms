@@ -143,7 +143,7 @@ console.log("goodbye");
 		//console.log(topicTally);
 		var round1 = sortDesc(topicTally).slice(0,5); // round1 is an array of topic indexes
 		var first = chooseFive(round1,questions);
-		remove(round1,questions);
+		remove(first,questions);
 		console.log(presentStatements([],first,questions)); // present statements 
 		topicTally = count(questions);
 		var round2 = sortDesc(topicTally).slice(0,5);
@@ -157,7 +157,8 @@ console.log("goodbye");
 		console.log(presentStatements([],flip,questions));
 		//forEachIn(questions, function(k,v){console.log("round "+c+" end: "+k+" = "+v.length);});
 	}
-
+	var topicTally = count(questions);
+	console.log(topicTally);
 // var topFive = sortDesc(num).slice(0,5);
 // console.log(topFive);
 // forEach(topFive, function(a){console.log(a.ref);});
