@@ -121,7 +121,7 @@ function chooseFive(topic, object) {
 		return genObj;
 };
 
-function presentStatements(nuArray,microObject, object) {
+function presentStatements(nuArray,microObject,object) {
 	forEachIn(microObject, function(k,v){
 		nuArray.push(object[k][v]);
 	});
@@ -150,20 +150,22 @@ console.log("goodbye");
 	for (var c = 0; c < 5; c++) {
 		var topicTally = shuffle(count(questions)); // initial shuffle
 		//var topicTally = count(questions);
-		console.log(topicTally);
-		var round1 = sortDesc(topicTally).slice(0,5);
+		//console.log(topicTally);
+		var round1 = sortDesc(topicTally).slice(0,5); // round1 is an array of topic indexes
 		var first = chooseFive(round1,questions);
-		remove(first,questions);
-
-		var topicTally = count(questions);
+		remove(round1,questions);
+		console.log(presentStatements([],first,questions)); // present statements 
+		topicTally = count(questions);
 		var round2 = sortDesc(topicTally).slice(0,5);
-		flip = chooseFive(round2,questions);
+		var flip = chooseFive(round2,questions);
 
-		console.log("round1: flip not triggered");
-		forEachIn(questions, function(k,v){console.log("round "+c+": "+k+" = "+v.length);});
-		if (c%2){console.log(c+" remove the questions!!!");remove(flip,questions);}
+		//console.log("round1: flip not triggered");
+		//forEachIn(questions, function(k,v){console.log("round "+c+": "+k+" = "+v.length);});
+		//if (c%2){console.log(c+" remove the questions!!!");remove(flip,questions);} // if testing for not flip every time
+		remove(flip,questions);
 		console.log("...");
-		forEachIn(questions, function(k,v){console.log("round "+c+" end: "+k+" = "+v.length);});
+		console.log(presentStatements([],flip,questions));
+		//forEachIn(questions, function(k,v){console.log("round "+c+" end: "+k+" = "+v.length);});
 	}
 
 // var topFive = sortDesc(num).slice(0,5);
