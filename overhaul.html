@@ -117,7 +117,7 @@
 					$(this).parentsUntil( $('fieldset') ).css( "display", "none" );
 				} else if ($(this).context.name == "skip") {
 					console.log("LOSER");
-					//console.log($(this).parent());
+					console.log($(this).parent());
 	            	$(this).parentsUntil( $('fieldset') ).css( "background-color", "red" );
 				}
 			});
