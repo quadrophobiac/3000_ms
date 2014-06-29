@@ -41,7 +41,8 @@ count = function(subjects) {
 	forEachIn(subjects, function(k,v){
 		var obj = {};
 		l=v.length;
-		obj[k] = l;
+		//obj[k] = l;
+		obj.c = l;
 		cnt.push(obj);
 		//cnt['total']+=l;
 	});
@@ -86,6 +87,7 @@ topicPool = function(aList){
 }
 function compareNumbers(a, b) {
 	console.log(a+" - "+b); // returns object Object
+  	console.log(a.c+" - "+b.c);
   	return a - b;
 }
 console.log("goodbye");
@@ -98,7 +100,7 @@ console.log(num);
 console.log(num[0][0]);
 forEachIn(num, function(k,v){
 	console.log("key = "+k+" val = "+v);
-	console.log(v[k]);
+	console.log("val[key] = "+v[k]);
 });
 //console.log(Object.keys(questions).length);
 console.log(evenSpread(num));
