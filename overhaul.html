@@ -1,0 +1,254 @@
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/themes/3000ms.css" />  
+	<link rel="stylesheet" href="css/themes/base.css" />
+	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile.structure-1.4.2.min.css" /> 
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<!-- above throws some deprecation warnings :. very little consensus on which ver of CDN to use-->
+	<!-- <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script> -->
+	
+	<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script> 
+<!-- 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
+		<script>
+
+		function forEachIn(object, action) {
+			for (var property in object) {
+			if (Object.prototype.hasOwnProperty.call(object, property))
+				action(property, object[property]);
+			}
+		}
+		function forEach(array, action) {
+			for (var i = 0; i < array.length; i++)
+			action(array[i]);
+		}
+
+		var json = $.getJSON("cards.json", function(data) {
+			var items = []; // won't work because closure
+		    for (var i in data.statements) {
+		    items.push(data.statements[i].name); // this way became redundant when I added additional array to cards.json
+			}
+			// $.each( data, function( key, val ) {
+			// console.log(val);
+			// items.push( val );
+			// });
+			console.log(items);
+		    //return json.statements; // this will show the info it in firebug console
+		    return items;
+		});
+
+		function createArray(action){
+		    $.getJSON("cards.json", function(json) {
+		        var myArray = [];
+		        $.each(json, function(key,val) {
+		        	//forEach(val, function(v){myArray.push(v.name);}); // creates a single array of any object with a name handle
+		            myArray.push(val); // creates an array of arrays of objects
+		        });
+		        action(myArray);
+		        //return myArray; // presumably does nothing because this is the only part still waiting to execute after async
+		    });
+		}
+
+		$( document ).ready(function() {
+		  console.log( 'ready!' );
+		  $( '#test' ).css('background-color','lightskyblue');
+		});
+		console.log($( '#test' ));
+
+		$( document ).ready(function() {
+		// var newtings = ["six","seven","eight","nine","ten"];
+		
+		// for(var x=0; x<newtings.length; x++){
+		//     $('body').append('<div id="' + newtings[x] + '">' + newtings[x] + '</div>');
+		// }
+
+			var array = ["one","two","three","four","five"]; // need this to be an object I guess
+			var JSON = [
+				{'name':"one"},
+				{'name':"two"},
+				{'name':"three"},
+				{'name':"four"},
+				{'name':"five"}
+				];
+
+
+			console.log(JSON[0].name);
+			//console.log("array = "+array);
+			for(var x=0; x<JSON.length; x++){
+				//var elm = '<div class="' + array[x] + '">';
+				var elm = $("#"+JSON[x].name);
+				console.log(elm);
+			    //elm.append('<div class="' + array[x] + '">' + array[x] + '</div>');
+			    elm.prepend("<span>"+JSON[x].name+"</span>");
+			}
+			// below just creates multiple divs with the same class identifier
+			// $.each(array, function(idx, value){
+			//   var newdiv = $('<div>',{class: 'array', text: value});
+			//   $('body').append( newdiv  );
+			// });
+			$('span').css("visibility", "hidden"); // set to hidden until button
+			console.log(json);
+			function genArray() {
+				var booya = []; // still involves doing a global variable which is eveil 
+			//			createArray( function(array) { console.log(array);} ); // prints to console as object array
+				createArray( function(arr) { // prints every element of the arr array
+					forEach(arr, function(a) {
+						console.log(a);
+						booya.push(a);
+					});
+				});
+				return booya;
+			}
+			var booya2 = genArray();;
+			//createArray( function(arr){booya = arr;});
+			console.log(booya2);
+
+		});
+
+		$(function() { // note, this new way does not remove the labels
+			$('input').change(function(){
+				console.log($(this).parentsUntil($('.statement')));
+				console.log("an input click detected!");
+				if($(this).context.name == "guessed"){
+					console.log("BOOYA!!!!");
+					//console.log($(this).parentsUntil( $(".statement") ));
+					$(this).parentsUntil( $('fieldset') ).css( "display", "none" );
+				} else if ($(this).context.name == "skip") {
+					console.log("LOSER");
+					//console.log($(this).parent());
+	            	$(this).parentsUntil( $('fieldset') ).css( "background-color", "red" );
+				}
+			});
+		});
+
+		// below is one of those always on functions / "self invoking"
+		$(function() {
+            $(".guessed").change(function() {
+            	//console.log("BOOYA");
+            	//console.log($(".guessed"));
+            	//console.log($(this).parent());
+            	//$(this).parent().css( "display", "none" );
+	            });
+        }); // end always on function
+		$(function() {
+            $(".skip").change(function() {
+            	// console.log("LOSER");
+            	// $(this).parent().css( "background-color", "red" );
+	            });
+        }); // end always on function
+        function commence(){
+        	$('span').css("visibility", "visible");
+        	return false;
+        }
+        function permitFlip(){ // ensure flip button disengaged until all questions answered
+
+        }
+		</script>
+		<style type="text/css">
+/*		div {
+		    height:50px;
+		    width:100%;
+		    display: inline-block;
+		}*/
+
+		</style>
+	</head>
+	<body>
+		Oh Hai<br>
+		<div id="test">
+			Yo
+		<fieldset class="ui-grid-d">
+		<div class="ui-block-a">
+		<button class="ui-btn" onclick="return commence()">Start Game</button>
+		</div>
+		<div class="ui-block-b">
+		<button class="ui-btn" style="pointer-events:none;opacity:0.2" onclick="return flip()">Next Questions</button>
+		<br>
+		</div>
+		</fieldset>
+		</div>
+
+		<fieldset class="ui-grid-a">
+		<div class="statement">
+			<div id = "one" class="ui-block-a"></div>
+			<div class="ui-block-b">
+		<!--| alternative class designation = <input class="radio-input" |-->
+              <input  id="oneG" type="radio" name="guessed" required="required">
+              <label for="oneG">Guessed?</label>
+        	</div>
+        	<div class="ui-block-c">
+              <input id="oneS" type="radio" name="skip" required="required">
+              <label for="oneS">Skip?</label>
+            </div>
+		</div>
+		<div class="statement">
+			<div id = "two" class="ui-block-a"></div>
+			<div class="ui-block-b">
+
+              <input class="guessed" id="twoG" type="radio" name="guessed" required="required">
+              <label class="ui-mobile" name="guessed" for="twoG">Guessed?</label>
+     	   </div>
+            <div class="ui-block-c">
+              <input class="skip" id="twoS" type="radio" name="skip" required="required">
+              <label class="skip" name="skip" for="twoS">Skip?</label>
+            </div>
+		</div>
+		<div class="statement">
+			<div id = "three" class="ui-block-a"></div>
+			<div class="ui-block-b">
+			
+              <input class="guessed" id="threeG" type="radio" name="guessed" required="required">
+              <label class="ui-mobile" name="guessed" for="threeG">Guessed?</label>
+        	</div>
+            <div class="ui-block-c">
+              <input class="skip" id="threeS" type="radio" name="skip" required="required">
+              <label class="skip" name="skip" for="threeS">Skip?</label>
+            </div>
+		</div>
+		<div class="statement">
+			<div id = "four" class="ui-block-a"></div>
+			<div class="ui-block-b">
+			
+              <input class="guessed" id="fourG" type="radio" name="guessed" required="required">
+              <label class="ui-mobile" name="guessed" for="fourG">Guessed?</label>
+	        </div>
+            <div class="ui-block-c">
+              <input class="skip" id="fourS" type="radio" name="skip" required="required">
+              <label class="skip" name="skip" for="fourS">Skip?</label>
+            </div>
+		</div>
+		<div class="statement">
+			<div id = "five" class="ui-block-a"></div>
+			<div class="ui-block-b">
+			
+              <input class="guessed" id="fiveG" type="radio" name="guessed" required="required">
+              <label class="guessed" name="guessed" for="fiveG">Guessed?</label>
+	        </div>
+            <div class="ui-block-c">
+              <input class="skip" id="fiveS" type="radio" name="skip" required="required">
+              <label class="skip" name="skip" for="fiveS">Skip?</label>
+            </div>
+		</div>
+	</fieldset>
+<!-- trying out buttons -->
+
+		<fieldset class="ui-grid-d">
+
+			<div class="ui-block-a">
+
+				<button type="button" data-theme="b">Add</button>
+			</div>
+
+			<div class="ui-block-b">
+
+				<button type="button" data-theme="e">Delete</button>
+				<input type="button" value="whatsapp"/>
+			</div>
+
+		</fieldset>		
+
+	</body>
+
+</html>
