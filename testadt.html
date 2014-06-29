@@ -17,6 +17,7 @@ function forEachIn(object, action) {
 	}
 }
 
+// potential sort algo : http://www.nczonline.net/blog/2012/09/17/computer-science-in-javascript-insertion-sort/
 
 var questions = {
 	/*[0]topic: [statements[0]...statements[N]],*/
@@ -38,6 +39,7 @@ function chooseFive(topic, object) {
 		var genObj = {};
 		for (var c = 0; c < topic.length; c++){
 			var l = (object[topic[c]].length)-1;
+			// fetch the length of the array from which a random element is to be chosen
 			genObj[topic[c]] = Math.floor((Math.random() * l));
 		}
 		return genObj;

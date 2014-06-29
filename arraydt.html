@@ -54,9 +54,10 @@ function chooseFive(nuArray, topic, object, peek) {
 	return nuArray;
 	}
 };
-
+// randTopics = shuffle(allTopics); = returns strings rather than numbers - so annoying!
 var allTopics = [0,1,2,3,4,5,6,7,8,9];
 console.log(allTopics);
+//Object.keys(questions);
 
 function shuffle(array) {
   var tmp, current, top = array.length;
@@ -69,10 +70,8 @@ function shuffle(array) {
   return array;
 }
 
+// this needs to happen for every iteration
 allTopics = shuffle(allTopics);
-console.log(allTopics);
-
-// randTopics = shuffle(allTopics); = returns strings rather than numbers - so annoying!
 var round1 = allTopics.slice(0,5);
 var round2 = allTopics.slice(5,10);
 
