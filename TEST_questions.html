@@ -27,7 +27,17 @@ var questions = {
 	6: ['refrigerator', 'a.i.', 'neon', 'vinyl', 'tv', 'radio', 'telegraph', 'telephone', 'film', 'engine'],
 	7: ['beef', 'noodles', 'pizza', 'rice', 'pasta', 'potatoes', 'chips', 'fries', 'tortilla', 'nachos'],
 	8: ['youtube','gmail','internet','twitter','facebook','flickr','linkedin','tumblr','yahoo','pornhub'],
-	9: ['range-rover', 'toyota','nissan','suzuki','volvo','volkswagen','mini','bmw','ford','mazda']
+	9: ['range-rover', 'toyota','nissan','suzuki','volvo','volkswagen','mini','bmw','ford','mazda'],
+	10: [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'],
+	11: ['blade runner', 'godfather','goodfellas', 'king kong', 'star wars', 'star trek', 'serenity', 'primer','blues brothers', 'taxi driver'],
+	12: ['dublin', 'london', 'new york', 'brighton', 'glasgow', 'galway','cork','kildare','maynooth', 'goldsmiths'],
+	13 : ['ronaldo','messi','suarez','pele','andy murray','roy mcelroy','barack obama','sepp blater','david cameron','tony blair'],
+	14: ['glastonbury', 'world cup', 'wimbledon', 'election', 'wedding', 'holiday', 'baptism', 'christening','funeral', 'finale'],
+	15: ['we3', 'gravitys rainbow', 'chaos', 'ubiq','sandman','invisibles','transmetropolitan','watchmen','lord of the rings','2666'],
+	16: ['refrigerator', 'a.i.', 'neon', 'vinyl', 'tv', 'radio', 'telegraph', 'telephone', 'film', 'engine'],
+	17: ['beef', 'noodles', 'pizza', 'rice', 'pasta', 'potatoes', 'chips', 'fries', 'tortilla', 'nachos'],
+	18: ['youtube','gmail','internet','twitter','facebook','flickr','linkedin','tumblr','yahoo','pornhub'],
+	19: ['range-rover', 'toyota','nissan','suzuki','volvo','volkswagen','mini','bmw','ford','mazda']
 	// to test sorting algorithm, there follows some deliberately diminished arrays
 	// 10: ['just the one'],
 	// 11: ['a','b','c','d','e','f','g','h','i','j','k','l'],
@@ -138,7 +148,8 @@ function shuffle(array) {
 console.log("goodbye");
 
 	for (var c = 0; c < 5; c++) {
-		var topicTally = shuffle(count(questions));
+		var topicTally = shuffle(count(questions)); // initial shuffle
+		//var topicTally = count(questions);
 		console.log(topicTally);
 		var round1 = sortDesc(topicTally).slice(0,5);
 		var first = chooseFive(round1,questions);
@@ -149,10 +160,10 @@ console.log("goodbye");
 		flip = chooseFive(round2,questions);
 
 		console.log("round1: flip not triggered");
-		forEachIn(questions, function(k,v){console.log("round 1 "+k+" = "+v.length);});
-		remove(flip,questions);
+		forEachIn(questions, function(k,v){console.log("round "+c+": "+k+" = "+v.length);});
+		if (c%2){console.log(c+" remove the questions!!!");remove(flip,questions);}
 		console.log("...");
-		forEachIn(questions, function(k,v){console.log("round 2 "+k+" = "+v.length);});
+		forEachIn(questions, function(k,v){console.log("round "+c+" end: "+k+" = "+v.length);});
 	}
 
 // var topFive = sortDesc(num).slice(0,5);
