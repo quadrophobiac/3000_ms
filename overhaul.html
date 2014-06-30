@@ -149,10 +149,26 @@
         }
 		</script>
 		<style type="text/css">
-/*		div {
-		    height:50px;
+		.statement {
+		    height:20px;
 		    width:100%;
 		    display: inline-block;
+		    font-size: 20px;
+			font-weight: bold;
+			padding-right: 250px;
+			text-shadow: 0px 1px 1px #fff;
+
+		}
+
+/*		#statements{ // this almost accomplishes the desired
+			color: #222;
+			width:400px;
+font-size: 20px;
+font-weight: bold;
+margin: 0 auto;
+padding: 10px 0;
+text-align: center;
+text-shadow: 0px 1px 1px #fff;
 		}*/
 
 		</style>
@@ -173,7 +189,7 @@
 		</div>
 		<div id="statements">
 			<!-- <fieldset class="ui-grid-a"> -->
-			<div class="statement">
+			<div id="one" class="statement"></div>
 				<div id = "one" class="ui-block-a"></div>
 				<div class="ui-block-b">
 			<!--| alternative class designation = <input class="radio-input" |-->
@@ -184,8 +200,8 @@
 	              <input id="oneS" type="radio" name="skip" required="required">
 	              <label for="oneS">Skip?</label>
 	            </div>
-			</div>
-			<div class="statement">
+			<br>
+			<div id="two" class="statement"></div>
 				<div id = "two" class="ui-block-a"></div>
 				<div class="ui-block-b">
 
@@ -196,8 +212,8 @@
 	              <input class="skip" id="twoS" type="radio" name="skip" required="required">
 	              <label class="skip" name="skip" for="twoS">Skip?</label>
 	            </div>
-			</div>
-			<div class="statement">
+			
+			<div id="three" class="statement"></div>
 				<div id = "three" class="ui-block-a"></div>
 				<div class="ui-block-b">
 				
@@ -208,8 +224,8 @@
 	              <input class="skip" id="threeS" type="radio" name="skip" required="required">
 	              <label class="skip" name="skip" for="threeS">Skip?</label>
 	            </div>
-			</div>
-			<div class="statement">
+			
+			<div id="four" class="statement"></div>
 				<div id = "four" class="ui-block-a"></div>
 				<div class="ui-block-b">
 				
@@ -220,8 +236,8 @@
 	              <input class="skip" id="fourS" type="radio" name="skip" required="required">
 	              <label class="skip" name="skip" for="fourS">Skip?</label>
 	            </div>
-			</div>
-			<div class="statement">
+			
+			<div id="five" class="statement"></div>
 				<div id = "five" class="ui-block-a"></div>
 				<div class="ui-block-b">
 				
@@ -232,7 +248,7 @@
 	              <input class="skip" id="fiveS" type="radio" name="skip" required="required">
 	              <label class="skip" name="skip" for="fiveS">Skip?</label>
 	            </div>
-			</div>
+			
 		<!-- </fieldset> -->
 	</div>
 <!-- trying out buttons -->
