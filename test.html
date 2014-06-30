@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/tr/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
+<head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="author" content="Jason Chavannes" />
+    <title>jQuery Timer Demo</title>
+    
+   <!--  <link rel="stylesheet" href="res/style.css" /> -->
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="jquery.timer.js"></script>
+    <!-- <script type="text/javascript" src="res/demo.js"></script> -->
+    <script type="text/javascript">
+function pad(number, length) {
+    var str = '' + number;
+    while (str.length < length) {str = '0' + str;}
+    return str;
+}
+function formatTime(time) {
+    // this function can be rewritten per the parameters desired to be achieved
+    var min = parseInt(time / 6000),
+        sec = parseInt(time / 100) - (min * 60),
+        hundredths = pad(time - (sec * 100) - (min * 6000), 2);
+    return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2) + ":" + hundredths;
+}
+
+    // the structure below appears to be a module alike entity
+    // it is hiding several functions from outside access / inspection
+    // the function is wrapped in ( ) which means its self invoking, or that it is triggered immediately like most jQuery things
+    // what's new here is that all the vars are listed comma seperated, and once a ; is placed after a var, all subsequent vars
+    // ^^ this MAY be a quirk of jQuery
+    // with a 'this.' assignment can be looked at from outside
+    // 
+var Example2 = new (function() {
+    var $countdown,
+        $form, // Form used to change the countdown time
+        incrementTime = 70,
+        currentTime = 300,
+        updateTimer = function() {
+            console.log(currentTime);
+            console.log($countdown);
+            console.log(formatTime(currentTime));
+            $countdown.html(formatTime(currentTime));
+            if (currentTime == 0) {
+                Example2.Timer.stop();
+                timerComplete();
+                Example2.resetCountdown();
+                return;
+            }
+            currentTime -= incrementTime / 10;
+            if (currentTime < 0) currentTime = 0;
+        },
+        timerComplete = function() {
+            alert('Example 2: Countdown timer complete!');
+        },
+        init = function() {
+            console.log($countdown);
+            $countdown = $('#countdown');
+            console.log($countdown);
+            Example2.Timer = $.timer(updateTimer, incrementTime, false); // boolean at end determines autostart
+            $form = $('#example2form');
+            $form.bind('submit', function() {
+                Example2.resetCountdown();
+                return false;
+            });
+        };
+    this.resetCountdown = function() {
+        var newTime = parseInt($form.find('input[type=text]').val()) * 100;
+        if (newTime > 0) {currentTime = newTime;}
+        this.Timer.stop().once();
+    };
+    $(init);
+});
+console.log("outside constructor");
+console.log($('#countdown'));
+//console.log(Object.keys(ThurtySeconds));
+//ThurtySeconds.init(); 
+// timer still works with this, but the updateTimer function no longer works, potentially because upDateTimer Function is inaccessible
+// that function calls the formatTime and passes it another hidden variable currentTime 
+    </script>
+</head> 
+<body>
+
+
+    <h3>Example 2 - Countdown Timer</h3>
+    <span id="countdown">00:03:00</span>
+    <form id="example2form">
+        <input type='button' value='Play/Pause' onclick='Example2.Timer.toggle();' />
+        <input type='button' value='Stop/Reset' onclick='Example2.resetCountdown();' />
+        <input type='text' name='startTime' value='300' style='width:30px;' />
+    </form>
+
+</body>
+</html>
