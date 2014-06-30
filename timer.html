@@ -36,7 +36,7 @@ function formatTime(time) {
         var $countdown,
             $form, // Form used to change the countdown time
             incrementTime = 70,
-            currentTime = 300,
+            currentTime = 3000,
             updateTimer = function() {
                 console.log(currentTime);
                 console.log($countdown);
@@ -82,8 +82,9 @@ function formatTime(time) {
     //$(init); // doesn't appear to be an easy way to invoke this outside of the object
 };
 console.log(Object.keys(ThurtySeconds));
-
-ThurtySeconds.init(); 
+$( document ).ready(function(){
+ThurtySeconds.init();
+});
 // problem is that calling init as a public constructor outside of the "Object = new function()" invocation is that it doesn't get access to the span element for #countdown
 // one theory I have is that it might be DOM loading related
 // 
@@ -93,11 +94,11 @@ ThurtySeconds.init();
 
 
     <h3>Example 2 - Countdown Timer</h3>
-    <span id="countdown">00:03:00</span>
+    <span id="countdown">00:30:00</span>
     <form id="ThurtySeconds">
         <input type='button' value='Play/Pause' onclick='ThurtySeconds.Timer.toggle();' /> <!-- init function creates the Timer object-->
         <input type='button' value='Stop/Reset' onclick='ThurtySeconds.resetCountdown();' />
-        <input type='text' name='startTime' value='300' style='width:30px;' />
+        <!-- <input type='text' name='startTime' value='300' style='width:30px;' /> -->
     </form>
 
 </body>
