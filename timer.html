@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/tr/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
-<head> 
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="author" content="Jason Chavannes" />
     <title>jQuery Timer Demo</title>
-    
+
    <!--  <link rel="stylesheet" href="res/style.css" /> -->
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="jquery.timer.js"></script>
@@ -23,14 +23,6 @@
             return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2) + ":" + hundredths;
         }
 
-            // the structure below appears to be a module alike entity
-            // it is hiding several functions from outside access / inspection
-            // the function is wrapped in ( ) which means its self invoking, or that it is triggered immediately like most jQuery things
-            // what's new here is that all the vars are listed comma seperated, and once a ; is placed after a var, all subsequent vars
-            // ^^ this MAY be a quirk of jQuery
-            // with a 'this.' assignment can be looked at from outside
-            // the countdown var assigned through a public init has different properties, it only has access to context, instead of a zero indexed spanElement when called via $countdown
-            // when init is called outside the constructor via this. assignment it only has access to HTML document object, rather than span element
 
         var ThurtySeconds = new function() { // I have here amended from self invoking, and called init() outside
             var $countdown,
@@ -38,14 +30,7 @@
                 incrementTime = 70,
                 currentTime = 3000,
                 updateTimer = function() {
-                    console.log(currentTime);
-                    console.log($countdown);
-                    console.log(formatTime(currentTime));
-                    // countdown returns object HTMLSpanElement
-                    // $countdown returns object Object, but when init is public, said object lacks span context
-                    // $countdown.html returns a function
                     $countdown.html(formatTime(currentTime)); // this function is purely for visual feedback
-                    // $countdown.html("<br>HELLO"); has no effect
                     if (currentTime == 0) {
                         ThurtySeconds.Timer.stop();
                         timerComplete();
@@ -57,29 +42,30 @@
                     if (currentTime < 0) currentTime = 0;
                 },
                 timerComplete = function() {
+                    // .css(style="pointer-events:none;opacity:0.2") <-- not correct jQuery syntax, but the desired effect
                     alert('YOUR TURNS OVER! SCORE = ');
                     // goof place for the remove flip logic
                 };
-
                 this.init = function() {
                     console.log($countdown);
                     $countdown = $('#countdown');
                     console.log($countdown);
                     ThurtySeconds.Timer = $.timer(updateTimer, incrementTime, false);
                     $form = $('#ThurtySeconds');
+
                     $form.bind('submit', function() {
                         ThurtySeconds.resetCountdown();
                         return false;
                     });
+
                 };
             this.resetCountdown = function() {
-                //var newTime = parseInt($form.find('input[type=text]').val()) * 100; // if changing manually
-                var newTime = 300;
+
+                var newTime = 3000; // 3000 = 30 seconds
                 console.log(newTime);
                 if (newTime > 0) {currentTime = newTime;}
                 this.Timer.stop().once();
             };
-        //$(init); // doesn't appear to be an easy way to invoke this outside of the object
         };
 
         $( document ).ready(function(){
@@ -91,7 +77,7 @@
 <body>
 
 
-    <h3>Example 2 - Countdown Timer</h3>
+    <h3>Countdown Timer</h3>
     <span id="countdown">00:30:00</span>
     <form id="ThurtySeconds">
         <input type='button' value='Play/Pause' onclick='ThurtySeconds.Timer.toggle();' /> <!-- init function creates the Timer object-->
