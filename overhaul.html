@@ -149,7 +149,7 @@
         }
 		</script>
 		<style type="text/css">
-/*		.statement {
+		.statement {
 		    height:20px;
 		    width:100%;
 		    display: inline-block;
@@ -158,7 +158,7 @@
 			padding-right: 25px;
 			text-shadow: 0px 1px 1px #fff;
 
-		}*/
+		}
 
 /*		#statements{ // this almost accomplishes the desired
 			color: #222;
@@ -176,97 +176,94 @@ text-shadow: 0px 1px 1px #fff;
 	<body>
 		Oh Hai<br>
 		<div id="test">
-			Yo
-		<fieldset class="ui-grid-d">
-		<div class="ui-block-a">
-		<button class="ui-btn" onclick="return commence()">Start Game</button>
-		</div>
-		<div class="ui-block-b">
-		<button class="ui-btn" style="pointer-events:none;opacity:0.2" onclick="return flip()">Next Questions</button>
-		<br>
-		</div>
-		</fieldset>
+			
+			<!-- <fieldset class="ui-grid-d"> -->
+			
+			<div class="ui-block-c">
+			<button class="ui-btn" onclick="return commence()">Start Game</button>
+			</div>
+			<div class="ui-block-c">
+			<button class="ui-btn" style="pointer-events:none;opacity:0.2" onclick="return flip()">Next Questions</button>
+			<br>
+			</div>
+			<!-- entire body can be wrapped in fieldset-->
+		Yo
 		</div>
 		<div id="statements">
-			<!-- <fieldset class="ui-grid-a"> -->
-			<div id="one" class="statement"></div>
-				<div id = "one" class="ui-block-a"></div>
-				<div class="ui-block-b">
-			<!--| alternative class designation = <input class="radio-input" |-->
-	              <input  id="oneG" type="radio" name="guessed" required="required">
-	              <label for="oneG">Guessed?</label>
-	        	</div>
-	        	<div class="ui-block-c">
-	              <input id="oneS" type="radio" name="skip" required="required">
-	              <label for="oneS">Skip?</label>
-	            </div>
-			<br>
-			<div id="two" class="statement"></div>
-				<div id = "two" class="ui-block-a"></div>
-				<div class="ui-block-b">
+			<fieldset class="ui-grid-a"></fieldset> 
+			
+				<div>
+				<div id="one" class="statement"></div>
+					<div id = "one" class="ui-block-a"></div>
+					<div class="ui-block-b">
+				<!--| alternative class designation = <input class="radio-input" |-->
+		              <input  id="oneG" type="radio" name="guessed" required="required">
+		              <label for="oneG">Guessed?</label>
+		        	</div>
+		        	<div class="ui-block-c">
+		              <input id="oneS" type="radio" name="skip" required="required">
+		              <label for="oneS">Skip?</label>
+		            </div>
+				</div>
+				
+				<div>
+					<div id="two" class="statement"></div>
+					<div id = "two" class="ui-block-a"></div>
+					<div class="ui-block-b">
 
-	              <input class="guessed" id="twoG" type="radio" name="guessed" required="required">
-	              <label class="ui-mobile" name="guessed" for="twoG">Guessed?</label>
-	     	   </div>
-	            <div class="ui-block-c">
-	              <input class="skip" id="twoS" type="radio" name="skip" required="required">
-	              <label class="skip" name="skip" for="twoS">Skip?</label>
-	            </div>
+		              <input class="guessed" id="twoG" type="radio" name="guessed" required="required">
+		              <label class="ui-mobile" name="guessed" for="twoG">Guessed?</label>
+			     	</div>
+		            <div class="ui-block-c">
+		              <input class="skip" id="twoS" type="radio" name="skip" required="required">
+		              <label class="skip" name="skip" for="twoS">Skip?</label>
+		            </div>
+				</div>
+
+				<div>
+					<div id="three" class="statement"></div>
+						<div id = "three" class="ui-block-a"></div>
+						<div class="ui-block-b">
+						
+			              <input class="guessed" id="threeG" type="radio" name="guessed" required="required">
+			              <label class="ui-mobile" name="guessed" for="threeG">Guessed?</label>
+			        	</div>
+			            <div class="ui-block-c">
+			              <input class="skip" id="threeS" type="radio" name="skip" required="required">
+			              <label class="skip" name="skip" for="threeS">Skip?</label>
+			            </div>
+				</div>
 			
-			<div id="three" class="statement"></div>
-				<div id = "three" class="ui-block-a"></div>
-				<div class="ui-block-b">
-				
-	              <input class="guessed" id="threeG" type="radio" name="guessed" required="required">
-	              <label class="ui-mobile" name="guessed" for="threeG">Guessed?</label>
-	        	</div>
-	            <div class="ui-block-c">
-	              <input class="skip" id="threeS" type="radio" name="skip" required="required">
-	              <label class="skip" name="skip" for="threeS">Skip?</label>
-	            </div>
-			
-			<div id="four" class="statement"></div>
-				<div id = "four" class="ui-block-a"></div>
-				<div class="ui-block-b">
-				
-	              <input class="guessed" id="fourG" type="radio" name="guessed" required="required">
-	              <label class="ui-mobile" name="guessed" for="fourG">Guessed?</label>
-		        </div>
-	            <div class="ui-block-c">
-	              <input class="skip" id="fourS" type="radio" name="skip" required="required">
-	              <label class="skip" name="skip" for="fourS">Skip?</label>
-	            </div>
-			
-			<div id="five" class="statement"></div>
-				<div id = "five" class="ui-block-a"></div>
-				<div class="ui-block-b">
-				
-	              <input class="guessed" id="fiveG" type="radio" name="guessed" required="required">
-	              <label class="guessed" name="guessed" for="fiveG">Guessed?</label>
-		        </div>
-	            <div class="ui-block-c">
-	              <input class="skip" id="fiveS" type="radio" name="skip" required="required">
-	              <label class="skip" name="skip" for="fiveS">Skip?</label>
-	            </div>
-			
+				<div>
+					<div id="four" class="statement"></div>
+						<div id = "four" class="ui-block-a"></div>
+						<div class="ui-block-b">
+						
+			              <input class="guessed" id="fourG" type="radio" name="guessed" required="required">
+			              <label class="ui-mobile" name="guessed" for="fourG">Guessed?</label>
+				        </div>
+			            <div class="ui-block-c">
+			              <input class="skip" id="fourS" type="radio" name="skip" required="required">
+			              <label class="skip" name="skip" for="fourS">Skip?</label>
+			            </div>
+				</div>
+
+				<div>
+					<div id="five" class="statement"></div>
+					<div id = "five" class="ui-block-a"></div>
+					<div class="ui-block-b">
+					
+		              <input class="guessed" id="fiveG" type="radio" name="guessed" required="required">
+		              <label class="guessed" name="guessed" for="fiveG">Guessed?</label>
+			        </div>
+		            <div class="ui-block-c">
+		              <input class="skip" id="fiveS" type="radio" name="skip" required="required">
+		              <label class="skip" name="skip" for="fiveS">Skip?</label>
+		            </div>
+				</div>
 		<!-- </fieldset> -->
 	</div>
 <!-- trying out buttons -->
-
-		<fieldset class="ui-grid-d">
-
-			<div class="ui-block-a">
-
-				<button type="button" data-theme="b">Add</button>
-			</div>
-
-			<div class="ui-block-b">
-
-				<button type="button" data-theme="e">Delete</button>
-				<input type="button" value="whatsapp"/>
-			</div>
-
-		</fieldset>		
 
 	</body>
 
