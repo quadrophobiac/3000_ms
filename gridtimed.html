@@ -49,14 +49,18 @@
             return false;
         }
 
-        function permitFlip(){ // ensure flip button disengaged until all questions answered
+        function toggleRadio(){ // ensure flip button disengaged until all questions answered
+            console.log($(':input','#statements')); // returns an array of html objects
+            forEachIn($(':input','#statements'), function(k,v){console.log("key = "+k+" val = "+v.checked);});
+
+
             $(':input','#statements')
             .not(':button, :submit, :reset, :hidden')
             .val('')
             .removeAttr('checked')
             .removeAttr('selected');
         }
-
+        function permitFlip(){}
 
         var ThurtySeconds = new function() { // I have here amended from self invoking, and called init() outside
             var $countdown,
@@ -128,18 +132,20 @@
         $(function() {
             // this function is always awaiting change!
             $('input').change(function(){
-                console.log($(this).parentsUntil($('.statement')));
+                //console.log($(this).parentsUntil($('.statement')));
                 console.log("an input click detected!");
+                console.log($(this).context.checked);
                 if($(this).context.name == "guessed"){
                     // uses name identifier of any input elements
                     $(this).parentsUntil( $('#statements') ).css( "display", "none" );
                     // traverses DOM tree until selector ID statements reached, all children of statements 'hidden' - via display none
-                } else if ($(this).context.name == "skip") {
+                } else if ($(this).context.className == "skip") {
                     console.log("LOSER");
                     // uses name identifier of any input elements
                     $(this).parentsUntil( $('#statements') ).css( "background-color", "red" );
                     // sets bg to red, principally a debug measure
                 }
+                forEachIn($(':input','#statements'), function(k,v){console.log("key = "+k+" val = "+v.checked);});
             });
         });
 
@@ -174,7 +180,8 @@
                 and it contains a stop.once method -->
             </div>
             <div class="ui-block-c">
-                <button class="ui-btn" style="pointer-events:none;opacity:0.2" onclick="return flip()">Next Questions</button>
+                <!-- <button class="ui-btn" style="pointer-events:none;opacity:0.2" onclick="return flip()">Next Questions</button> -->
+                <button class="ui-btn" onclick="return toggleRadio()">Toggle</button>
             <br>
             </div>
             <div class="ui-block-a"></div>
@@ -198,7 +205,7 @@
                       <label for="oneG">Guessed?</label>
                     </div>
                     <div class="ui-block-c">
-                      <input id="oneS" type="radio" name="skip" required="required">
+                      <input class="skip" id="oneS" type="radio" name="skip1" required="required">
                       <label for="oneS">Skip?</label>
                     </div>
                 </div>
@@ -212,7 +219,7 @@
                       <label class="ui-mobile" name="guessed" for="twoG">Guessed?</label>
                     </div>
                     <div class="ui-block-c">
-                      <input class="skip" id="twoS" type="radio" name="skip" required="required">
+                      <input class="skip" id="twoS" type="radio" name="skip2" required="required">
                       <label class="skip" name="skip" for="twoS">Skip?</label>
                     </div>
                 </div>
@@ -226,7 +233,7 @@
                           <label class="ui-mobile" name="guessed" for="threeG">Guessed?</label>
                         </div>
                         <div class="ui-block-c">
-                          <input class="skip" id="threeS" type="radio" name="skip" required="required">
+                          <input class="skip" id="threeS" type="radio" name="skip3" required="required">
                           <label class="skip" name="skip" for="threeS">Skip?</label>
                         </div>
                 </div>
@@ -240,7 +247,7 @@
                           <label class="ui-mobile" name="guessed" for="fourG">Guessed?</label>
                         </div>
                         <div class="ui-block-c">
-                          <input class="skip" id="fourS" type="radio" name="skip" required="required">
+                          <input class="skip" id="fourS" type="radio" name="skip4" required="required">
                           <label class="skip" name="skip" for="fourS">Skip?</label>
                         </div>
                 </div>
@@ -254,7 +261,7 @@
                       <label class="guessed" name="guessed" for="fiveG">Guessed?</label>
                     </div>
                     <div class="ui-block-c">
-                      <input class="skip" id="fiveS" type="radio" name="skip" required="required">
+                      <input class="skip" id="fiveS" type="radio" name="skip5" required="required">
                       <label class="skip" name="skip" for="fiveS">Skip?</label>
                     </div>
                 </div>
