@@ -39,6 +39,7 @@
         }
         function commence(){
             ThurtySeconds.Timer.toggle();
+            $('.statement').css("visibility", "visible");
             $('span').css("visibility", "visible");
             return false;
         }
@@ -49,7 +50,11 @@
         }
 
         function permitFlip(){ // ensure flip button disengaged until all questions answered
-
+            $(':input','#statements')
+            .not(':button, :submit, :reset, :hidden')
+            .val('')
+            .removeAttr('checked')
+            .removeAttr('selected');
         }
 
 
