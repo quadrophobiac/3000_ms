@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="author" content="Jason Chavannes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/themes/3000ms.css" />
     <link rel="stylesheet" href="css/themes/base.css" />
     <link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
@@ -42,11 +42,11 @@
             $('span').css("visibility", "visible");
             return false;
         }
-        // function commence(){
-        //     ThurtySeconds.Timer.toggle();
-        //     $('span').css("visibility", "visible");
-        //     return false;
-        // }
+        function resetClock(){
+            ThurtySeconds.resetCountdown();
+            $('span').css("visibility", "hidden");
+            return false;
+        }
 
         function permitFlip(){ // ensure flip button disengaged until all questions answered
 
@@ -63,6 +63,7 @@
                     if (currentTime == 0) {
                         ThurtySeconds.Timer.stop();
                         timerComplete();
+                        resetClock(); // this is better placed here than in subsequent resetCountdown function
                         ThurtySeconds.resetCountdown();
                         return;
                     }
@@ -152,8 +153,6 @@
 </head>
 <body>
 
-
-    <h3>Countdown Timer</h3>
     <span id="countdown">00:30:00</span>
     <form id="ThurtySeconds">
 <!--         <input type='button' value='Play/Pause' onclick='ThurtySeconds.Timer.toggle();' /> -->
@@ -165,7 +164,9 @@
             <!-- <fieldset class="ui-grid-d"> -->
             <!-- Buttons to Let the Games Begin! -->
             <div class="ui-block-c">
-                <button class="ui-btn" onclick="return commence()">Start Game / Pause</button>
+                <button class="ui-btn" onclick="return commence();">Start</button>
+<!--                 i think this has pause functionality because .resetCountdown() is presently bound to all submit events
+                and it contains a stop.once method -->
             </div>
             <div class="ui-block-c">
                 <button class="ui-btn" style="pointer-events:none;opacity:0.2" onclick="return flip()">Next Questions</button>
@@ -173,12 +174,11 @@
             </div>
             <div class="ui-block-a"></div>
             <div class="ui-block-c">
-                <button class="ui-btn" value='Stop/Reset' onclick='ThurtySeconds.resetCountdown();'>Reset Clock err</button>
+                <button class="ui-btn" value='Stop/Reset' onclick='return resetClock();'>Reset</button>
                 <!-- the above isn't bound, and so reset countdown is triggered twice -->
-                <input type='button' class="ui-btn" value='Reset Clock' onclick='ThurtySeconds.resetCountdown();'/>
+                <!-- <input type='button' class="ui-btn" value='Reset Clock' onclick='ThurtySeconds.resetCountdown();'/> -->
             </div>
             <!-- entire body can be wrapped in fieldset-->
-        Yo
         </div>
         </form>
         <div id="statements">
