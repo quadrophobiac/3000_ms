@@ -46,19 +46,25 @@
         function resetClock(){
             ThurtySeconds.resetCountdown();
             $('span').css("visibility", "hidden");
+            //$('#statements').css("opacity", "0.2"); <- this line is death
             return false;
         }
 
         function toggleRadio(){ // ensure flip button disengaged until all questions answered
+            // this function is breaking things, if clicked the other two buttons dont function
             console.log($(':input','#statements')); // returns an array of html objects
-            forEachIn($(':input','#statements'), function(k,v){console.log("key = "+k+" val = "+v.checked);});
+            forEachIn($(':input','#statements'), function(k,v){console.log("is css?"+v.checked);}); // works
+            //forEachIn($(':input', '#statements'), function(k,v){console.log("key is = "+k+" val = "+v);console.log(v.parentsUntil);}); works
 
-
-            $(':input','#statements')
-            .not(':button, :submit, :reset, :hidden')
-            .val('')
-            .removeAttr('checked')
-            .removeAttr('selected');
+            $(':input','#statements').removeAttr('checked'); // this does remove the checked aka works
+            $('#statements').css("opacity", "0.2");
+            $('#statements').css("display", "block");
+            //$(':input','#statements').style( "display", "block" );
+            // .not(':button, :submit, :reset, :hidden')
+            // .val('')
+            // .removeAttr('checked')
+            // .removeAttr('selected');
+            return false;
         }
         function permitFlip(){}
 
@@ -135,16 +141,19 @@
                 //console.log($(this).parentsUntil($('.statement')));
                 console.log("an input click detected!");
                 console.log($(this).context.checked);
-                if($(this).context.name == "guessed"){
-                    // uses name identifier of any input elements
-                    $(this).parentsUntil( $('#statements') ).css( "display", "none" );
-                    // traverses DOM tree until selector ID statements reached, all children of statements 'hidden' - via display none
-                } else if ($(this).context.className == "skip") {
-                    console.log("LOSER");
-                    // uses name identifier of any input elements
-                    $(this).parentsUntil( $('#statements') ).css( "background-color", "red" );
-                    // sets bg to red, principally a debug measure
-                }
+                if($(this).context.checked = true) // conditional logic for checked value changge
+                    {
+                    if($(this).context.className == "guessed"){
+                        // uses name identifier of any input elements
+                        $(this).parentsUntil( $('#statements') ).css( "display", "none" );
+                        // traverses DOM tree until selector ID statements reached, all children of statements 'hidden' - via display none
+                    } else if ($(this).context.className == "skip") {
+                        console.log("LOSER");
+                        // uses name identifier of any input elements
+                        $(this).parentsUntil( $('#statements') ).css( "background-color", "red" );
+                        // sets bg to red, principally a debug measure
+                    }
+                    }
                 forEachIn($(':input','#statements'), function(k,v){console.log("key = "+k+" val = "+v.checked);});
             });
         });
@@ -201,7 +210,7 @@
                     <div id = "one" class="ui-block-a"></div>
                     <div class="ui-block-b">
                 <!--| alternative class designation = <input class="radio-input" |-->
-                      <input  id="oneG" type="radio" name="guessed" required="required">
+                      <input class="guessed" id="oneG" type="radio" name="guessed1" required="required">
                       <label for="oneG">Guessed?</label>
                     </div>
                     <div class="ui-block-c">
@@ -215,7 +224,7 @@
                     <div id = "two" class="ui-block-a"></div>
                     <div class="ui-block-b">
 
-                      <input class="guessed" id="twoG" type="radio" name="guessed" required="required">
+                      <input class="guessed" id="twoG" type="radio" name="guessed2" required="required">
                       <label class="ui-mobile" name="guessed" for="twoG">Guessed?</label>
                     </div>
                     <div class="ui-block-c">
@@ -229,7 +238,7 @@
                         <div id = "three" class="ui-block-a"></div>
                         <div class="ui-block-b">
 
-                          <input class="guessed" id="threeG" type="radio" name="guessed" required="required">
+                          <input class="guessed" id="threeG" type="radio" name="guessed3" required="required">
                           <label class="ui-mobile" name="guessed" for="threeG">Guessed?</label>
                         </div>
                         <div class="ui-block-c">
@@ -243,7 +252,7 @@
                         <div id = "four" class="ui-block-a"></div>
                         <div class="ui-block-b">
 
-                          <input class="guessed" id="fourG" type="radio" name="guessed" required="required">
+                          <input class="guessed" id="fourG" type="radio" name="guessed4" required="required">
                           <label class="ui-mobile" name="guessed" for="fourG">Guessed?</label>
                         </div>
                         <div class="ui-block-c">
@@ -257,7 +266,7 @@
                     <div id = "five" class="ui-block-a"></div>
                     <div class="ui-block-b">
 
-                      <input class="guessed" id="fiveG" type="radio" name="guessed" required="required">
+                      <input class="guessed" id="fiveG" type="radio" name="guessed5" required="required">
                       <label class="guessed" name="guessed" for="fiveG">Guessed?</label>
                     </div>
                     <div class="ui-block-c">
