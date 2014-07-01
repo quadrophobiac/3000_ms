@@ -23,6 +23,7 @@
             var min = parseInt(time / 6000),
                 sec = parseInt(time / 100) - (min * 60),
                 hundredths = pad(time - (sec * 100) - (min * 6000), 2);
+                console.log("time passed = "+time+" h val = "+hundredths);
             return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2) + ":" + hundredths;
         }
 
@@ -75,7 +76,7 @@
                     ThurtySeconds.Timer = $.timer(updateTimer, incrementTime, false);
                     $form = $('#ThurtySeconds');
 
-                    $form.bind('submit', function() {
+                    $form.bind('change', function() {
                         ThurtySeconds.resetCountdown();
                         return false;
                     });
@@ -140,7 +141,6 @@
             font-weight: bold;
             padding-right: 25px;
             text-shadow: 0px 1px 1px #fff;
-
         }
     </style>
 </head>
@@ -150,10 +150,11 @@
     <h3>Countdown Timer</h3>
     <span id="countdown">00:30:00</span>
     <form id="ThurtySeconds">
-        <input type='button' value='Play/Pause' onclick='ThurtySeconds.Timer.toggle();' /> <!-- init function creates the Timer object-->
+<!--         <input type='button' value='Play/Pause' onclick='ThurtySeconds.Timer.toggle();' /> -->
+        <!-- init function creates the Timer object-->
         <input type='button' value='Stop/Reset' onclick='ThurtySeconds.resetCountdown();' />
-        <!-- <input type='text' name='startTime' value='300' style='width:30px;' /> -->
-    </form>
+
+    <!-- </form> --> <!-- weird that below buttons, though not part of form, still trigger the timer -->
     <div id="test">
             <!-- <fieldset class="ui-grid-d"> -->
             <!-- Buttons to Let the Games Begin! -->
@@ -166,11 +167,14 @@
             </div>
             <div class="ui-block-a"></div>
             <div class="ui-block-c">
-                <button class="ui-btn" value='Stop/Reset' onclick='ThurtySeconds.resetCountdown();'>Reset</button>
+                <button class="ui-btn" value='Stop/Reset' onclick='ThurtySeconds.resetCountdown();'>Reset Game</button>
+                <!-- the above isn't bound, and so reset countdown is triggered twice -->
+                <input type='button' class="ui-btn" value='Stop/Reset' onclick='ThurtySeconds.resetCountdown();'/>
             </div>
             <!-- entire body can be wrapped in fieldset-->
         Yo
         </div>
+        </form>
         <div id="statements">
             <fieldset class="ui-grid-a"></fieldset> 
 
