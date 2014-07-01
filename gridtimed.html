@@ -42,6 +42,12 @@
             $('span').css("visibility", "visible");
             return false;
         }
+        // function commence(){
+        //     ThurtySeconds.Timer.toggle();
+        //     $('span').css("visibility", "visible");
+        //     return false;
+        // }
+
         function permitFlip(){ // ensure flip button disengaged until all questions answered
 
         }
@@ -76,7 +82,7 @@
                     ThurtySeconds.Timer = $.timer(updateTimer, incrementTime, false);
                     $form = $('#ThurtySeconds');
 
-                    $form.bind('change', function() {
+                    $form.bind('submit', function() {
                         ThurtySeconds.resetCountdown();
                         return false;
                     });
@@ -152,14 +158,14 @@
     <form id="ThurtySeconds">
 <!--         <input type='button' value='Play/Pause' onclick='ThurtySeconds.Timer.toggle();' /> -->
         <!-- init function creates the Timer object-->
-        <input type='button' value='Stop/Reset' onclick='ThurtySeconds.resetCountdown();' />
+        <!-- <input type='button' value='Stop/Reset' onclick='ThurtySeconds.resetCountdown();' /> -->
 
     <!-- </form> --> <!-- weird that below buttons, though not part of form, still trigger the timer -->
     <div id="test">
             <!-- <fieldset class="ui-grid-d"> -->
             <!-- Buttons to Let the Games Begin! -->
             <div class="ui-block-c">
-                <button class="ui-btn" onclick="return commence()">Start Game</button>
+                <button class="ui-btn" onclick="return commence()">Start Game / Pause</button>
             </div>
             <div class="ui-block-c">
                 <button class="ui-btn" style="pointer-events:none;opacity:0.2" onclick="return flip()">Next Questions</button>
@@ -167,9 +173,9 @@
             </div>
             <div class="ui-block-a"></div>
             <div class="ui-block-c">
-                <button class="ui-btn" value='Stop/Reset' onclick='ThurtySeconds.resetCountdown();'>Reset Game</button>
+                <button class="ui-btn" value='Stop/Reset' onclick='ThurtySeconds.resetCountdown();'>Reset Clock err</button>
                 <!-- the above isn't bound, and so reset countdown is triggered twice -->
-                <input type='button' class="ui-btn" value='Stop/Reset' onclick='ThurtySeconds.resetCountdown();'/>
+                <input type='button' class="ui-btn" value='Reset Clock' onclick='ThurtySeconds.resetCountdown();'/>
             </div>
             <!-- entire body can be wrapped in fieldset-->
         Yo
