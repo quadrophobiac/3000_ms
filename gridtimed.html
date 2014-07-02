@@ -46,6 +46,8 @@
         function resetClock(){
             ThurtySeconds.resetCountdown();
             $('span').css("visibility", "hidden");
+            $(':input','#statements').removeAttr('checked').checkboxradio("refresh");
+            $('div').not('.ui-loader').show();
             //$('#statements').css("opacity", "0.2"); <- this line is death
             return false;
         }
@@ -53,9 +55,23 @@
         function toggleRadio(){
             // this function is breaking things, if clicked the other two buttons dont function
             console.log($(':input','#statements')); // returns an array of html objects
-            forEachIn($(':input','#statements'), function(k,v){console.log("is checked?"+v.checked);}); // works
+            forEachIn($(':input','#statements'), function(k,v){console.log("is checked?"+v.checked);}); 
+            $(':input','#statements').removeAttr('checked').checkboxradio("refresh");
+            $('div').not('.ui-loader').show();
             return false;
         }
+
+        $(function(){
+            $('#toggle').click(function(){ // the below are bound to button with ID of toggle
+                forEachIn($(':input','#statements'), function(k,v){console.log("is checked?"+v.checked);});
+                // works, see lines 199 - 204 for jQuery way of doing this
+                $(':input','#statements').removeAttr('checked').checkboxradio("refresh");
+                // this removes checked attributes for all inputs in the statements div
+                // it calls a radio button specific repaint method 'checkboxradio()'
+                    $('div').not('.ui-loader').show();
+                    // this works, key to unhiding elements, shorter than above, not() rather than filter because I use parents until and wrapper divs to construct the questions
+            });
+        });
 
         function permitFlip(){ // ensure flip button disengaged until all questions answered
 
@@ -63,34 +79,6 @@
         function flip(){
             $('div').not('.ui-loader').show(); // add additional qualifier class for hidden questions
         }
-
-
-$(function(){
-
-    $('#toggle').click(function(){
-        forEachIn($(':input','#statements'), function(k,v){console.log("is checked?"+v.checked);}); 
-        // works, see lines 199 - 204 for jQuery way of doing this
-        $(':input','#statements').removeAttr('checked').checkboxradio("refresh");
-        // this removes checked attributes for all inputs in the statements div
-        // it calls a radio button specific repaint method 'checkboxradio()'
-        // $(':hidden').not('head,base,meta,span,title,link,script,style,h1').each(function(index){console.log("using not: "+$(this).context.localName)});
-        // this prints the name of all hidden elements that ARE NOT identifiable by params above
-        // $(':hidden').filter('body').show();
-        // $(':hidden').filter('.statement').show();
-            $(':hidden').filter('.statement').each(function(index){
-                // prints everything that is hidden with a class of .statement
-                console.log($(this));
-                console.log(index + ":hidden.filter(.statement) =" + $( this ).context.localName + " css: "+$( this ).css('display'));
-            });
-            //$(':hidden').not('head,base,meta,span,title,link,script,style,h1,.ui-loader').show();
-            //$('div').not('.ui-loader').show(); // this works, key to unhiding elements, shorter than above
-            //$(':hidden').filter('.statement').show(); // this doesn't work, reason being is that there is an anonymous div wrapper around each statement plus radio button set up
-            $('div').filter('.bundle, .ui-block-b, .ui-block-c, statement').show(); // even still, only one set of buttons unhidden
-            // presumably can do the same with round one / round two cards, can't fathom why not() works and filter() doesn't
-            // inexplicably / frustratingly $(selector) . filter('params').show() simply will not isolate via the filter method
-            // $('div').filter('.statement').show();
-    });
-});
 
         var ThurtySeconds = new function() { // I have here amended from self invoking, and called init() outside
             var $countdown,
@@ -162,36 +150,20 @@ $(function(){
         $(function() {
             // this function is always awaiting change!
             $('input').change(function(){
-                //console.log($(this).parentsUntil($('.statement')));
                 console.log("an input click detected!");
                 console.log($(this).context.checked);
-                if($(this).context.checked = true) // conditional logic for checked value changge
-                    {
+                if($(this).context.checked = true) {
+                        // conditional logic for checked value changge
                         if($(this).context.className == "guessed"){
                             // uses name identifier of any input elements
-                            //$(this).parentsUntil( $('#statements') ).css( "display", "none" ); // diy way
                             // traverses DOM tree until selector ID statements reached, all children of statements 'hidden' - via display none
-                            $(this).parentsUntil( $('#statements') ).hide();
+                            $(this).parentsUntil( $('#statements') ).hide(); // would be nice if identifier could be passed as param
                         } else if ($(this).context.className == "skip") {
-                            console.log("LOSER");
                             // uses name identifier of any input elements
                             $(this).parentsUntil( $('#statements') ).css( "background-color", "red" );
                             // sets bg to red, principally a debug measure
-                            //
                         }
-                    }
-// two different ways of logging changes to checkd status - useful for debugging name status to ensure every button has a unique true/false status
-                // forEachIn($(':input','#statements'), function(k,v){
-                //     console.log(v); // log object, should return a HTMLInputObject
-                //     console.log("index = "+k+" element name = "+v.localName+","+v.id+" checked bool = "+v.checked+" selected = ");
-                // });
-
-                // $(':input','#statements').each(function(index){
-                //     console.log($(this)); // will return object Object
-                //     console.log("classname: " + $(this).context.className
-                //         +", element name = "+$(this).context.localName
-                //         +","+$(this).context.id+" checked bool = "+$(this).context.checked);});
-
+                }
             }); // end input.change
         }); // end function
 
@@ -212,12 +184,11 @@ $(function(){
 
     <span id="countdown">00:30:00</span>
     <form id="ThurtySeconds">
-<!--         <input type='button' value='Play/Pause' onclick='ThurtySeconds.Timer.toggle();' /> -->
+<!-- these illustrate how you can access the timer functions contained within jQuery.timer directly via ThurtySeconds object
+         <input type='button' value='Play/Pause' onclick='ThurtySeconds.Timer.toggle();' /> -->
         <!-- init function creates the Timer object-->
         <!-- <input type='button' value='Stop/Reset' onclick='ThurtySeconds.resetCountdown();' /> -->
-
-    <!-- </form> --> <!-- weird that below buttons, though not part of form, still trigger the timer -->
-    <div id="test">
+    <div id="ctrlButtons">
             <!-- <fieldset class="ui-grid-d"> -->
             <!-- Buttons to Let the Games Begin! -->
             <div class="ui-block-c">
@@ -227,8 +198,8 @@ $(function(){
             </div>
             <div class="ui-block-c">
                 <!-- <button class="ui-btn" style="pointer-events:none;opacity:0.2" onclick="return flip()">Next Questions</button> -->
-                <!-- <button class="ui-btn" onclick="return toggleRadio()">Toggle</button> -->
-                 <input type='button' id='toggle' class="ui-btn" value='Toggle' />
+                <button class="ui-btn" onclick="return toggleRadio()">Toggle</button>
+                 <!-- <input type='button' id='toggle' class="ui-btn" value='Toggle' /> -->
             <br>
             </div>
             <div class="ui-block-a"></div>
