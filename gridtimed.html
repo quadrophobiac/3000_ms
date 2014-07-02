@@ -157,6 +157,7 @@
                         if($(this).context.className == "guessed"){
                             // uses name identifier of any input elements
                             // traverses DOM tree until selector ID statements reached, all children of statements 'hidden' - via display none
+                            //$(this).parentsUntil( $('.statement') ).hide("slow");
                             $(this).parentsUntil( $('#statements') ).hide(); // would be nice if identifier could be passed as param
                         } else if ($(this).context.className == "skip") {
                             // uses name identifier of any input elements
