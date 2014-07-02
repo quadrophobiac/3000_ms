@@ -55,14 +55,36 @@
             console.log($(':input','#statements')); // returns an array of html objects
             forEachIn($(':input','#statements'), function(k,v){console.log("is checked?"+v.checked);}); // works
             //forEachIn($(':input', '#statements'), function(k,v){console.log("key is = "+k+" val = "+v);console.log(v.parentsUntil);}); works
+            $(':hidden').filter('.statement').each(function(index){console.log($(this));console.log(index + ":hidden.filter(.statement) =" + $( this ).context.localName + " css: "+$( this ).css('display'));
 
-             // this does remove the checked aka works
-            $('div:hidden').show(); // shows fucking loads of things (maybe everything) including a weird loading icon
+            });
+            // logs every hidden element
+            $(':hidden').filter('.statement').show();
+            //$(':hidden').show(); // shows fucking loads of things (maybe everything) including a weird loading icon
             // .removeAttr('selected');
             $(':input','#statements').removeAttr('checked');
+            // this does remove the checked aka works, but show doesn't seem to register said changes
             return false;
         }
+
         function permitFlip(){}
+
+
+
+$(function(){
+
+    $('#toggle').click(function(){
+        $(':input','#statements').removeAttr('checked').checkboxradio("refresh");
+        $(':hidden').not('head,base,meta,span,title,link,script,style,h1').each(function(index){console.log($(this).context.localName)});
+            //$(':hidden').filter('body').show();
+            $(':hidden').filter('.statement').each(function(index){
+                console.log($(this));
+                console.log(index + ":hidden.filter(.statement) =" + $( this ).context.localName + " css: "+$( this ).css('display'));
+            });
+            //$(':hidden').not('head,base,meta,span,title,link,script,style,h1').show();
+            $('div').not('.ui-loader').show(); // presumably can do the same with round one / round two cards
+    });
+});
 
         var ThurtySeconds = new function() { // I have here amended from self invoking, and called init() outside
             var $countdown,
@@ -139,20 +161,22 @@
                 console.log($(this).context.checked);
                 if($(this).context.checked = true) // conditional logic for checked value changge
                     {
-                    if($(this).context.className == "guessed"){
-                        // uses name identifier of any input elements
-                        //$(this).parentsUntil( $('#statements') ).css( "display", "none" ); // diy way
-                        // traverses DOM tree until selector ID statements reached, all children of statements 'hidden' - via display none
-                        $(this).parentsUntil( $('#statements') ).hide();
-                    } else if ($(this).context.className == "skip") {
-                        console.log("LOSER");
-                        // uses name identifier of any input elements
-                        $(this).parentsUntil( $('#statements') ).css( "background-color", "red" );
-                        // sets bg to red, principally a debug measure
-                        // 
+                        if($(this).context.className == "guessed"){
+                            // uses name identifier of any input elements
+                            //$(this).parentsUntil( $('#statements') ).css( "display", "none" ); // diy way
+                            // traverses DOM tree until selector ID statements reached, all children of statements 'hidden' - via display none
+                            $(this).parentsUntil( $('#statements') ).hide();
+                        } else if ($(this).context.className == "skip") {
+                            console.log("LOSER");
+                            // uses name identifier of any input elements
+                            $(this).parentsUntil( $('#statements') ).css( "background-color", "red" );
+                            // sets bg to red, principally a debug measure
+                            //
+                        }
                     }
-                    }
-                forEachIn($(':input','#statements'), function(k,v){console.log("key = "+k+" val = "+v.checked);});
+forEachIn($(':input','#statements'), function(k,v){console.log(v);console.log("index = "+k+" element name = "+v.localName+","+v.id+" checked bool = "+v.checked+" selected = ");});
+                // logs changes to checkd status
+                $(this).each(function(index){console.log( index + ":WTF " + $( this ).context.className );});
             });
         });
 
@@ -188,7 +212,8 @@
             </div>
             <div class="ui-block-c">
                 <!-- <button class="ui-btn" style="pointer-events:none;opacity:0.2" onclick="return flip()">Next Questions</button> -->
-                <button class="ui-btn" onclick="return toggleRadio()">Toggle</button>
+                <!-- <button class="ui-btn" onclick="return toggleRadio()">Toggle</button> -->
+                 <input type='button' id='toggle' class="ui-btn" value='Toggle' />
             <br>
             </div>
             <div class="ui-block-a"></div>
@@ -198,7 +223,7 @@
                 <!-- <input type='button' class="ui-btn" value='Reset Clock' onclick='ThurtySeconds.resetCountdown();'/> -->
             </div>
             <!-- entire body can be wrapped in fieldset-->
-        </div>
+    </div>
         </form>
         <div id="statements">
             <fieldset class="ui-grid-a"></fieldset> 
