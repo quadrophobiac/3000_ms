@@ -50,39 +50,45 @@
             return false;
         }
 
-        function toggleRadio(){ // ensure flip button disengaged until all questions answered
+        function toggleRadio(){
             // this function is breaking things, if clicked the other two buttons dont function
             console.log($(':input','#statements')); // returns an array of html objects
             forEachIn($(':input','#statements'), function(k,v){console.log("is checked?"+v.checked);}); // works
-            //forEachIn($(':input', '#statements'), function(k,v){console.log("key is = "+k+" val = "+v);console.log(v.parentsUntil);}); works
-            $(':hidden').filter('.statement').each(function(index){console.log($(this));console.log(index + ":hidden.filter(.statement) =" + $( this ).context.localName + " css: "+$( this ).css('display'));
-
-            });
-            // logs every hidden element
-            $(':hidden').filter('.statement').show();
-            //$(':hidden').show(); // shows fucking loads of things (maybe everything) including a weird loading icon
-            // .removeAttr('selected');
-            $(':input','#statements').removeAttr('checked');
-            // this does remove the checked aka works, but show doesn't seem to register said changes
             return false;
         }
 
-        function permitFlip(){}
+        function permitFlip(){ // ensure flip button disengaged until all questions answered
 
+        }
+        function flip(){
+            $('div').not('.ui-loader').show(); // add additional qualifier class for hidden questions
+        }
 
 
 $(function(){
 
     $('#toggle').click(function(){
+        forEachIn($(':input','#statements'), function(k,v){console.log("is checked?"+v.checked);}); 
+        // works, see lines 199 - 204 for jQuery way of doing this
         $(':input','#statements').removeAttr('checked').checkboxradio("refresh");
-        $(':hidden').not('head,base,meta,span,title,link,script,style,h1').each(function(index){console.log($(this).context.localName)});
-            //$(':hidden').filter('body').show();
+        // this removes checked attributes for all inputs in the statements div
+        // it calls a radio button specific repaint method 'checkboxradio()'
+        // $(':hidden').not('head,base,meta,span,title,link,script,style,h1').each(function(index){console.log("using not: "+$(this).context.localName)});
+        // this prints the name of all hidden elements that ARE NOT identifiable by params above
+        // $(':hidden').filter('body').show();
+        // $(':hidden').filter('.statement').show();
             $(':hidden').filter('.statement').each(function(index){
+                // prints everything that is hidden with a class of .statement
                 console.log($(this));
                 console.log(index + ":hidden.filter(.statement) =" + $( this ).context.localName + " css: "+$( this ).css('display'));
             });
-            //$(':hidden').not('head,base,meta,span,title,link,script,style,h1').show();
-            $('div').not('.ui-loader').show(); // presumably can do the same with round one / round two cards
+            //$(':hidden').not('head,base,meta,span,title,link,script,style,h1,.ui-loader').show();
+            //$('div').not('.ui-loader').show(); // this works, key to unhiding elements, shorter than above
+            //$(':hidden').filter('.statement').show(); // this doesn't work, reason being is that there is an anonymous div wrapper around each statement plus radio button set up
+            $('div').filter('.bundle, .ui-block-b, .ui-block-c, statement').show(); // even still, only one set of buttons unhidden
+            // presumably can do the same with round one / round two cards, can't fathom why not() works and filter() doesn't
+            // inexplicably / frustratingly $(selector) . filter('params').show() simply will not isolate via the filter method
+            // $('div').filter('.statement').show();
     });
 });
 
@@ -174,11 +180,20 @@ $(function(){
                             //
                         }
                     }
-forEachIn($(':input','#statements'), function(k,v){console.log(v);console.log("index = "+k+" element name = "+v.localName+","+v.id+" checked bool = "+v.checked+" selected = ");});
-                // logs changes to checkd status
-                $(this).each(function(index){console.log( index + ":WTF " + $( this ).context.className );});
-            });
-        });
+// two different ways of logging changes to checkd status - useful for debugging name status to ensure every button has a unique true/false status
+                // forEachIn($(':input','#statements'), function(k,v){
+                //     console.log(v); // log object, should return a HTMLInputObject
+                //     console.log("index = "+k+" element name = "+v.localName+","+v.id+" checked bool = "+v.checked+" selected = ");
+                // });
+
+                // $(':input','#statements').each(function(index){
+                //     console.log($(this)); // will return object Object
+                //     console.log("classname: " + $(this).context.className
+                //         +", element name = "+$(this).context.localName
+                //         +","+$(this).context.id+" checked bool = "+$(this).context.checked);});
+
+            }); // end input.change
+        }); // end function
 
     </script>
     <style type="text/css">
@@ -228,9 +243,9 @@ forEachIn($(':input','#statements'), function(k,v){console.log(v);console.log("i
         <div id="statements">
             <fieldset class="ui-grid-a"></fieldset> 
 
-                <div >
+                <div class="bundle">
                 <div id="one" class="statement"></div>
-                    <div id = "one" class="ui-block-a"></div>
+                    <!-- <div id = "one" class="ui-block-a"></div> this can be used if statement desired to left of buttons-->
                     <div class="ui-block-b">
                 <!--| alternative class designation = <input class="radio-input" |-->
                       <input class="guessed" id="oneG" type="radio" name="guessed1" required="required">
@@ -240,11 +255,11 @@ forEachIn($(':input','#statements'), function(k,v){console.log(v);console.log("i
                       <input class="skip" id="oneS" type="radio" name="skip1" required="required">
                       <label for="oneS">Skip?</label>
                     </div>
-                </div>
+                </div> <!-- nameless div necessary to avail of parentsUntil logic-->
 
-                <div>
+                 <div class="bundle">
                     <div id="two" class="statement"></div>
-                    <div id = "two" class="ui-block-a"></div>
+                    <!-- <div id = "two" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                     <div class="ui-block-b">
 
                       <input class="guessed" id="twoG" type="radio" name="guessed2" required="required">
@@ -258,7 +273,7 @@ forEachIn($(':input','#statements'), function(k,v){console.log(v);console.log("i
 
                 <div>
                     <div id="three" class="statement"></div>
-                        <div id = "three" class="ui-block-a"></div>
+                        <!-- <div id = "three" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                         <div class="ui-block-b">
 
                           <input class="guessed" id="threeG" type="radio" name="guessed3" required="required">
@@ -272,7 +287,7 @@ forEachIn($(':input','#statements'), function(k,v){console.log(v);console.log("i
 
                 <div>
                     <div id="four" class="statement"></div>
-                        <div id = "four" class="ui-block-a"></div>
+                        <!-- <div id = "four" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                         <div class="ui-block-b">
 
                           <input class="guessed" id="fourG" type="radio" name="guessed4" required="required">
@@ -286,7 +301,7 @@ forEachIn($(':input','#statements'), function(k,v){console.log(v);console.log("i
 
                 <div>
                     <div id="five" class="statement"></div>
-                    <div id = "five" class="ui-block-a"></div>
+                    <!-- <div id = "five" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                     <div class="ui-block-b">
 
                       <input class="guessed" id="fiveG" type="radio" name="guessed5" required="required">
