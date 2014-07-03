@@ -13,49 +13,64 @@
     <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
     <script type="text/javascript">
         function onClick(event) {
-            console.log(event.data.message);
-            console.log(event.data.handle.selector);
-            console.log(event.data.that);
+            console.log(event.data.message); // {value for message key printed }
+            console.log(event.data.DOMele.selector);
+            // ^  only necessary if a DOM element selector pass as handle, e.g. $form and $concat
+            console.log(event.data.divID);
+            console.log($(event.data.divID));
+            console.log($(this).context.className);
+            // $(this) is whatever DOM event is bound to this function
         }
+        // function answer(event) {
+        // expects event.data args, divID, and $(this) in form of set input, statements
+        //         if($(this).context.checked = true) {
+        //                 if($(this).context.className == "guessed"){
 
-        var time = "loaded at:" + new Date().toString(); 
-        var Nandle = "some name";
-        //$("div.#div1").bind('click', { message: time }, onClick);
+        //                     $(this).parentsUntil( $(event.data.divID)).hide();
+        //                 } else if ($(this).context.className == "skip") {
+        //                     $(this).parentsUntil( $(event.data.divID) ).css({"opacity": "0.6","pointer-events": "none"});
+        //                 }
+        //         }
+        //     }); // end input.change for second
 
         $( document ).ready(function(){
-            $form = $('#statements');
+            $stat = $('#statements');
+            $input = $(':input');
+            $concat = $($input.selector, $stat.selector);
+            $stat2 = '#statements';
+            $input2 = ':input';
+
+            $form = $(':input','#statements');
             $forma = $(':input','#seconds');
 
-            console.log("exterior to binds");
-            console.log($('#statements').context.id);
-            console.log($form.context.id);
+            $($input2, $stat2).bind('change',{ message: "this is aliased set", DOMele:("blank"), divID: $stat2 }, onClick);
 
-            $form.bind('change',{ message: time, handle:($form), that:$(this) }, onClick);
 
-            $forma.bind('change', function(event, ui) {
-                console.log(event);
-                console.log(event);
-                console.log("statements");
-                console.log($(this).id);
+
+            // $form.bind('change',{ message: "this is input & statements set", DOMele:($form) }, onClick);
+            // $concat.bind('change',{ message: "this is concats set", DOMele:($concat) }, onClick);
+            //$stat.bind('change',{ message: "within stat bind", handle:($stat)}, onClick);
+
+
+            $forma = $(':input','#seconds'); // create a jQuery selector
+            $forma.bind('change', function(event) {
+                console.log($(this));
+                console.log($(this).id); // returns undefined
                 console.log($(this).context.id);
                 //$form.hide();
             });
+            console.log("exterior to binds");
 
-            $form.bind('change', deets($(this).context.id)); // doesn't work
+            // console.log($('#statements'));
+            // console.log($(':input','#seconds')[1]);
+
+            // console.log($form);
+            console.log($($input2, $stat2)); // proof that $ aliasing still permits construction of jQuery selector
 
         }); // end on ready
 
 
-        // function answer(event).change(function(){
-        //         if($(this).context.checked = true) {
-        //                 if($(this).context.className == "guessed"){
 
-        //                     $(this).parentsUntil( $('#second') ).hide(); // would be nice if identifier could be passed as param
-        //                 } else if ($(this).context.className == "skip") {
-        //                     $(this).parentsUntil( $('#second') ).css({"opacity": "0.6","pointer-events": "none"});
-        //                 }
-        //         }
-        //     }); // end input.change for second
 
     </script>
 
@@ -64,6 +79,7 @@
         <label for="oneG">Guessed?</label>
         <input class="skip" id="oneS" type="radio" name="first" required="required">
         <label for="oneS">Skip?</label>
+
     </div>
 
     <div id="seconds">
