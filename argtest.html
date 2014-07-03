@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/tr/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/themes/3000ms.css" />
+    <link rel="stylesheet" href="css/themes/base.css" />
+    <link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile.structure-1.4.2.min.css" />
+
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="jquery.timer.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+    <script type="text/javascript">
+        function onClick(event) {
+            console.log(event.data.message);
+            console.log(event.data.handle.selector);
+            console.log(event.data.that);
+        }
+
+        var time = "loaded at:" + new Date().toString(); 
+        var Nandle = "some name";
+        //$("div.#div1").bind('click', { message: time }, onClick);
+
+        $( document ).ready(function(){
+            $form = $('#statements');
+            $forma = $(':input','#seconds');
+
+            console.log("exterior to binds");
+            console.log($('#statements').context.id);
+            console.log($form.context.id);
+
+            $form.bind('change',{ message: time, handle:($form), that:$(this) }, onClick);
+
+            $forma.bind('change', function(event, ui) {
+                console.log(event);
+                console.log(event);
+                console.log("statements");
+                console.log($(this).id);
+                console.log($(this).context.id);
+                //$form.hide();
+            });
+
+            $form.bind('change', deets($(this).context.id)); // doesn't work
+
+        }); // end on ready
+
+
+        // function answer(event).change(function(){
+        //         if($(this).context.checked = true) {
+        //                 if($(this).context.className == "guessed"){
+
+        //                     $(this).parentsUntil( $('#second') ).hide(); // would be nice if identifier could be passed as param
+        //                 } else if ($(this).context.className == "skip") {
+        //                     $(this).parentsUntil( $('#second') ).css({"opacity": "0.6","pointer-events": "none"});
+        //                 }
+        //         }
+        //     }); // end input.change for second
+
+    </script>
+
+    <div id="statements">
+        <input class="guessed" id="oneG" type="radio" name="first" required="required">
+        <label for="oneG">Guessed?</label>
+        <input class="skip" id="oneS" type="radio" name="first" required="required">
+        <label for="oneS">Skip?</label>
+    </div>
+
+    <div id="seconds">
+        <input class="guessed" id="twoG" type="radio" name="flip" required="required">
+        <label class="ui-mobile" name="flip" for="twoG">Guessed?</label>
+        <input class="skip" id="twoS" type="radio" name="flip" required="required">
+        <label class="skip" name="skip" for="twoS">Skip?</label>
+    </div>
+
+
+    </body>
+</html>
