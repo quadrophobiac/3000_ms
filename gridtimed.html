@@ -65,21 +65,6 @@
             return false;
         }
 
-        function nextQuestions(){
-            $('#first').hide(); 
-            // this is necessary at present only because the current parentsUntil logic hides all the divs within #first, but not #first
-            console.log("this is flip");
-            $('div').not('.ui-loader, #first').show(); // add additional qualifier class for hidden questions
-        }
-
-        function toggleRadio(){
-            // this function is breaking things, if clicked the other two buttons dont function
-            console.log($(':input','#first')); // returns an array of html objects
-            forEachIn($(':input','#first'), function(k,v){console.log("is checked?"+v.checked);}); 
-            $(':input','#first').removeAttr('checked').checkboxradio("refresh");
-            $('div').not('.ui-loader').show();
-            return false;
-        }
 // ** DECIDE WHICH OF THESE TO USE, also related to best practice **
 //  above and below = same function
         $(function(){
@@ -143,9 +128,9 @@
 
         //$( document ).ready(function(){ // this is a total no no apparently
         $(document).on("pagecreate", function( event ) {
-        ThurtySeconds.init(); // initialise timer object
+            ThurtySeconds.init(); // initialise timer object
 
-        var array = ["one","two","three","four","five"]; // need this to be an object I guess
+            var array = ["one","two","three","four","five"]; // need this to be an object I guess
             var JSON = [
                 {'name':"one"},
                 {'name':"two"},
@@ -169,6 +154,21 @@
             $('.statement').css("visibility", "hidden"); // set to hidden until button
             console.log($('div','#second'));
             $('#second').hide();
+
+            // bind events to buttons
+
+            $('#flip').bind('click', function(){
+                $('#first').hide();
+                $('div').not('.ui-loader, #first').show(); // add additional qualifier class for hidden questions
+                //return false;
+            });
+
+            $('#start').bind('click', function(){
+                ThurtySeconds.Timer.toggle();
+                $('.statement').css("visibility", "visible");
+                $('span').css("visibility", "visible");
+            });
+
         });
 
         $(function() {
@@ -243,16 +243,10 @@
 
             <!-- Buttons to Let the Games Begin! -->
             <div class="ui-block-c">
-                <button class="ui-btn" onclick="return commence();">Start</button>
-<!--                 i think this has pause functionality because .resetCountdown() is presently bound to all submit events
-                and it contains a stop.once method -->
+                <button id="start" class="ui-btn">Start</button>
             </div>
             <div class="ui-block-c">
-                <button id='flip' class="ui-btn" style="pointer-events:none;opacity:0.2" onclick="return nextQuestions()">Next Questions</button>
-                <!-- <button class="ui-btn" onclick="return toggleRadio()">Toggle</button> trigger toggle via function bound to click in javascript convention-->
-                 <!-- <input type='button' id='toggle' class="ui-btn" value='Toggle' this was example of binding a function rather than return onClick /> 
-                 trigger toggle via always on jQUery function that recognises change in state of DOM element and #id indentifier-->
-            <br>
+                <button id='flip' class="ui-btn" style="pointer-events:none;opacity:0.2">Next Questions</button>
             </div>
             <div class="ui-block-a"></div>
             <div class="ui-block-c">
