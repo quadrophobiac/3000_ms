@@ -23,7 +23,6 @@
             var min = parseInt(time / 6000),
                 sec = parseInt(time / 100) - (min * 60),
                 hundredths = pad(time - (sec * 100) - (min * 6000), 2);
-                console.log("time passed = "+time+" h val = "+hundredths);
             return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2) + ":" + hundredths;
         }
 
@@ -140,7 +139,10 @@
             };
         };
 
-        $( document ).ready(function(){
+// *** LOGIC LOGIC ***
+
+        //$( document ).ready(function(){ // this is a total no no apparently
+        $(document).on("pagecreate", function( event ) {
         ThurtySeconds.init(); // initialise timer object
 
         var array = ["one","two","three","four","five"]; // need this to be an object I guess
@@ -212,7 +214,7 @@
     </script>
     <style type="text/css">
         .statement { /* this styling is essential controls display of questions*/
-            height:20px;
+            /*height:20px;*/
             width:100%;
             display: inline-block;
             font-size: 20px;
@@ -237,7 +239,7 @@
 <body class="a" data-role="page">
 <div id="ctrlButtons">
     <span id="countdown">00:30:00</span>
-    <form id="ThurtySeconds">
+    <!-- <form id="ThurtySeconds"> no need for form when no vals are entered-->
 
 <!-- **RESEARCH - make informed decision WRT which button trigger method = jQuery best practice ** -->
 <!-- these illustrate how you can access the timer functions contained within jQuery.timer directly via ThurtySeconds object
@@ -271,7 +273,7 @@
             <!-- <div id="score">&nbsp;&nbsp;&nbsp;SCORE:</div> -->
             </div>
             <!-- entire body can be wrapped in fieldset-->
-    </form>
+    <!-- </form> -->
 
 </div> <!-- end control button DIV-->
    <!--  <fieldset class="ui-grid-a"> -->
