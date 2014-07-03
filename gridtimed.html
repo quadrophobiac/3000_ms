@@ -73,9 +73,7 @@
             });
         });
 
-        function permitFlip(){ // ensure flip button disengaged until all questions answered
 
-        }
         function flip(){
             $('div').not('.ui-loader').show(); // add additional qualifier class for hidden questions
         }
@@ -101,7 +99,7 @@
                 timerComplete = function() {
                     // .css(style="pointer-events:none;opacity:0.2") <-- not correct jQuery syntax, but the desired effect
                     alert('YOUR TURNS OVER! SCORE = ');
-                    // 
+                    // goof place for the remove flip logic
                 };
                 this.init = function() {
                     console.log($countdown);
@@ -148,25 +146,58 @@
         });
 
         $(function() {
+
+        });
+
+        $(function() {
             // this function is always awaiting change!
+            $flip = 0;
             $('input').change(function(){
                 console.log("an input click detected!");
                 console.log($(this).context.checked);
                 if($(this).context.checked = true) {
+                    $flip++;
                         // conditional logic for checked value changge
                         if($(this).context.className == "guessed"){
+                            console.log("guessed");
+                            $(this).parentsUntil( $('#statements') ).each(function(index){console.log( $(this).context.id );});
                             // uses name identifier of any input elements
                             // traverses DOM tree until selector ID statements reached, all children of statements 'hidden' - via display none
                             //$(this).parentsUntil( $('.statement') ).hide("slow");
                             $(this).parentsUntil( $('#statements') ).hide(); // would be nice if identifier could be passed as param
                         } else if ($(this).context.className == "skip") {
+                            console.log("skipped");
+                            $(this).parentsUntil( $('#statements') ).each(function(index){console.log( $(this).context.id );});
                             // uses name identifier of any input elements
-                            $(this).parentsUntil( $('#statements') ).css( "background-color", "red" );
+                            $(this).parentsUntil( $('#statements') ).css({
+                                                                    //"display": "block",
+                                                                    "pointer-events": "none",
+                                                                    "text-decoration": "line-through"
+                                                                    });
+                            //$(this).parentsUntil( $('#statements') ).css("background-color", "red");
+                           $(this).parentsUntil( $('#statements') ).css( "opacity", "0.2" );
+                            // opacity makes it invisible but not the element beside it
                             // sets bg to red, principally a debug measure
                         }
                 }
+                forEachIn($(':input','#statements'), function(k,v){
+                    if(v.checked){
+                        //alert("all rise");
+                    }
+                });
+                //console.log($flip);
+                if($flip>= 5){
+                    $('#flip').css({
+                    "pointer-events": "auto",
+                    "opacity": "1"
+                    });
+                }
             }); // end input.change
+
         }); // end function
+        function permitFlip(){ // ensure flip button disengaged until all questions answered
+
+        };
 
     </script>
     <style type="text/css">
@@ -198,9 +229,10 @@
                 and it contains a stop.once method -->
             </div>
             <div class="ui-block-c">
-                <!-- <button class="ui-btn" style="pointer-events:none;opacity:0.2" onclick="return flip()">Next Questions</button> -->
-                <button class="ui-btn" onclick="return toggleRadio()">Toggle</button>
-                 <!-- <input type='button' id='toggle' class="ui-btn" value='Toggle' /> -->
+                <button id='flip' class="ui-btn" style="pointer-events:none;opacity:0.2" onclick="return flip()">Next Questions</button>
+                <!-- <button class="ui-btn" onclick="return toggleRadio()">Toggle</button> trigger toggle via function bound to click in javascript convention-->
+                 <!-- <input type='button' id='toggle' class="ui-btn" value='Toggle' /> 
+                 trigger toggle via always on jQUery function that recognises change in state of DOM element and #id indentifier-->
             <br>
             </div>
             <div class="ui-block-a"></div>
@@ -215,8 +247,8 @@
         <div id="statements">
             <fieldset class="ui-grid-a"></fieldset> 
 
-                <div class="bundle">
-                <div id="one" class="statement"></div>
+                <div class="bundle" style="opacity: 0.6">
+                <div id="one" class="statement"></div> <!-- these statements are not parents of radio buttons because of the grid formatting issue. This means they cannot be accessed via parentsUntil, but a div above them can -->
                     <!-- <div id = "one" class="ui-block-a"></div> this can be used if statement desired to left of buttons-->
                     <div class="ui-block-b">
                 <!--| alternative class designation = <input class="radio-input" |-->
