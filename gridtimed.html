@@ -107,7 +107,7 @@
                     $countdown = $('#countdown');
                     console.log($countdown);
                     ThurtySeconds.Timer = $.timer(updateTimer, incrementTime, false);
-                    $form = $('#ThurtySeconds');
+                    $form = $('#ctrlButtons'); // its not fussy about what element it is bound to apparently
 
                     $form.bind('submit', function() {
                         ThurtySeconds.resetCountdown();
@@ -183,7 +183,7 @@
 
     </script>
     <style type="text/css">
-        .statement {
+        .statement { /* this styling is essential controls display of questions*/
             height:20px;
             width:100%;
             display: inline-block;
@@ -197,7 +197,9 @@
 <body>
 <div id="ctrlButtons" style="background-color: yellow">
     <span id="countdown">00:30:00</span>
-    <form id="ThurtySeconds" style="background-color: yellow">
+    <!-- <form id="ThurtySeconds" style="background-color: yellow"> -->
+
+
 <!-- these illustrate how you can access the timer functions contained within jQuery.timer directly via ThurtySeconds object
          <input type='button' value='Play/Pause' onclick='ThurtySeconds.Timer.toggle();' /> -->
         <!-- init function creates the Timer object-->
@@ -224,15 +226,16 @@
                 <!-- <input type='button' class="ui-btn" value='Reset Clock' onclick='ThurtySeconds.resetCountdown();'/> -->
             </div>
             <!-- entire body can be wrapped in fieldset-->
-    </form>
+    <!-- </form> -->
 </div> <!-- end control button DIV-->
+<fieldset style="height: auto;background-color: pink">FUCK YOU CSS!!!</fieldset>
         <div>FUCK YOU CSS</div>
    <!--  <fieldset class="ui-grid-a" style="background-color: yellow"> -->
 <!-- fieldset may be outside first div, but not inside as it will hide everything with current
 show() hide() conditional logic-->
-        <div id="first" style="background-color: red">
+        <div  id="first" style="background-color: red">
 
-                <div style="height: auto;">
+                <div style="height: auto;background-color: yellow">
                 <div id="one" class="statement"></div> <!-- these first are not parents of radio buttons because of the grid formatting issue. This means they cannot be accessed via parentsUntil, but a div above them can -->
                     <!-- <div id = "one" class="ui-block-a"></div> this can be used if statement desired to left of buttons-->
                     <div class="ui-block-b">
@@ -246,7 +249,7 @@ show() hide() conditional logic-->
                     </div>
                 </div> <!-- nameless div necessary to avail of parentsUntil logic-->
 
-                <div style="height: auto; background-color: yellow">
+                <div style="height: auto;">
                     <div id="two" class="statement"></div>
                     <!-- <div id = "two" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                     <div class="ui-block-b">
@@ -287,7 +290,7 @@ show() hide() conditional logic-->
                         </div>
                 </div>
 
-                <div style="height: auto">
+                <div style="height: auto; background-color:green">
                     <div id="five" class="statement"></div>
                     <!-- <div id = "five" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                     <div class="ui-block-b">
@@ -301,6 +304,7 @@ show() hide() conditional logic-->
                     </div>
                 </div>
         </div> <!-- end first -->
+<fieldset style="height: auto;background-color: pink">!!!</fieldset>
     <!-- </fieldset> -->
         <div id="flip" style="background-color: blue">
 
