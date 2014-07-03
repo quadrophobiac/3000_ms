@@ -46,6 +46,7 @@
         function resetClock(){
             ThurtySeconds.resetCountdown();
             $('span').css("visibility", "hidden");
+            $('div').css({"pointer-events": "auto", "opacity": "1"});
             $(':input','#statements').removeAttr('checked').checkboxradio("refresh");
             $('div').not('.ui-loader').show();
             //$('#statements').css("opacity", "0.2"); <- this line is death
@@ -159,34 +160,13 @@
                     $flip++;
                         // conditional logic for checked value changge
                         if($(this).context.className == "guessed"){
-                            console.log("guessed");
-                            $(this).parentsUntil( $('#statements') ).each(function(index){console.log( $(this).context.id );});
-                            // uses name identifier of any input elements
-                            // traverses DOM tree until selector ID statements reached, all children of statements 'hidden' - via display none
-                            //$(this).parentsUntil( $('.statement') ).hide("slow");
-                            $(this).parentsUntil( $('#statements') ).css( "opacity", "0.9" );
-                            //$(this).parentsUntil( $('#statements') ).hide(); // would be nice if identifier could be passed as param
+
+                            $(this).parentsUntil( $('#statements') ).hide(); // would be nice if identifier could be passed as param
                         } else if ($(this).context.className == "skip") {
-                            console.log("skipped");
-                            $(this).parentsUntil( $('#statements') ).each(function(index){console.log( $(this).context.id );});
-                            // uses name identifier of any input elements
-                            $(this).parentsUntil( $('#statements') ).css({
-                                                                    //"display": "block",
-                                                                    "pointer-events": "none",
-                                                                    "text-decoration": "line-through"
-                                                                    });
-                            //$(this).parentsUntil( $('#statements') ).css("background-color", "red");
-                           $(this).parentsUntil( $('#statements') ).css( "opacity", "0.6" );
-                            // opacity makes it invisible but not the element beside it
-                            // sets bg to red, principally a debug measure
+
+                            $(this).parentsUntil( $('#statements') ).css({"opacity": "0.6","pointer-events": "none"});
                         }
                 }
-                forEachIn($(':input','#statements'), function(k,v){
-                    if(v.checked){
-                        //alert("all rise");
-                    }
-                });
-                //console.log($flip);
                 if($flip>= 5){
                     $('#flip').css({
                     "pointer-events": "auto",
@@ -248,7 +228,7 @@
         <div id="statements">
             <fieldset class="ui-grid-a"></fieldset> 
 
-                <div class="bundle" style="opacity: 0.6">
+                <div class="bundle">
                 <div id="one" class="statement"></div> <!-- these statements are not parents of radio buttons because of the grid formatting issue. This means they cannot be accessed via parentsUntil, but a div above them can -->
                     <!-- <div id = "one" class="ui-block-a"></div> this can be used if statement desired to left of buttons-->
                     <div class="ui-block-b">
