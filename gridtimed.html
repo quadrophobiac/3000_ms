@@ -164,7 +164,8 @@
                             // uses name identifier of any input elements
                             // traverses DOM tree until selector ID statements reached, all children of statements 'hidden' - via display none
                             //$(this).parentsUntil( $('.statement') ).hide("slow");
-                            $(this).parentsUntil( $('#statements') ).hide(); // would be nice if identifier could be passed as param
+                            $(this).parentsUntil( $('#statements') ).css( "opacity", "0.9" );
+                            //$(this).parentsUntil( $('#statements') ).hide(); // would be nice if identifier could be passed as param
                         } else if ($(this).context.className == "skip") {
                             console.log("skipped");
                             $(this).parentsUntil( $('#statements') ).each(function(index){console.log( $(this).context.id );});
@@ -175,7 +176,7 @@
                                                                     "text-decoration": "line-through"
                                                                     });
                             //$(this).parentsUntil( $('#statements') ).css("background-color", "red");
-                           $(this).parentsUntil( $('#statements') ).css( "opacity", "0.2" );
+                           $(this).parentsUntil( $('#statements') ).css( "opacity", "0.6" );
                             // opacity makes it invisible but not the element beside it
                             // sets bg to red, principally a debug measure
                         }
