@@ -12,7 +12,7 @@
     <script type="text/javascript" src="jquery.timer.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
     <script type="text/javascript">
-        
+
         function pad(number, length) {
             var str = '' + number;
             while (str.length < length) {str = '0' + str;}
@@ -49,6 +49,7 @@
 
         function resetClock(){
         // actually RESETS loads of STUFF
+        // ** This function is doing too much, modularise it **
         // require a better solution
         // params to be reset { #second: visibility, clock: 00:00:00, div: pointer-events & opacity, allInput buttons: removeAttributes, checkboxradion, nextQuestions button: pointer-events&opacity }
             $('#second').hide(); // shouldn't be necessary, but just in case
@@ -80,7 +81,8 @@
             $('div').not('.ui-loader').show();
             return false;
         }
-// above and below = same function
+// ** DECIDE WHICH OF THESE TO USE, also related to best practice **
+//  above and below = same function
         $(function(){
             $('#toggle').click(function(){ // the below are bound to button with ID of toggle
                 forEachIn($(':input','#first'), function(k,v){console.log("is checked?"+v.checked);});
@@ -190,7 +192,7 @@
                     });
                 }
             }); // end input.change for first
-
+// ** this is an example of DRY - how can this be remedied given the manner in which jQuery selectors work **
             $(':input','#second').change(function(){
                 console.log("an input click detected!");
                 console.log($(this).context.checked);
@@ -237,7 +239,7 @@
     <span id="countdown">00:30:00</span>
     <form id="ThurtySeconds">
 
-
+<!-- **RESEARCH - make informed decision WRT which button trigger method = jQuery best practice ** -->
 <!-- these illustrate how you can access the timer functions contained within jQuery.timer directly via ThurtySeconds object
          <input type='button' value='Play/Pause' onclick='ThurtySeconds.Timer.toggle();' /> -->
         <!-- init function creates the Timer object-->
