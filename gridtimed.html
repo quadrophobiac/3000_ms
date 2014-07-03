@@ -43,12 +43,17 @@
             $('span').css("visibility", "visible");
             return false;
         }
-        function resetClock(){ 
+        function teamToggle(){
+            $('body').toggleClass("a b");
+        }
+
+        function resetClock(){
         // actually RESETS loads of STUFF
         // require a better solution
         // params to be reset { #second: visibility, clock: 00:00:00, div: pointer-events & opacity, allInput buttons: removeAttributes, checkboxradion, nextQuestions button: pointer-events&opacity }
             $('#second').hide(); // shouldn't be necessary, but just in case
             ThurtySeconds.resetCountdown();
+            teamToggle();
             $('span').css("visibility", "hidden");
             $('div').css({"pointer-events": "auto", "opacity": "1"}); // all divs that had opacity altered reset
             $('#flip').css({"pointer-events": "none", "opacity": "0.6"}); //reset the flip button
@@ -214,9 +219,20 @@
             text-shadow: 0px 1px 1px #fff;
             text-align:center;
         }
+        .score {
+            font-size: 15px;
+            margin-right: 25px;
+        }
+
+        body.a {
+        background-color: aqua;
+        }
+        body.b {
+        background-color: burlywood;
+        }
     </style>
 </head>
-<body>
+<body class="a" data-role="page">
 <div id="ctrlButtons">
     <span id="countdown">00:30:00</span>
     <form id="ThurtySeconds">
@@ -247,8 +263,14 @@
                 <!-- the above isn't bound, and so reset countdown is triggered twice -->
                 <!-- <input type='button' class="ui-btn" value='Reset Clock' onclick='ThurtySeconds.resetCountdown();'/> -->
             </div>
+            <div class="ui-block-b">
+            <ul class="score" id="teamA">SCORE A:</ul>
+            <ul class="score" id="teamB">SCORE B:</ul>
+            <!-- <div id="score">&nbsp;&nbsp;&nbsp;SCORE:</div> -->
+            </div>
             <!-- entire body can be wrapped in fieldset-->
     </form>
+
 </div> <!-- end control button DIV-->
    <!--  <fieldset class="ui-grid-a"> -->
 <!-- fieldset may be outside first div, but not inside as it will hide everything with current
