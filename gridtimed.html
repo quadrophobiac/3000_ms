@@ -45,6 +45,22 @@
         function teamToggle(){
             $('body').toggleClass("a b");
         }
+        function turnOver(){
+                console.log("turnover");
+                $('#first').hide();
+                $('div').not('.ui-loader, #first').show();
+        }
+        function answer(event) {
+        // expects event.data args, divID, and $(this) in form of set input, statements
+                if($(this).context.checked = true) {
+                        if($(this).context.className == "guessed"){
+
+                            $(this).parentsUntil( $(event.data.divID)).hide();
+                        } else if ($(this).context.className == "skip") {
+                            $(this).parentsUntil( $(event.data.divID) ).css({"opacity": "0.6","pointer-events": "none"});
+                        }
+                }
+        }
 
         function resetClock(){
         // actually RESETS loads of STUFF
@@ -157,58 +173,72 @@
 
             // bind events to buttons
 
-            $('#flip').bind('click', function(){
-                $('#first').hide();
-                $('div').not('.ui-loader, #first').show(); // add additional qualifier class for hidden questions
-                //return false;
-            });
+            // $('#flip').bind('click', function(){
+            //     $('#first').hide();
+            //     $('div').not('.ui-loader, #first').show(); // add additional qualifier class for hidden questions
+            //     //return false;
+            // });
+            $('#flip').bind('click', turnOver);
 
             $('#start').bind('click', function(){
                 ThurtySeconds.Timer.toggle();
                 $('.statement').css("visibility", "visible");
                 $('span').css("visibility", "visible");
             });
-
-        });
+            $input = ':input';
+            $first = '#first';
+            $second = '#second';
+            $($input, $first).bind('change',{divID: $first}, answer);
+            $($input, $second).bind('change',{divID: $second}, answer);
+        }); // end on(pageCreate)
 
         $(function() {
             // this function is always awaiting change!
             $flip = 0;
-            $(':input','#first').change(function(){ // this also works
-            //$('input').change(function(){
-                if($(this).context.checked = true) {
-                    $flip++;
-                        // conditional logic for checked value changge
-                        if($(this).context.className == "guessed"){
-
-                            $(this).parentsUntil( $('#first') ).hide(); // would be nice if identifier could be passed as param
-                        } else if ($(this).context.className == "skip") {
-
-                            $(this).parentsUntil( $('#first') ).css({"opacity": "0.6","pointer-events": "none"});
-                        }
-                }
+            $(':input').change(function(){
+                $flip++;
                 if($flip>= 5){ // permit press of the flip button, incorporation of prior permitFlip function
                     $('#flip').css({
                     "pointer-events": "auto",
                     "opacity": "1"
                     });
                 }
-            }); // end input.change for first
-// ** this is an example of DRY - how can this be remedied given the manner in which jQuery selectors work **
-            $(':input','#second').change(function(){
-                console.log("an input click detected!");
-                console.log($(this).context.checked);
-                if($(this).context.checked = true) {
+            })
+//             $(':input','#first').change(function(){ // this also works
+//             //$('input').change(function(){
+//                 if($(this).context.checked = true) {
+//                     $flip++;
+//                         // conditional logic for checked value changge
+//                         if($(this).context.className == "guessed"){
 
-                        // conditional logic for checked value changge
-                        if($(this).context.className == "guessed"){
+//                             $(this).parentsUntil( $('#first') ).hide(); // would be nice if identifier could be passed as param
+//                         } else if ($(this).context.className == "skip") {
 
-                            $(this).parentsUntil( $('#second') ).hide(); // would be nice if identifier could be passed as param
-                        } else if ($(this).context.className == "skip") {
-                            $(this).parentsUntil( $('#second') ).css({"opacity": "0.6","pointer-events": "none"});
-                        }
-                }
-            }); // end input.change for second
+//                             $(this).parentsUntil( $('#first') ).css({"opacity": "0.6","pointer-events": "none"});
+//                         }
+//                 }
+//                 if($flip>= 5){ // permit press of the flip button, incorporation of prior permitFlip function
+//                     $('#flip').css({
+//                     "pointer-events": "auto",
+//                     "opacity": "1"
+//                     });
+//                 }
+//             }); // end input.change for first
+// // ** this is an example of DRY - how can this be remedied given the manner in which jQuery selectors work **
+//             $(':input','#second').change(function(){
+//                 console.log("an input click detected!");
+//                 console.log($(this).context.checked);
+//                 if($(this).context.checked = true) {
+
+//                         // conditional logic for checked value changge
+//                         if($(this).context.className == "guessed"){
+
+//                             $(this).parentsUntil( $('#second') ).hide(); // would be nice if identifier could be passed as param
+//                         } else if ($(this).context.className == "skip") {
+//                             $(this).parentsUntil( $('#second') ).css({"opacity": "0.6","pointer-events": "none"});
+//                         }
+//                 }
+//             }); // end input.change for second
         }); // end function
 
     </script>
