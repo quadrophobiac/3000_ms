@@ -47,27 +47,27 @@
             ThurtySeconds.resetCountdown();
             $('span').css("visibility", "hidden");
             $('div').css({"pointer-events": "auto", "opacity": "1"});
-            $(':input','#statements').removeAttr('checked').checkboxradio("refresh");
+            $(':input','#first').removeAttr('checked').checkboxradio("refresh");
             $('div').not('.ui-loader').show();
-            //$('#statements').css("opacity", "0.2"); <- this line is death
+            //$('#first').css("opacity", "0.2"); <- this line is death
             return false;
         }
 
         function toggleRadio(){
             // this function is breaking things, if clicked the other two buttons dont function
-            console.log($(':input','#statements')); // returns an array of html objects
-            forEachIn($(':input','#statements'), function(k,v){console.log("is checked?"+v.checked);}); 
-            $(':input','#statements').removeAttr('checked').checkboxradio("refresh");
+            console.log($(':input','#first')); // returns an array of html objects
+            forEachIn($(':input','#first'), function(k,v){console.log("is checked?"+v.checked);}); 
+            $(':input','#first').removeAttr('checked').checkboxradio("refresh");
             $('div').not('.ui-loader').show();
             return false;
         }
 
         $(function(){
             $('#toggle').click(function(){ // the below are bound to button with ID of toggle
-                forEachIn($(':input','#statements'), function(k,v){console.log("is checked?"+v.checked);});
+                forEachIn($(':input','#first'), function(k,v){console.log("is checked?"+v.checked);});
                 // works, see lines 199 - 204 for jQuery way of doing this
-                $(':input','#statements').removeAttr('checked').checkboxradio("refresh");
-                // this removes checked attributes for all inputs in the statements div
+                $(':input','#first').removeAttr('checked').checkboxradio("refresh");
+                // this removes checked attributes for all inputs in the first div
                 // it calls a radio button specific repaint method 'checkboxradio()'
                     $('div').not('.ui-loader').show();
                     // this works, key to unhiding elements, shorter than above, not() rather than filter because I use parents until and wrapper divs to construct the questions
@@ -76,7 +76,7 @@
 
 
         function flip(){
-            $('div').not('.ui-loader').show(); // add additional qualifier class for hidden questions
+            $('div').not('.ui-loader','first').show(); // add additional qualifier class for hidden questions
         }
 
         var ThurtySeconds = new function() { // I have here amended from self invoking, and called init() outside
@@ -133,21 +133,22 @@
                 {'name':"two"},
                 {'name':"three"},
                 {'name':"four"},
-                {'name':"five"}
+                {'name':"five"},
+                {'name':"six"},
+                {'name':"seven"},
+                {'name':"eight"},
+                {'name':"nine"},
+                {'name':"ten"}
                 ];
 
-            for(var x=0; x<JSON.length; x++){
+            for(var x=0; x<5; x++){ //JSON.length
                 // prepend the vals of array of objects to html elements with an ID selector matching object keys
                 var elm = $("#"+JSON[x].name);
                 console.log(elm);
                 elm.prepend("<span>"+JSON[x].name+"</span>");
             }
-            // set the statements to invisible until the button is pressed
+            // set the first to invisible until the button is pressed
             $('.statement').css("visibility", "hidden"); // set to hidden until button
-        });
-
-        $(function() {
-
         });
 
         $(function() {
@@ -161,10 +162,10 @@
                         // conditional logic for checked value changge
                         if($(this).context.className == "guessed"){
 
-                            $(this).parentsUntil( $('#statements') ).hide(); // would be nice if identifier could be passed as param
+                            $(this).parentsUntil( $('#first') ).hide(); // would be nice if identifier could be passed as param
                         } else if ($(this).context.className == "skip") {
 
-                            $(this).parentsUntil( $('#statements') ).css({"opacity": "0.6","pointer-events": "none"});
+                            $(this).parentsUntil( $('#first') ).css({"opacity": "0.6","pointer-events": "none"});
                         }
                 }
                 if($flip>= 5){
@@ -194,14 +195,14 @@
     </style>
 </head>
 <body>
-
+<div id="ctrlButtons" style="background-color: yellow">
     <span id="countdown">00:30:00</span>
-    <form id="ThurtySeconds">
+    <form id="ThurtySeconds" style="background-color: yellow">
 <!-- these illustrate how you can access the timer functions contained within jQuery.timer directly via ThurtySeconds object
          <input type='button' value='Play/Pause' onclick='ThurtySeconds.Timer.toggle();' /> -->
         <!-- init function creates the Timer object-->
         <!-- <input type='button' value='Stop/Reset' onclick='ThurtySeconds.resetCountdown();' /> -->
-    <div id="ctrlButtons">
+    
             <!-- <fieldset class="ui-grid-d"> -->
             <!-- Buttons to Let the Games Begin! -->
             <div class="ui-block-c">
@@ -223,82 +224,157 @@
                 <!-- <input type='button' class="ui-btn" value='Reset Clock' onclick='ThurtySeconds.resetCountdown();'/> -->
             </div>
             <!-- entire body can be wrapped in fieldset-->
-    </div>
-        </form>
-        <div id="statements">
-            <fieldset class="ui-grid-a"></fieldset> 
+    </form>
+    </div> <!-- end control button DIV-->
+        
+   <!--  <fieldset class="ui-grid-a" style="background-color: yellow"> -->
+<!-- fieldset may be outside first div, but not inside as it will hide everything with current
+show() hide() conditional logic-->
+        <div id="first" style="background-color: red">
 
-                <div class="bundle">
-                <div id="one" class="statement"></div> <!-- these statements are not parents of radio buttons because of the grid formatting issue. This means they cannot be accessed via parentsUntil, but a div above them can -->
+                <div style="height: auto;">
+                <div id="one" class="statement"></div> <!-- these first are not parents of radio buttons because of the grid formatting issue. This means they cannot be accessed via parentsUntil, but a div above them can -->
                     <!-- <div id = "one" class="ui-block-a"></div> this can be used if statement desired to left of buttons-->
                     <div class="ui-block-b">
                 <!--| alternative class designation = <input class="radio-input" |-->
-                      <input class="guessed" id="oneG" type="radio" name="guessed1" required="required">
-                      <label for="oneG">Guessed?</label>
+                      <input class="guessed" id="guessed1" type="radio" name="guessed1" required="required">
+                      <label for="guessed1">Guessed?</label>
                     </div>
                     <div class="ui-block-c">
-                      <input class="skip" id="oneS" type="radio" name="skip1" required="required">
-                      <label for="oneS">Skip?</label>
+                      <input class="skip" id="skip1" type="radio" name="skip1" required="required">
+                      <label for="skip1">Skip?</label>
                     </div>
                 </div> <!-- nameless div necessary to avail of parentsUntil logic-->
 
-                 <div class="bundle">
+                <div style="height: auto; background-color: yellow">
                     <div id="two" class="statement"></div>
                     <!-- <div id = "two" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                     <div class="ui-block-b">
-
-                      <input class="guessed" id="twoG" type="radio" name="guessed2" required="required">
-                      <label class="ui-mobile" name="guessed" for="twoG">Guessed?</label>
+                      <input class="guessed" id="guessed2" type="radio" name="guessed2" required="required">
+                      <label class="ui-mobile" name="guessed" for="guessed2">Guessed?</label>
                     </div>
                     <div class="ui-block-c">
-                      <input class="skip" id="twoS" type="radio" name="skip2" required="required">
-                      <label class="skip" name="skip" for="twoS">Skip?</label>
+                      <input class="skip" id="skip2" type="radio" name="skip2" required="required">
+                      <label class="skip" name="skip" for="skip2">Skip?</label>
                     </div>
                 </div>
 
-                <div>
+                <div style="height: auto">
                     <div id="three" class="statement"></div>
                         <!-- <div id = "three" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                         <div class="ui-block-b">
 
-                          <input class="guessed" id="threeG" type="radio" name="guessed3" required="required">
-                          <label class="ui-mobile" name="guessed" for="threeG">Guessed?</label>
+                          <input class="guessed" id="guessed3" type="radio" name="guessed3" required="required">
+                          <label class="ui-mobile" name="guessed" for="guessed3">Guessed?</label>
                         </div>
                         <div class="ui-block-c">
-                          <input class="skip" id="threeS" type="radio" name="skip3" required="required">
-                          <label class="skip" name="skip" for="threeS">Skip?</label>
+                          <input class="skip" id="skip3" type="radio" name="skip3" required="required">
+                          <label class="skip" name="skip" for="skip3">Skip?</label>
                         </div>
                 </div>
 
-                <div>
+                <div style="height: auto">
                     <div id="four" class="statement"></div>
                         <!-- <div id = "four" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                         <div class="ui-block-b">
 
-                          <input class="guessed" id="fourG" type="radio" name="guessed4" required="required">
-                          <label class="ui-mobile" name="guessed" for="fourG">Guessed?</label>
+                          <input class="guessed" id="guessed4" type="radio" name="guessed4" required="required">
+                          <label class="ui-mobile" name="guessed" for="guessed4">Guessed?</label>
                         </div>
                         <div class="ui-block-c">
-                          <input class="skip" id="fourS" type="radio" name="skip4" required="required">
-                          <label class="skip" name="skip" for="fourS">Skip?</label>
+                          <input class="skip" id="skip4" type="radio" name="skip4" required="required">
+                          <label class="skip" name="skip" for="skip4">Skip?</label>
                         </div>
                 </div>
 
-                <div>
+                <div style="height: auto">
                     <div id="five" class="statement"></div>
                     <!-- <div id = "five" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                     <div class="ui-block-b">
 
-                      <input class="guessed" id="fiveG" type="radio" name="guessed5" required="required">
-                      <label class="guessed" name="guessed" for="fiveG">Guessed?</label>
+                      <input class="guessed" id="guessed5" type="radio" name="guessed5" required="required">
+                      <label class="guessed" name="guessed" for="guessed5">Guessed?</label>
                     </div>
                     <div class="ui-block-c">
-                      <input class="skip" id="fiveS" type="radio" name="skip5" required="required">
-                      <label class="skip" name="skip" for="fiveS">Skip?</label>
+                      <input class="skip" id="skip5" type="radio" name="skip5" required="required">
+                      <label class="skip" name="skip" for="skip5">Skip?</label>
                     </div>
                 </div>
-        <!-- </fieldset> -->
-    </div>
+        </div> <!-- end first -->
+    <!-- </fieldset> -->
+        <div id="flip" style="background-color: blue">
+
+                <div style="height: auto">
+                <div id="six" class="statement"></div> <!-- these first are not parents of radio buttons because of the grid formatting issue. This means they cannot be accessed via parentsUntil, but a div above them can -->
+                    <!-- <div id = "one" class="ui-block-a"></div> this can be used if statement desired to left of buttons-->
+                    <div class="ui-block-b">
+                <!--| alternative class designation = <input class="radio-input" |-->
+                      <input class="guessed" id="guessed6" type="radio" name="guessed6" required="required">
+                      <label for="guessed6">Guessed?</label>
+                    </div>
+                    <div class="ui-block-c">
+                      <input class="skip" id="skip6" type="radio" name="skip6" required="required">
+                      <label for="skip6">Skip?</label>
+                    </div>
+                </div> <!-- nameless div necessary to avail of parentsUntil logic-->
+
+                <div style="height: auto">
+                    <div id="seven" class="statement"></div>
+                    <!-- <div id = "two" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
+                    <div class="ui-block-b">
+                      <input class="guessed" id="guessed7" type="radio" name="guessed7" required="required">
+                      <label class="ui-mobile" name="guessed" for="guessed7">Guessed?</label>
+                    </div>
+                    <div class="ui-block-c">
+                      <input class="skip" id="skip7" type="radio" name="skip7" required="required">
+                      <label class="skip" name="skip" for="skip7">Skip?</label>
+                    </div>
+                </div>
+
+                <div style="height: auto">
+                    <div id="eight" class="statement"></div>
+                        <!-- <div id = "three" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
+                        <div class="ui-block-b">
+
+                          <input class="guessed" id="guessed8" type="radio" name="guessed8" required="required">
+                          <label class="ui-mobile" name="guessed" for="guessed8">Guessed?</label>
+                        </div>
+                        <div class="ui-block-c">
+                          <input class="skip" id="skip8" type="radio" name="skip8" required="required">
+                          <label class="skip" name="skip" for="skip8">Skip?</label>
+                        </div>
+                </div>
+
+                <div style="height: auto">
+                    <div id="nine" class="statement"></div>
+                        <!-- <div id = "four" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
+                        <div class="ui-block-b">
+
+                          <input class="guessed" id="guessed9" type="radio" name="guessed9" required="required">
+                          <label class="ui-mobile" name="guessed" for="guessed9">Guessed?</label>
+                        </div>
+                        <div class="ui-block-c">
+                          <input class="skip" id="skip9" type="radio" name="skip9" required="required">
+                          <label class="skip" name="skip" for="skip9">Skip?</label>
+                        </div>
+                </div>
+
+                <div style="height: auto">
+                    <div id="ten" class="statement"></div>
+                    <!-- <div id = "five" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
+                    <div class="ui-block-b">
+
+                      <input class="guessed" id="guessed10" type="radio" name="guessed10" required="required">
+                      <label class="guessed" name="guessed" for="guessed10">Guessed?</label>
+                    </div>
+                    <div class="ui-block-c">
+                      <input class="skip" id="skip10" type="radio" name="skip10" required="required">
+                      <label class="skip" name="skip" for="skip10">Skip?</label>
+                    </div>
+                </div>
+        </div> <!-- end first -->
+<!-- </fieldset> -->
+
 </form>
 </body>
 </html>
