@@ -83,16 +83,16 @@ QuizContent.prototype.chooseFive = function(topic) {
 };
 QuizContent.prototype.presentStatements = function(microObject, divMap) {
   // microObject will the object returned by chooseFive function
-  // divMap is an object with name - #divId key values, to which a new key value pairing is appended
+  // divMap is an array of objects with name : #divId key values, to which a new key value pairing is appended
   var object = this.questions; // a copy should suffice given changes not made until remove
   nuArray = [];
   forEachIn(microObject, function(k,v){ // create an array of names
     nuArray.push(object[k][v]);
   });
-  for(var x=0; x<JSON.length; x++){
+  for(var x=0; x<divMap.length; x++){
     divMap[x].value = nuArray[x];
   }
-  return(divMap);
+  return divMap;
 };
 
 QuizContent.prototype.remove = function(microObject) {
@@ -118,6 +118,7 @@ sortDesc = function(aList){
   return topics;
 }
 
+var JSON = [{'name':"one"}, {'name':"two"},{'name':"three"},{'name':"four"},{'name':"five"}];
 
 console.log("goodbye");
     var thirtySeconds = new QuizContent(questions);
@@ -129,7 +130,7 @@ console.log("goodbye");
     var first = thirtySeconds.chooseFive(round1);
     console.log(first);
     thirtySeconds.remove(first);
-    var returned = thirtySeconds.presentStatements(first);
+    var returned = thirtySeconds.presentStatements(first, JSON);
     console.log(returned);
     topicTally = thirtySeconds.count();
     console.log(topicTally);
@@ -146,11 +147,11 @@ console.log("goodbye");
     // console.log(presentStatements([],flip,thirtySeconds));
     // remove(flip,thirtySeconds);
   // }
-var JSON = [{'name':"one"}, {'name':"two"},{'name':"three"},{'name':"four"},{'name':"five"}];
 
-for(var x=0; x<JSON.length; x++){
-  JSON[x].value = returned[x];
-}
+
+// for(var x=0; x<JSON.length; x++){
+//   JSON[x].value = returned[x];
+// }
 console.log(JSON);
 
 </script>
