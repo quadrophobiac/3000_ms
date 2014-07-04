@@ -81,12 +81,18 @@ QuizContent.prototype.chooseFive = function(topic) {
     }
     return genObj;
 };
-QuizContent.prototype.presentStatements = function(nuArray,microObject) {
+QuizContent.prototype.presentStatements = function(microObject, divMap) {
+  // microObject will the object returned by chooseFive function
+  // divMap is an object with name - #divId key values, to which a new key value pairing is appended
   var object = this.questions; // a copy should suffice given changes not made until remove
-  forEachIn(microObject, function(k,v){
+  nuArray = [];
+  forEachIn(microObject, function(k,v){ // create an array of names
     nuArray.push(object[k][v]);
   });
-  return(nuArray);
+  for(var x=0; x<JSON.length; x++){
+    divMap[x].value = nuArray[x];
+  }
+  return(divMap);
 };
 
 QuizContent.prototype.remove = function(microObject) {
@@ -123,7 +129,8 @@ console.log("goodbye");
     var first = thirtySeconds.chooseFive(round1);
     console.log(first);
     thirtySeconds.remove(first);
-    console.log(thirtySeconds.presentStatements([],first));
+    var returned = thirtySeconds.presentStatements(first);
+    console.log(returned);
     topicTally = thirtySeconds.count();
     console.log(topicTally);
   // for (var c = 0; c < 5; c++) {
@@ -139,8 +146,12 @@ console.log("goodbye");
     // console.log(presentStatements([],flip,thirtySeconds));
     // remove(flip,thirtySeconds);
   // }
+var JSON = [{'name':"one"}, {'name':"two"},{'name':"three"},{'name':"four"},{'name':"five"}];
 
-
+for(var x=0; x<JSON.length; x++){
+  JSON[x].value = returned[x];
+}
+console.log(JSON);
 
 </script>
 </html>
