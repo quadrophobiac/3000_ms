@@ -43,7 +43,7 @@
             return false;
         }
         function teamToggle(){
-            $('body').toggleClass("a b");
+            $('div').toggleClass("a b");
         }
         function turnOver(){
             $('#first').hide();
@@ -105,7 +105,7 @@
                     // goof place for the remove flip logic
                 };
                 this.init = function() {
-                    console.log($countdown);
+                    console.log("the countdown = "+$countdown);
                     $countdown = $('#countdown');
                     console.log($countdown);
                     ThurtySeconds.Timer = $.timer(updateTimer, incrementTime, false);
@@ -129,7 +129,9 @@
 // *** LOGIC LOGIC ***
 
         //$( document ).ready(function(){ // this is a total no no apparently
-        $(document).on("pagecreate", function( event ) {
+        // pagecreate not ideal for multi page applications
+        $(document).on("pagecreate", '#page2', function( event ) {
+            console.log("page create function");
             ThurtySeconds.init(); // initialise timer object
             console.log(ThurtySeconds);
             $input = ':input';
@@ -202,19 +204,22 @@
             margin-right: 25px;
         }
 
-        body.a {
+        div.a {
         background-color: aqua;
         }
-        body.b {
+        div.b {
         background-color: burlywood;
+        }
+        div.c {
+        background-color: coral;
         }
     </style>
 </head>
 <body class="a">
-<div id="main "class="a" data-role="page">
+<div id="main "class="c" data-role="page">
 <a href="#page2" data-role="button">Go to Page 1</a>
 </div>
-<div id="page2" data-role="page" data-title="Multi-Page Template">
+<div id="page2" data-role="page" data-title="Multi-Page Template" class="a">
 <div id="ctrlButtons" data-role="content">
     <span id="countdown">00:30:00</span>
 
