@@ -10,7 +10,6 @@
 
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="jquery.timer.js"></script>
-    <script type="text/javascript" src="countdown.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
     <script type="text/javascript">
 
@@ -44,7 +43,7 @@
             return false;
         }
         function teamToggle(){
-            $('div').toggleClass("a b");
+            $('body').toggleClass("a b");
         }
         function turnOver(){
             $('#first').hide();
@@ -64,11 +63,10 @@
         }
 
         function screenFlush(){
-            $('div').css({"pointer-events": "auto", "opacity": "1"}); // all divs that had opacity altered reset
             $('#second').hide(); // wrap in a conditional of some sort, if second not hidden then hide
-            $('#buffer').hide();
             $('div').not('.ui-loader, #second').show();
             $('span').css("visibility", "hidden");
+            $('div').css({"pointer-events": "auto", "opacity": "1"}); // all divs that had opacity altered reset
             $('#flip').css({"pointer-events": "none", "opacity": "0.6"}); //reset the flip button
             $(':input','#first').removeAttr('checked').checkboxradio("refresh");
             $(':input','#second').removeAttr('checked').checkboxradio("refresh");
@@ -79,25 +77,65 @@
         // ** This function is doing too much, modularise it **
         // require a better solution
         // params to be reset { #second: visibility, clock: 00:00:00, div: pointer-events & opacity, allInput buttons: removeAttributes, checkboxradion, nextQuestions button: pointer-events&opacity }
+             // shouldn't be necessary, but just in case
             screenFlush();
             ThurtySeconds.resetCountdown();
             teamToggle();
+
+
             return false;
         }
 
+        var ThurtySeconds = new function() { // I have here amended from self invoking, and called init() outside
+            var $countdown,
+                $form, // Form used to change the countdown time
+                incrementTime = 70,
+                currentTime = 3000,
+                updateTimer = function() {
+                    $countdown.html(formatTime(currentTime)); // this function is purely for visual feedback
+                    if (currentTime == 0) {
+                        ThurtySeconds.Timer.stop();
+                        timerComplete();
+                        resetClock(); // this is better placed here than in subsequent resetCountdown function
+                        ThurtySeconds.resetCountdown();
+                        return;
+                    }
+                    // the below handles the business of counting down
+                    currentTime -= incrementTime / 10;
+                    if (currentTime < 0) currentTime = 0;
+                },
+                timerComplete = function() {
+                    // .css(style="pointer-events:none;opacity:0.2") <-- not correct jQuery syntax, but the desired effect
+                    alert('YOUR TURNS OVER! SCORE = ');
+                    // goof place for the remove flip logic
+                };
+                this.init = function() {
+                    console.log($countdown);
+                    $countdown = $('#countdown');
+                    console.log($countdown);
+                    ThurtySeconds.Timer = $.timer(updateTimer, incrementTime, false);
+                    $form = $('#ctrlButtons'); // its not fussy about what element it is bound to apparently
+                    // however I will need to be fussy because this makes any button press reset the timer
+                    $form.bind('submit', function() {
+                        //ThurtySeconds.resetCountdown();
+                        return false; // prevent resubmission of page behaviour default
+                    });
+
+                };
+            this.resetCountdown = function() {
+
+                var newTime = 3000; // 3000 = 30 seconds
+                console.log(newTime);
+                if (newTime > 0) {currentTime = newTime;}
+                this.Timer.stop().once();
+            };
+        };
 
 // *** LOGIC LOGIC ***
 
         //$( document ).ready(function(){ // this is a total no no apparently
-        // pagecreate not ideal for multi page applications
-    $(document).on("pagecreate", '#main',function( event ) {
-        console.log("first page");
-        //$('[type="submit"]').button('disable');
-    });
-        $(document).on("pagecreate", '#page2', function( event ) {
-            console.log("page create function");
+        $(document).on("pagecreate", function( event ) {
             ThurtySeconds.init(); // initialise timer object
-            console.log(ThurtySeconds);
             $input = ':input';
             $first = '#first';
             $second = '#second';
@@ -121,11 +159,7 @@
                 console.log(elm);
                 elm.prepend("<span>"+JSON[x].name+"</span>");
             }
-            // set all statements to be guessed to invisible until the button is pressed
-            $('.statement').css("visibility", "hidden"); // set to hidden until button
-            console.log($('div','#second'));
-            $($second).hide();
-
+            screenFlush();
             $('#flip').bind('click', turnOver);
 
             $('#start').bind('click', function(){
@@ -163,44 +197,20 @@
             text-shadow: 0px 1px 1px #fff;
             text-align:center;
         }
-        .auth { /* this styling is essential controls display of questions*/
-            /*height:20px;*/
-            width:100%;
-            display: inline-block;
-            font-size: 20px;
-            font-weight: bold;
-            text-shadow: 0px 1px 1px #fff;
-            text-align:center;
-        }
         .score {
             font-size: 15px;
             margin-right: 25px;
         }
 
-        div.a {
+        body.a {
         background-color: aqua;
         }
-        div.b {
+        body.b {
         background-color: burlywood;
-        }
-        div.c {
-        background-color: coral;
         }
     </style>
 </head>
-<body class="a">
-
-<div id="main "class="c" data-role="page">
-
-<div id="fblogin" data-role="button" class="auth">
- Log In Via Facebook To Play The Game <br/>
-<img src="img/LoginWithFacebook.png" style="cursor:pointer;" onclick="Login()"/>
-</div>
-<a href="#page2" data-role="button">Demo</a>
-<a href="#page3" data-role="button">About</a>
-</div>
-
-<div id="page2" data-role="page" data-title="Multi-Page Template" class="a" data-add-back-btn="false">
+<body class="a" data-role="page">
 <div id="ctrlButtons" data-role="content">
     <span id="countdown">00:30:00</span>
 
@@ -222,11 +232,15 @@
             <!-- <div id="score">&nbsp;&nbsp;&nbsp;SCORE:</div> -->
             </div>
             <!-- entire body can be wrapped in fieldset-->
-</div> <!-- end control button DIV-->
 
+
+</div> <!-- end control button DIV-->
+   <!--  <fieldset class="ui-grid-a"> -->
+<!-- fieldset may be outside first div, but not inside as it will hide everything with current
+show() hide() conditional logic-->
         <div  id="first" data-role="content">
 
-                <div style="height: auto">
+                <div style>
                 <div id="one" class="statement"></div> <!-- these first are not parents of radio buttons because of the grid formatting issue. This means they cannot be accessed via parentsUntil, but a div above them can -->
                     <!-- <div id = "one" class="ui-block-a"></div> this can be used if statement desired to left of buttons-->
                     <div class="ui-block-b">
@@ -240,7 +254,7 @@
                     </div>
                 </div> <!-- nameless div necessary to avail of parentsUntil logic-->
 
-                <div style="height: auto">
+                <div>
                     <div id="two" class="statement"></div>
                     <div class="ui-block-b">
                       <input class="guessed" id="guessed2" type="radio" name="guessed2" required="required">
@@ -252,7 +266,7 @@
                     </div>
                 </div>
 
-                <div style="height: auto">
+                <div style>
                     <div id="three" class="statement"></div>
                         <div class="ui-block-b">
 
@@ -265,7 +279,7 @@
                         </div>
                 </div>
 
-                <div style="height: auto">
+                <div style>
                     <div id="four" class="statement"></div>
                         <div class="ui-block-b">
 
@@ -278,7 +292,7 @@
                         </div>
                 </div>
 
-                <div style="height: auto">
+                <div style>
                     <div id="five" class="statement"></div>
                     <div class="ui-block-b">
 
@@ -360,9 +374,5 @@
                 </div>
         </div> <!-- end flip -->
 <!-- </fieldset> -->
-    <div data-role="footer">
-        <a href="#" data-role="button" data-rel="back" data-theme="b">Go Back</a>
-    </div>
-</div>
 </body>
 </html>

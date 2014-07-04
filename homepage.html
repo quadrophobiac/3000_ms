@@ -14,6 +14,7 @@ will need to use <form> to stipulate number of players -->
     <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
     <script>
 		$(document).on("pagecreate", '#main',function( event ) {
+			$('[type="submit"]').button('disable');
 			console.log("page create function");
 		});
 		$(document).on("pagecreate", '#page2', function( event ) {
