@@ -25,6 +25,11 @@ function shuffle(array) {
   return array;
 }
 
+function evenSpread(){
+  isEven = false;
+  return isEven;
+}
+
 console.log("hello");
 // method invocation pattern - however mixing data and methdos looks likely to cause problems
 var questions = {
@@ -45,10 +50,12 @@ function QuizContent(qs) {
   this.questions = qs;
 }
 
-QuizContent.prototype.evenSpread = function(){
-  isEven = false;
-  return isEven;
-}
+// below maybe needs inclusion
+
+// QuizContent.prototype.evenSpread = function(){
+//   isEven = false;
+//   return isEven;
+// }
 
 QuizContent.prototype.count = function(subjects) {
   // returns a hash object of statement number : number of entitites in array
@@ -111,7 +118,8 @@ console.log("goodbye");
     console.log(thirtySeconds);
     var topicTally = thirtySeconds.count();
     console.log(topicTally);
-
+    var round1 = sortDesc(topicTally).slice(0,5);
+    console.log(round1);
   // for (var c = 0; c < 5; c++) {
     // var topicTally = shuffle(count(thirtySeconds));
     // var round1 = sortDesc(topicTally).slice(0,5); // round1 is an array of topic indexes
