@@ -46,16 +46,16 @@
             $('body').toggleClass("a b");
         }
         function turnOver(){
-                console.log("turnover");
-                $('#first').hide();
-                $('div').not('.ui-loader, #first').show();
+            $('#first').hide();
+            $('div').not('.ui-loader, #first').show('slow');
         }
         function answer(event) {
         // expects event.data args, divID, and $(this) in form of set input, statements
+        // takes care of the hiding of radio buttons and parent elements
                 if($(this).context.checked = true) {
                         if($(this).context.className == "guessed"){
 
-                            $(this).parentsUntil( $(event.data.divID)).hide();
+                            $(this).parentsUntil( $(event.data.divID)).hide('slow');
                         } else if ($(this).context.className == "skip") {
                             $(this).parentsUntil( $(event.data.divID) ).css({"opacity": "0.6","pointer-events": "none"});
                         }
@@ -80,20 +80,6 @@
             //$('#first').css("opacity", "0.2"); <- this line is death
             return false;
         }
-
-// ** DECIDE WHICH OF THESE TO USE, also related to best practice **
-//  above and below = same function
-        $(function(){
-            $('#toggle').click(function(){ // the below are bound to button with ID of toggle
-                forEachIn($(':input','#first'), function(k,v){console.log("is checked?"+v.checked);});
-                // works, see lines 199 - 204 for jQuery way of doing this
-                $(':input','#first').removeAttr('checked').checkboxradio("refresh");
-                // this removes checked attributes for all inputs in the first div
-                // it calls a radio button specific repaint method 'checkboxradio()'
-                    $('div').not('.ui-loader').show();
-                    // this works, key to unhiding elements, shorter than above, not() rather than filter because I use parents until and wrapper divs to construct the questions
-            });
-        });
 
         var ThurtySeconds = new function() { // I have here amended from self invoking, and called init() outside
             var $countdown,
@@ -145,7 +131,10 @@
         //$( document ).ready(function(){ // this is a total no no apparently
         $(document).on("pagecreate", function( event ) {
             ThurtySeconds.init(); // initialise timer object
-
+            console.log(ThurtySeconds);
+            $input = ':input';
+            $first = '#first';
+            $second = '#second';
             var array = ["one","two","three","four","five"]; // need this to be an object I guess
             var JSON = [
                 {'name':"one"},
@@ -166,18 +155,11 @@
                 console.log(elm);
                 elm.prepend("<span>"+JSON[x].name+"</span>");
             }
-            // set the first to invisible until the button is pressed
+            // set all statements to be guessed to invisible until the button is pressed
             $('.statement').css("visibility", "hidden"); // set to hidden until button
             console.log($('div','#second'));
-            $('#second').hide();
+            $($second).hide();
 
-            // bind events to buttons
-
-            // $('#flip').bind('click', function(){
-            //     $('#first').hide();
-            //     $('div').not('.ui-loader, #first').show(); // add additional qualifier class for hidden questions
-            //     //return false;
-            // });
             $('#flip').bind('click', turnOver);
 
             $('#start').bind('click', function(){
@@ -185,9 +167,7 @@
                 $('.statement').css("visibility", "visible");
                 $('span').css("visibility", "visible");
             });
-            $input = ':input';
-            $first = '#first';
-            $second = '#second';
+
             $($input, $first).bind('change',{divID: $first}, answer);
             $($input, $second).bind('change',{divID: $second}, answer);
         }); // end on(pageCreate)
@@ -204,41 +184,6 @@
                     });
                 }
             })
-//             $(':input','#first').change(function(){ // this also works
-//             //$('input').change(function(){
-//                 if($(this).context.checked = true) {
-//                     $flip++;
-//                         // conditional logic for checked value changge
-//                         if($(this).context.className == "guessed"){
-
-//                             $(this).parentsUntil( $('#first') ).hide(); // would be nice if identifier could be passed as param
-//                         } else if ($(this).context.className == "skip") {
-
-//                             $(this).parentsUntil( $('#first') ).css({"opacity": "0.6","pointer-events": "none"});
-//                         }
-//                 }
-//                 if($flip>= 5){ // permit press of the flip button, incorporation of prior permitFlip function
-//                     $('#flip').css({
-//                     "pointer-events": "auto",
-//                     "opacity": "1"
-//                     });
-//                 }
-//             }); // end input.change for first
-// // ** this is an example of DRY - how can this be remedied given the manner in which jQuery selectors work **
-//             $(':input','#second').change(function(){
-//                 console.log("an input click detected!");
-//                 console.log($(this).context.checked);
-//                 if($(this).context.checked = true) {
-
-//                         // conditional logic for checked value changge
-//                         if($(this).context.className == "guessed"){
-
-//                             $(this).parentsUntil( $('#second') ).hide(); // would be nice if identifier could be passed as param
-//                         } else if ($(this).context.className == "skip") {
-//                             $(this).parentsUntil( $('#second') ).css({"opacity": "0.6","pointer-events": "none"});
-//                         }
-//                 }
-//             }); // end input.change for second
         }); // end function
 
     </script>
@@ -249,7 +194,6 @@
             display: inline-block;
             font-size: 20px;
             font-weight: bold;
-            padding-right: 25px;
             text-shadow: 0px 1px 1px #fff;
             text-align:center;
         }
@@ -266,10 +210,13 @@
         }
     </style>
 </head>
-<body class="a" data-role="page">
-<div id="ctrlButtons">
+<body class="a">
+<div id="main "class="a" data-role="page">
+<a href="#page2" data-role="button">Go to Page 1</a>
+</div>
+<div id="page2" data-role="page" data-title="Multi-Page Template">
+<div id="ctrlButtons" data-role="content">
     <span id="countdown">00:30:00</span>
-    <!-- <form id="ThurtySeconds"> no need for form when no vals are entered-->
 
             <!-- Buttons to Let the Games Begin! -->
             <div class="ui-block-c">
@@ -289,13 +236,13 @@
             <!-- <div id="score">&nbsp;&nbsp;&nbsp;SCORE:</div> -->
             </div>
             <!-- entire body can be wrapped in fieldset-->
-    <!-- </form> -->
+
 
 </div> <!-- end control button DIV-->
    <!--  <fieldset class="ui-grid-a"> -->
 <!-- fieldset may be outside first div, but not inside as it will hide everything with current
 show() hide() conditional logic-->
-        <div  id="first">
+        <div  id="first" data-role="content">
 
                 <div style>
                 <div id="one" class="statement"></div> <!-- these first are not parents of radio buttons because of the grid formatting issue. This means they cannot be accessed via parentsUntil, but a div above them can -->
@@ -311,9 +258,8 @@ show() hide() conditional logic-->
                     </div>
                 </div> <!-- nameless div necessary to avail of parentsUntil logic-->
 
-                <div style>
+                <div>
                     <div id="two" class="statement"></div>
-                    <!-- <div id = "two" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                     <div class="ui-block-b">
                       <input class="guessed" id="guessed2" type="radio" name="guessed2" required="required">
                       <label class="ui-mobile" name="guessed" for="guessed2">Guessed?</label>
@@ -326,7 +272,6 @@ show() hide() conditional logic-->
 
                 <div style>
                     <div id="three" class="statement"></div>
-                        <!-- <div id = "three" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                         <div class="ui-block-b">
 
                           <input class="guessed" id="guessed3" type="radio" name="guessed3" required="required">
@@ -340,7 +285,6 @@ show() hide() conditional logic-->
 
                 <div style>
                     <div id="four" class="statement"></div>
-                        <!-- <div id = "four" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                         <div class="ui-block-b">
 
                           <input class="guessed" id="guessed4" type="radio" name="guessed4" required="required">
@@ -354,7 +298,6 @@ show() hide() conditional logic-->
 
                 <div style>
                     <div id="five" class="statement"></div>
-                    <!-- <div id = "five" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                     <div class="ui-block-b">
 
                       <input class="guessed" id="guessed5" type="radio" name="guessed5" required="required">
@@ -367,11 +310,11 @@ show() hide() conditional logic-->
                 </div>
         </div> <!-- end first -->
     <!-- </fieldset> -->
-        <div id="second">  <!-- style="display:none" -->
+
+        <div id="second" data-role="content">
 
                 <div style="height: auto">
-                <div id="six" class="statement"></div> <!-- these first are not parents of radio buttons because of the grid formatting issue. This means they cannot be accessed via parentsUntil, but a div above them can -->
-                    <!-- <div id = "one" class="ui-block-a"></div> this can be used if statement desired to left of buttons-->
+                <div id="six" class="statement"></div>
                     <div class="ui-block-b">
                 <!--| alternative class designation = <input class="radio-input" |-->
                       <input class="guessed" id="guessed6" type="radio" name="guessed6" required="required">
@@ -381,11 +324,10 @@ show() hide() conditional logic-->
                       <input class="skip" id="skip6" type="radio" name="skip6" required="required">
                       <label for="skip6">Skip?</label>
                     </div>
-                </div> <!-- nameless div necessary to avail of parentsUntil logic-->
+                </div> 
 
                 <div style="height: auto">
                     <div id="seven" class="statement"></div>
-                    <!-- <div id = "two" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                     <div class="ui-block-b">
                       <input class="guessed" id="guessed7" type="radio" name="guessed7" required="required">
                       <label class="ui-mobile" name="guessed" for="guessed7">Guessed?</label>
@@ -398,7 +340,6 @@ show() hide() conditional logic-->
 
                 <div style="height: auto">
                     <div id="eight" class="statement"></div>
-                        <!-- <div id = "three" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                         <div class="ui-block-b">
 
                           <input class="guessed" id="guessed8" type="radio" name="guessed8" required="required">
@@ -412,7 +353,6 @@ show() hide() conditional logic-->
 
                 <div style="height: auto">
                     <div id="nine" class="statement"></div>
-                        <!-- <div id = "four" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                         <div class="ui-block-b">
 
                           <input class="guessed" id="guessed9" type="radio" name="guessed9" required="required">
@@ -426,7 +366,6 @@ show() hide() conditional logic-->
 
                 <div style="height: auto">
                     <div id="ten" class="statement"></div>
-                    <!-- <div id = "five" class="ui-block-a"></div> this can be used if statement desired to left of buttons -->
                     <div class="ui-block-b">
 
                       <input class="guessed" id="guessed10" type="radio" name="guessed10" required="required">
@@ -439,7 +378,6 @@ show() hide() conditional logic-->
                 </div>
         </div> <!-- end flip -->
 <!-- </fieldset> -->
-
-</form>
+</div>
 </body>
 </html>
