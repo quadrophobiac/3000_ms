@@ -119,19 +119,30 @@ sortDesc = function(aList){
 }
 
 var JSON = [{'name':"one"}, {'name':"two"},{'name':"three"},{'name':"four"},{'name':"five"}];
+var NOSJ = [{'name':"six"}, {'name':"seven"},{'name':"eight"},{'name':"nine"},{'name':"ten"}];
 
 console.log("goodbye");
     var thirtySeconds = new QuizContent(questions);
     console.log(thirtySeconds);
     var topicTally = thirtySeconds.count();
     console.log(topicTally);
-    var round1 = sortDesc(topicTally).slice(0,5);
+    var index1 = sortDesc(topicTally).slice(0,5);
+    console.log(index1);
+    var round1 = thirtySeconds.chooseFive(index1);
     console.log(round1);
-    var first = thirtySeconds.chooseFive(round1);
+    thirtySeconds.remove(round1);
+    topicTally = thirtySeconds.count(); // topicTally needs to be triggered everytime a remove is triggered
+    var index2 = sortDesc(topicTally).slice(0,5);
+    var round2 = thirtySeconds.chooseFive(index2);
+    var first = thirtySeconds.presentStatements(round1, JSON);
+    // when it is done this way, the JSON array is also changed, may need to use an unset function
     console.log(first);
-    thirtySeconds.remove(first);
-    var returned = thirtySeconds.presentStatements(first, JSON);
-    console.log(returned);
+    forEachIn(first, function(k,v){console.log(v.value);}); // print the items from first of interest, i.e. values
+
+    var flip = thirtySeconds.presentStatements(round2, NOSJ);
+    thirtySeconds.remove(round2);
+    forEachIn(flip, function(k,v){console.log(v.value);});
+
     topicTally = thirtySeconds.count();
     console.log(topicTally);
   // for (var c = 0; c < 5; c++) {
@@ -148,11 +159,6 @@ console.log("goodbye");
     // remove(flip,thirtySeconds);
   // }
 
-
-// for(var x=0; x<JSON.length; x++){
-//   JSON[x].value = returned[x];
-// }
-console.log(JSON);
 
 </script>
 </html>
