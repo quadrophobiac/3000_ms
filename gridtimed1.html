@@ -95,8 +95,9 @@
             //screenFlush();
             ThurtySeconds.resetCountdown();
             teamToggle();
-            populate(JSON);
+            populate();
             screenFlush();
+            console.log(thirtySeconds.count());
             return false;
         }
 
@@ -104,17 +105,35 @@
 // array of objects
 // array[0].value = new Value
 // elm.prepend("<span>"+JSON[x].value+"</span>");
-        function populate(JSON){
-            
-            for(var x=0; x<JSON.length; x++){ //JSON.length
-                // prepend the vals of array of objects to html elements with an ID selector matching object keys
+        function populate(){
+            var JSON = [{'name':"one"}, {'name':"two"},{'name':"three"},{'name':"four"},{'name':"five"}];
+            var NOSJ = [{'name':"six"}, {'name':"seven"},{'name':"eight"},{'name':"nine"},{'name':"ten"}];
+            retrieval(true,JSON);
+            retrieval(false,NOSJ);
+            for(var x=0; x<JSON.length; x++){ // JSON should be generic name
                 var elm = $("#"+JSON[x].name); // this is used so it concatenates to a div ID
                 elm.empty();
                 console.log(elm);
-                elm.prepend("<span>"+JSON[x].name+"</span>");
-                // JSON will be amended to return array of objects with multiple key val pairings
-                //elm.prepend("<span>"+JSON[x].value+"</span>");
+                elm.prepend("<span>"+JSON[x].value+"</span>");
             }
+            for(var x=0; x<NOSJ.length; x++){ // JSON should be generic name
+                var elm = $("#"+NOSJ[x].name); // this is used so it concatenates to a div ID
+                elm.empty();
+                console.log(elm);
+                elm.prepend("<span>"+NOSJ[x].value+"</span>");
+            }
+        }
+        function retrieval(clip,rArray){
+            // rArray = array of objects for HTML appending, clip = boolean to determine if questions are to be flushed
+
+            var topicTally = thirtySeconds.count();
+            var index1 = sortDesc(topicTally).slice(0,5);
+            var round1 = thirtySeconds.chooseFive(index1);
+            if(clip) {
+                console.log("clip -- true "+rArray[0].name);
+                thirtySeconds.remove(round1);
+            }
+            thirtySeconds.presentStatements(round1, rArray);
         }
 
 // *** LOGIC LOGIC ***
@@ -129,6 +148,7 @@
         $(document).on("pagecreate", '#page2', function( event ) {
             console.log("page create function");
             ThurtySeconds.init(); // initialise timer object
+            thirtySeconds = new QuizContent(questions);
             console.log(ThurtySeconds);
             $input = ':input';
             $first = '#first';
@@ -136,8 +156,7 @@
 
             // get data to push into statements
 
-            
-            populate(JSON);
+            populate();
             screenFlush();
 
             $('#flip').bind('click', turnOver);
