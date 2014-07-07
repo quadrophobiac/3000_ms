@@ -27,6 +27,8 @@
           8: ['youtube','gmail','internet','twitter','facebook','flickr','linkedin','tumblr','yahoo','pornhub'],
           9: ['range-rover', 'toyota','nissan','suzuki','volvo','volkswagen','mini','bmw','ford','mazda']
         };
+        var JSON = [{'name':"one"}, {'name':"two"},{'name':"three"},{'name':"four"},{'name':"five"}];
+        var NOSJ = [{'name':"six"}, {'name':"seven"},{'name':"eight"},{'name':"nine"},{'name':"ten"}];
         function pad(number, length) {
             var str = '' + number;
             while (str.length < length) {str = '0' + str;}
@@ -62,6 +64,8 @@
         function turnOver(){
             $('#first').hide();
             $('div').not('.ui-loader, #first').show('slow');
+            console.log("turnover triggered");
+            console.log(thirtySeconds.count());
         }
         function answer(event) {
         // expects event.data args, divID, and $(this) in form of set input, statements
@@ -95,9 +99,10 @@
             //screenFlush();
             ThurtySeconds.resetCountdown();
             teamToggle();
+            console.log("questions status prior to reset");
+            console.log(thirtySeconds.count());
             populate();
             screenFlush();
-            console.log(thirtySeconds.count());
             return false;
         }
 
@@ -106,20 +111,18 @@
 // array[0].value = new Value
 // elm.prepend("<span>"+JSON[x].value+"</span>");
         function populate(){
-            var JSON = [{'name':"one"}, {'name':"two"},{'name':"three"},{'name':"four"},{'name':"five"}];
-            var NOSJ = [{'name':"six"}, {'name':"seven"},{'name':"eight"},{'name':"nine"},{'name':"ten"}];
             retrieval(true,JSON);
             retrieval(false,NOSJ);
             for(var x=0; x<JSON.length; x++){ // JSON should be generic name
                 var elm = $("#"+JSON[x].name); // this is used so it concatenates to a div ID
                 elm.empty();
-                console.log(elm);
+                //console.log(elm);
                 elm.prepend("<span>"+JSON[x].value+"</span>");
             }
             for(var x=0; x<NOSJ.length; x++){ // JSON should be generic name
                 var elm = $("#"+NOSJ[x].name); // this is used so it concatenates to a div ID
                 elm.empty();
-                console.log(elm);
+                //console.log(elm);
                 elm.prepend("<span>"+NOSJ[x].value+"</span>");
             }
         }
@@ -129,11 +132,18 @@
             var topicTally = thirtySeconds.count();
             var index1 = sortDesc(topicTally).slice(0,5);
             var round1 = thirtySeconds.chooseFive(index1);
-            if(clip) {
+            if(clip==true) {
                 console.log("clip -- true "+rArray[0].name);
                 thirtySeconds.remove(round1);
+                thirtySeconds.presentStatements(round1, rArray);
+            } else if (clip==false) { // return a function
+                console.log("clip -- false "+rArray[0].name);
+                thirtySeconds.presentStatements(round1, rArray);
+                $('#flip').bind('click', function(){thirtySeconds.remove(round1);});
+                // bind the removal function and the data it needs to the flip button
             }
-            thirtySeconds.presentStatements(round1, rArray);
+            forEachIn(rArray, function(k,v){console.log(v.value);});
+            // print all the vals
         }
 
 // *** LOGIC LOGIC ***
@@ -155,9 +165,10 @@
             $second = '#second';
 
             // get data to push into statements
-
+            console.log(thirtySeconds.count());
             populate();
             screenFlush();
+            console.log(thirtySeconds.count());
 
             $('#flip').bind('click', turnOver);
 
