@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript" src="adt.js"></script>
+<script>
+var questions = {
+  /*[0]topic: [statements[0]...statements[N]],*/
+  0: [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'],
+  1: ['blade runner', 'godfather','goodfellas', 'king kong', 'star wars', 'star trek', 'serenity', 'primer','blues brothers', 'taxi driver'],
+  2: ['dublin', 'london', 'new york', 'brighton', 'glasgow', 'galway','cork','kildare','maynooth', 'goldsmiths'],
+  3 : ['ronaldo','messi','suarez','pele','andy murray','roy mcelroy','barack obama','sepp blater','david cameron','tony blair'],
+  4: ['glastonbury', 'world cup', 'wimbledon', 'election', 'wedding', 'holiday', 'baptism', 'christening','funeral', 'finale'],
+  5: ['we3', 'gravitys rainbow', 'chaos', 'ubiq','sandman','invisibles','transmetropolitan','watchmen','lord of the rings','2666'],
+  6: ['refrigerator', 'a.i.', 'neon', 'vinyl', 'tv', 'radio', 'telegraph', 'telephone', 'film', 'engine'],
+  7: ['beef', 'noodles', 'pizza', 'rice', 'pasta', 'potatoes', 'chips', 'fries', 'tortilla', 'nachos'],
+  8: ['youtube','gmail','internet','twitter','facebook','flickr','linkedin','tumblr','yahoo','pornhub'],
+  9: ['range-rover', 'toyota','nissan','suzuki','volvo','volkswagen','mini','bmw','ford','mazda']
+};
+var JSON = [{'name':"one"}, {'name':"two"},{'name':"three"},{'name':"four"},{'name':"five"}];
+var NOSJ = [{'name':"six"}, {'name':"seven"},{'name':"eight"},{'name':"nine"},{'name':"ten"}];
+
+    var thirtySeconds = new QuizContent(questions);
+    //console.log(thirtySeconds);
+    var topicTally = thirtySeconds.count();
+    //console.log(topicTally);
+    var index1 = sortDesc(topicTally).slice(0,5);
+    //console.log(index1);
+    var round1 = thirtySeconds.chooseFive(index1);
+    //console.log(round1);
+    thirtySeconds.remove(round1);
+    topicTally = thirtySeconds.count(); // topicTally needs to be triggered everytime a remove is triggered
+    var index2 = sortDesc(topicTally).slice(0,5);
+    var round2 = thirtySeconds.chooseFive(index2);
+    var first = thirtySeconds.presentStatements(round1, JSON);
+    // when it is done this way, the JSON array is also changed, may need to use an unset function
+    //console.log(first);
+    forEachIn(first, function(k,v){console.log(v.value);}); // print the items from first of interest, i.e. values
+
+    var flip = thirtySeconds.presentStatements(round2, NOSJ);
+    thirtySeconds.remove(round2);
+    forEachIn(flip, function(k,v){console.log(v.value);});
+
+    topicTally = thirtySeconds.count();
+    console.log(topicTally);
+
+</script>
+</html>
