@@ -35,9 +35,9 @@
                     // goof place for the remove flip logic
                 };
                 this.init = function() {
-                    console.log("the countdown = "+$countdown);
+                    //console.log("the countdown = "+$countdown);
                     $countdown = $('#countdown');
-                    console.log($countdown);
+                    //console.log($countdown);
                     ThurtySeconds.Timer = $.timer(updateTimer, incrementTime, false);
                     $form = $('#ctrlButtons'); // its not fussy about what element it is bound to apparently
                     // however I will need to be fussy because this makes any button press reset the timer

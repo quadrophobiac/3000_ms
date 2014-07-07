@@ -26,9 +26,9 @@ function evenSpread(){
 sortDesc = function(aList){
   // aList will typically will be the returned array from count
   topics = []; // empty topics necessary so that an array of objects is not returned
-  console.log("within TopicPool "+typeof aList);
+  //console.log("within TopicPool "+typeof aList);
   if (evenSpread(aList)) {
-    console.log("no need to prioritise!");
+    //console.log("no need to prioritise!");
   } else {
     nuOrder = aList.sort(function(a,b){return a.contents - b.contents});
   }

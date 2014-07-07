@@ -99,8 +99,8 @@
             //screenFlush();
             ThurtySeconds.resetCountdown();
             teamToggle();
-            console.log("questions status prior to reset");
-            console.log(thirtySeconds.count());
+            //console.log("questions status prior to reset");
+            //console.log(thirtySeconds.count());
             populate();
             screenFlush();
             return false;
@@ -133,11 +133,11 @@
             var index1 = sortDesc(topicTally).slice(0,5);
             var round1 = thirtySeconds.chooseFive(index1);
             if(clip==true) {
-                console.log("clip -- true "+rArray[0].name);
+                //console.log("clip -- true "+rArray[0].name);
                 thirtySeconds.remove(round1);
                 thirtySeconds.presentStatements(round1, rArray);
             } else if (clip==false) { // return a function
-                console.log("clip -- false "+rArray[0].name);
+                //console.log("clip -- false "+rArray[0].name);
                 thirtySeconds.presentStatements(round1, rArray);
                 $('#flip').bind('click', function(){thirtySeconds.remove(round1);});
                 // bind the removal function and the data it needs to the flip button
@@ -156,19 +156,19 @@
         });
 
         $(document).on("pagecreate", '#page2', function( event ) {
-            console.log("page create function");
+            //console.log("page create function");
             ThurtySeconds.init(); // initialise timer object
             thirtySeconds = new QuizContent(questions);
-            console.log(ThurtySeconds);
+            //console.log(ThurtySeconds);
             $input = ':input';
             $first = '#first';
             $second = '#second';
 
             // get data to push into statements
-            console.log(thirtySeconds.count());
+            //console.log(thirtySeconds.count());
             populate();
             screenFlush();
-            console.log(thirtySeconds.count());
+            //console.log(thirtySeconds.count());
 
             $('#flip').bind('click', turnOver);
 
