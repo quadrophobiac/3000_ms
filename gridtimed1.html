@@ -11,9 +11,22 @@
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="jquery.timer.js"></script>
     <script type="text/javascript" src="countdown.js"></script>
+    <script type="text/javascript" src="adt.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
     <script type="text/javascript">
-
+        var questions = {
+          /*[0]topic: [statements[0]...statements[N]],*/
+          0: [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'],
+          1: ['blade runner', 'godfather','goodfellas', 'king kong', 'star wars', 'star trek', 'serenity', 'primer','blues brothers', 'taxi driver'],
+          2: ['dublin', 'london', 'new york', 'brighton', 'glasgow', 'galway','cork','kildare','maynooth', 'goldsmiths'],
+          3 : ['ronaldo','messi','suarez','pele','andy murray','roy mcelroy','barack obama','sepp blater','david cameron','tony blair'],
+          4: ['glastonbury', 'world cup', 'wimbledon', 'election', 'wedding', 'holiday', 'baptism', 'christening','funeral', 'finale'],
+          5: ['we3', 'gravitys rainbow', 'chaos', 'ubiq','sandman','invisibles','transmetropolitan','watchmen','lord of the rings','2666'],
+          6: ['refrigerator', 'a.i.', 'neon', 'vinyl', 'tv', 'radio', 'telegraph', 'telephone', 'film', 'engine'],
+          7: ['beef', 'noodles', 'pizza', 'rice', 'pasta', 'potatoes', 'chips', 'fries', 'tortilla', 'nachos'],
+          8: ['youtube','gmail','internet','twitter','facebook','flickr','linkedin','tumblr','yahoo','pornhub'],
+          9: ['range-rover', 'toyota','nissan','suzuki','volvo','volkswagen','mini','bmw','ford','mazda']
+        };
         function pad(number, length) {
             var str = '' + number;
             while (str.length < length) {str = '0' + str;}
@@ -86,26 +99,21 @@
             screenFlush();
             return false;
         }
-            var JSON = [
-                {'name':"one"},
-                {'name':"two"},
-                {'name':"three"},
-                {'name':"four"},
-                {'name':"five"},
-                {'name':"six"},
-                {'name':"seven"},
-                {'name':"eight"},
-                {'name':"nine"},
-                {'name':"ten"}
-                ];
 
+// obj to pass = var JSON = [{'name':"one"}, {'name':"two"},{'name':"three"},{'name':"four"},{'name':"five"}]
+// array of objects
+// array[0].value = new Value
+// elm.prepend("<span>"+JSON[x].value+"</span>");
         function populate(JSON){
+            
             for(var x=0; x<JSON.length; x++){ //JSON.length
                 // prepend the vals of array of objects to html elements with an ID selector matching object keys
-                var elm = $("#"+JSON[x].name);
+                var elm = $("#"+JSON[x].name); // this is used so it concatenates to a div ID
                 elm.empty();
                 console.log(elm);
                 elm.prepend("<span>"+JSON[x].name+"</span>");
+                // JSON will be amended to return array of objects with multiple key val pairings
+                //elm.prepend("<span>"+JSON[x].value+"</span>");
             }
         }
 
@@ -128,7 +136,7 @@
 
             // get data to push into statements
 
-            var array = ["one","two","three","four","five"]; // need this to be an object I guess
+            
             populate(JSON);
             screenFlush();
 
