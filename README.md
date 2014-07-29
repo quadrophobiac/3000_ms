@@ -20,11 +20,11 @@ A learning exercise in
 - web technologies mobile application dev - hopefully node.js, phonegap
 
 This read me will be a record of my process
-19/06/2014 - requirement gathering, and problem breakdown
-19/06/2014 - establish git folder
-19/06/2014 - credit learning resources
-21/06/2014 - wiring together the buttons and stuff 
-22/06/2014 - added basic jQuery async json fetches
+- 19/06/2014 - requirement gathering, and problem breakdown
+- 19/06/2014 - establish git folder
+- 19/06/2014 - credit learning resources
+- 21/06/2014 - wiring together the buttons and stuff 
+- 22/06/2014 - added basic jQuery async json fetches
 
 Mooted JSON adt
 
