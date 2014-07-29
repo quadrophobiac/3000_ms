@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Contact</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+<link rel="stylesheet" href="css/contact_style.css" type="text/css" media="screen" />
+</head>
+<body>
+
+
+<div id="wrapper">
+
+
+<div id="container">
+
+<h2 id="contact" class="ribbon">Contact Me</h2>
+
+<!--CONTACT FORM-->
+<div id="contactform"  class="contact">
+	<form action="send.php" method="post" >
+	
+		<div id="contactInfo">
+    	<p>
+    		<label class="smallInput" for="name">Name <span class="required">*</span></label><br />
+    		<input type="text" name="name" id="name" value="" class="input round3" /> 
+    	</p>
+    	<p>
+    		<label class="smallInput" for="email">Email <span class="required">*</span></label><br />
+    		<input type="text" name="email" id="email" value="" class="input round3" /> 
+    	</p>
+		
+    	</div>
+    	<p id="emailMessage">
+    		<label class="smallInput" for="message">Message <span class="required">*</span></label><br />
+    		<textarea name="message" id="message" rows="55" cols="44" class="input round3"></textarea>
+    	</p>
+    	
+    	<input name="subject" id="subject" type="hidden" value="Contact Form Feedback" />
+
+    	<input name="repemail" id="repemail" type="hidden" value="projects@stephenfortune.net" />
+ 
+    	<input name="pagelink" id="pagelink" type="hidden" value="#" />
+    	<input name="send" id="submit_btn" type="submit" class="round3 clearRight" value="Send Message" />
+    	
+    	<p id="required"><span class="required">*</span> <em>= Required field</em></p>
+    </form>
+</div><!--end contact form-->
+<div class="clear"></div> <!-- including this makes the page neat, but not sure how...-->
+</div> <!-- end wrapper -->
+</div>
+
+<!-- scripts -->
+<script type="text/javascript"> src="formValidate.js"></script>
+
+</body>
+</html>
