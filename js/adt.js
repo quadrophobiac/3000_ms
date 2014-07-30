@@ -1,3 +1,5 @@
+// data type for the array of questions which is presented to the user to guess
+
 function forEachIn(object, action) {
   for (var property in object) {
   if (Object.prototype.hasOwnProperty.call(object, property))
