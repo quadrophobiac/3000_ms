@@ -26,7 +26,6 @@ $logging = fopen('maillogs.txt', 'a');
  }
 
  else {
-
 	$message = "";
 	$message .= "Name: " . htmlspecialchars($_POST['name'], ENT_QUOTES) . "<br>\n";
 	$message .= "Email: " . htmlspecialchars($_POST['email'], ENT_QUOTES) . "<br>\n";
