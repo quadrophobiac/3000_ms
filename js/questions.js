@@ -1,3 +1,5 @@
+// pseduo code approach to the data structure required for this game
+
 var questions {
 [
 /*[0]topic: [statements[0]...statements[N]],*/
