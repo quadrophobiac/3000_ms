@@ -13,69 +13,52 @@
     <script type="text/javascript" src="js/countdown.js"></script>
     <script type="text/javascript" src="js/adt.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-<script type="text/javascript">
-window.fbAsyncInit = function() {
-    FB.init({
-
-      // Set YOUR APP ID
-
-      //channelUrl : 'http://hayageek.com/examples/oauth/facebook/oauth-javascript/channel.html', // Channel File
-      status     : true, // check login status
-      cookie     : true, // enable cookies to allow the server to access the session
-      xfbml      : true  // parse XFBML
-    });
-
-    FB.Event.subscribe('auth.authResponseChange', function(response) {
-      if (response.status === 'connected') {
-        document.getElementById("message").innerHTML +=  "<br>Connected to Facebook";
-          //SUCCESS
-      }
-      else if (response.status === 'not_authorized') {
-        document.getElementById("message").innerHTML +=  "<br>Failed to Connect";
-          //FAILED
-      } else {
-        document.getElementById("message").innerHTML +=  "<br>Logged Out";
-          //UNKNOWN ERROR
-      }
-    });
-  };
-
-  function Login() {
-    FB.login(function(response) {
-      if (response.authResponse) {
-        getUserInfo();
-        // location.reload();
-      } else {
-        console.log('User cancelled login or did not fully authorize.');
-      }
-    },{scope: 'user_friends, user_interests, user_about_me, user_events, user_groups, user_interests, user_likes'});
-
-    // initial scope :: {scope: 'email,user_photos,user_videos'}
-  }
-
-  function getUserInfo() {
-      FB.api('/me', function(response) {
-        var str="<b>Name</b> : "+response.name+"<br>";
-            str +="<b>Link: </b>"+response.link+"<br>";
-            str +="<b>Username:</b> "+response.username+"<br>";
-            str +="<b>id: </b>"+response.id+"<br>";
-            str +="<b>Email:</b> "+response.email+"<br>";
-            str +="<input type='button' value='Get Photo' onclick='getPhoto();'/>";
-            str +="<input type='button' value='Logout' onclick='Logout();'/>";
-            document.getElementById("status").innerHTML=str;
-      });
-    }
-
-  // Load the SDK asynchronously
-  (function(d){
-     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement('script'); js.id = id; js.async = true;
-     js.src = "//connect.facebook.net/en_US/all.js";
-     ref.parentNode.insertBefore(js, ref);
-   }(document));
-   </script>
     <script type="text/javascript">
+        // facebook log in functionality derived from http://hayageek.com/
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : , // Set YOUR APP ID
+                status     : true, // check login status
+                cookie     : true, // enable cookies to allow the server to access the session
+                xfbml      : true  // parse XFBML
+            });
+
+            FB.Event.subscribe('auth.authResponseChange', function(response) {
+            if (response.status === 'connected') {
+                document.getElementById("message").innerHTML +=  "<br>Connected to Facebook";
+                // successful
+            }
+            else if (response.status === 'not_authorized') {
+                document.getElementById("message").innerHTML +=  "<br>Failed to Connect";
+                //FB auth error
+            } else {
+                document.getElementById("message").innerHTML +=  "<br>Logged Out";
+                // some other impediment
+            }
+            });
+          };
+
+        function Login() {
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    window.location.href = 'includes/backend.php'; // redirect to php file which does the data processing
+                } else {
+                    console.log('User cancelled login or did not fully authorize.');
+                }
+            },{scope: 'user_friends, user_interests, user_about_me, user_events, user_groups, user_interests, user_likes'});
+        }
+          // Load the SDK asynchronously
+        (function(d){
+            var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement('script'); js.id = id; js.async = true;
+            js.src = "//connect.facebook.net/en_US/all.js";
+            ref.parentNode.insertBefore(js, ref);
+        }(document));
+
+    </script>
+    <script type="text/javascript">
+    // *** DATA LOGIC ***
         var questions = {
           /*[0]topic: [statements[0]...statements[N]],*/
           0: [ 'sopranos','the wire','breaking bad', 'game of thrones', 'fargo','pokemon','match of the day','community','oz','penny dreadful'],
@@ -132,14 +115,13 @@ window.fbAsyncInit = function() {
         function answer(event) {
         // expects event.data args, divID, and $(this) in form of set input, statements
         // takes care of the hiding of radio buttons and parent elements
-                if($(this).context.checked = true) {
-                        if($(this).context.className == "guessed"){
-
-                            $(this).parentsUntil( $(event.data.divID)).hide('slow');
-                        } else if ($(this).context.className == "skip") {
-                            $(this).parentsUntil( $(event.data.divID) ).css({"opacity": "0.6","pointer-events": "none"});
-                        }
+            if($(this).context.checked = true) {
+                if($(this).context.className == "guessed"){
+                    $(this).parentsUntil( $(event.data.divID)).hide('slow');
+                } else if ($(this).context.className == "skip") {
+                    $(this).parentsUntil( $(event.data.divID) ).css({"opacity": "0.6","pointer-events": "none"});
                 }
+            }
         }
 
         function screenFlush(){
@@ -154,40 +136,14 @@ window.fbAsyncInit = function() {
         }
 
         function resetClock(){
-        // actually RESETS loads of STUFF
-        // ** This function is doing too much, modularise it **
-        // require a better solution
-        // params to be reset { #second: visibility, clock: 00:00:00, div: pointer-events & opacity, allInput buttons: removeAttributes, checkboxradion, nextQuestions button: pointer-events&opacity }
-            //screenFlush();
             ThurtySeconds.resetCountdown();
             teamToggle();
-            //console.log("questions status prior to reset");
-            //console.log(thirtySeconds.count());
             populate();
             screenFlush();
             return false;
         }
 
-// obj to pass = var JSON = [{'name':"one"}, {'name':"two"},{'name':"three"},{'name':"four"},{'name':"five"}]
-// array of objects
-// array[0].value = new Value
-// elm.prepend("<span>"+JSON[x].value+"</span>");
-        function populate(){
-            retrieval(true,JSON);
-            retrieval(false,NOSJ);
-            for(var x=0; x<JSON.length; x++){ // JSON should be generic name
-                var elm = $("#"+JSON[x].name); // this is used so it concatenates to a div ID
-                elm.empty();
-                //console.log(elm);
-                elm.prepend("<span>"+JSON[x].value+"</span>");
-            }
-            for(var x=0; x<NOSJ.length; x++){ // JSON should be generic name
-                var elm = $("#"+NOSJ[x].name); // this is used so it concatenates to a div ID
-                elm.empty();
-                //console.log(elm);
-                elm.prepend("<span>"+NOSJ[x].value+"</span>");
-            }
-        }
+
         function retrieval(clip,rArray){
             // rArray = array of objects for HTML appending, clip = boolean to determine if questions are to be flushed
 
@@ -208,9 +164,25 @@ window.fbAsyncInit = function() {
             // print all the vals
         }
 
-// *** LOGIC LOGIC ***
+        // *** VIEW LOGIC ***
 
-        //$( document ).ready(function(){ // this is a total no no apparently
+        function populate(){
+            retrieval(true,JSON);
+            retrieval(false,NOSJ);
+            for(var x=0; x<JSON.length; x++){ // JSON should be generic name
+                var elm = $("#"+JSON[x].name); // this is used so it concatenates to a div ID
+                elm.empty();
+                //console.log(elm);
+                elm.prepend("<span>"+JSON[x].value+"</span>");
+            }
+            for(var x=0; x<NOSJ.length; x++){ // JSON should be generic name
+                var elm = $("#"+NOSJ[x].name); // this is used so it concatenates to a div ID
+                elm.empty();
+                //console.log(elm);
+                elm.prepend("<span>"+NOSJ[x].value+"</span>");
+            }
+        }
+
         // pagecreate not ideal for multi page applications
         $(document).on("pagecreate", '#main',function( event ) {
             console.log("first page");
@@ -227,11 +199,10 @@ window.fbAsyncInit = function() {
             $second = '#second';
 
             // get data to push into statements
-            //console.log(thirtySeconds.count());
+
             populate();
             screenFlush();
-            //console.log(thirtySeconds.count());
-
+            // bind interactivity to buttons
             $('#flip').bind('click', turnOver);
 
             $('#start').bind('click', function(){
@@ -309,185 +280,182 @@ window.fbAsyncInit = function() {
 </head>
 <body class="a">
 
-<div id="main "class="c" data-role="page" data-title="home">
-<div id="#header" class="theHead"  data-role="header">
-    <a href="tos.html" rel="external">terms of service</a>
-    <!-- <a href="contact.html" rel="external">Support</a> -->
+    <div id="main "class="c" data-role="page" data-title="home">
+    <div id="#header" class="theHead"  data-role="header">
+        <a href="tos.html" rel="external">terms of service</a>
+        <!-- <a href="contact.html" rel="external">Support</a> -->
+        </div>
+    <div id="fblogin" data-role="button" class="auth">
+         Log In Via Facebook To Play The Game <br/>
+        <a href="includes/backend.php"><img src="img/LoginWithFacebook.png" style="cursor:pointer;" onclick="Login()"/>
     </div>
-<div id="fblogin" data-role="button" class="auth">
- Log In Via Facebook To Play The Game <br/>
-<a href="backend.php"><img src="img/LoginWithFacebook.png" style="cursor:pointer;" onclick="Login()"/>
-</div>
-<a href="#page2" data-role="button">Demo</a>
-    <a href="privacy.html" rel="external" data-role="button">Data Privacy</a>
-    <a href="contact.html" rel="external" data-role="button">Support</a>
-</div>
+    <a href="#page2" data-role="button">Demo</a>
+        <a href="privacy.html" rel="external" data-role="button">Data Privacy</a>
+        <a href="contact.html" rel="external" data-role="button">Support</a>
+    </div>
 
-<div id="page2" data-role="page" data-title="30 Seconds" class="a" data-add-back-btn="true">
-<div id="ctrlButtons" data-role="content">
-    <span id="countdown">00:30:00</span>
-
-            <!-- Buttons to Let the Games Begin! -->
-            <div class="ui-block-c">
-                <button id="start" class="ui-btn">Start</button>
-            </div>
-            <div class="ui-block-c">
-                <button id='flip' class="ui-btn" style="pointer-events:none;opacity:0.2">Next Questions</button>
-            </div>
-            <div class="ui-block-a"></div>
-            <div class="ui-block-c">
-                <!-- <button class="ui-btn" value='Stop/Reset' onclick='return resetClock();'>Reset</button> -->
-                <button id="reset" class="ui-btn">Reset</button>
-            </div>
-            <div class="ui-block-b">
-            <ul class="score" id="teamA">SCORE A:</ul>
-            <ul class="score" id="teamB">SCORE B:</ul>
-            <!-- <div id="score">&nbsp;&nbsp;&nbsp;SCORE:</div> -->
-            </div>
-            <!-- entire body can be wrapped in fieldset-->
-</div> <!-- end control button DIV-->
+    <div id="page2" data-role="page" data-title="30 Seconds" class="a" data-add-back-btn="true">
+        <div id="ctrlButtons" data-role="content">
+            <span id="countdown">00:30:00</span>
+                <!-- Buttons to Let the Games Begin! -->
+                <div class="ui-block-c">
+                    <button id="start" class="ui-btn">Start</button>
+                </div>
+                <div class="ui-block-c">
+                    <button id='flip' class="ui-btn" style="pointer-events:none;opacity:0.2">Next Questions</button>
+                </div>
+                <div class="ui-block-a"></div>
+                <div class="ui-block-c">
+                    <!-- <button class="ui-btn" value='Stop/Reset' onclick='return resetClock();'>Reset</button> -->
+                    <button id="reset" class="ui-btn">Reset</button>
+                </div>
+                <div class="ui-block-b">
+                <ul class="score" id="teamA">SCORE A:</ul>
+                <ul class="score" id="teamB">SCORE B:</ul>
+                <!-- <div id="score">&nbsp;&nbsp;&nbsp;SCORE:</div> -->
+                </div>
+                <!-- entire body can be wrapped in fieldset-->
+        </div> <!-- end control button DIV-->
 
         <div  id="first" data-role="content">
-
-                <div style="height: auto">
-                <div id="one" class="statement"></div> <!-- these first are not parents of radio buttons because of the grid formatting issue. This means they cannot be accessed via parentsUntil, but a div above them can -->
-                    <!-- <div id = "one" class="ui-block-a"></div> this can be used if statement desired to left of buttons-->
-                    <div class="ui-block-b">
+            <div style="height: auto">
+            <div id="one" class="statement"></div>
+                <div class="ui-block-b">
                 <!--| alternative class designation = <input class="radio-input" |-->
-                      <input class="guessed" id="guessed1" type="radio" name="guessed1" required="required">
-                      <label for="guessed1">Guessed?</label>
-                    </div>
-                    <div class="ui-block-c">
-                      <input class="skip" id="skip1" type="radio" name="skip1" required="required">
-                      <label for="skip1">Skip?</label>
-                    </div>
-                </div> <!-- nameless div necessary to avail of parentsUntil logic-->
-
-                <div style="height: auto">
-                    <div id="two" class="statement"></div>
-                    <div class="ui-block-b">
-                      <input class="guessed" id="guessed2" type="radio" name="guessed2" required="required">
-                      <label class="ui-mobile" name="guessed" for="guessed2">Guessed?</label>
-                    </div>
-                    <div class="ui-block-c">
-                      <input class="skip" id="skip2" type="radio" name="skip2" required="required">
-                      <label class="skip" name="skip" for="skip2">Skip?</label>
-                    </div>
+                  <input class="guessed" id="guessed1" type="radio" name="guessed1" required="required">
+                  <label for="guessed1">Guessed?</label>
                 </div>
-
-                <div style="height: auto">
-                    <div id="three" class="statement"></div>
-                        <div class="ui-block-b">
-
-                          <input class="guessed" id="guessed3" type="radio" name="guessed3" required="required">
-                          <label class="ui-mobile" name="guessed" for="guessed3">Guessed?</label>
-                        </div>
-                        <div class="ui-block-c">
-                          <input class="skip" id="skip3" type="radio" name="skip3" required="required">
-                          <label class="skip" name="skip" for="skip3">Skip?</label>
-                        </div>
+                <div class="ui-block-c">
+                  <input class="skip" id="skip1" type="radio" name="skip1" required="required">
+                  <label for="skip1">Skip?</label>
                 </div>
+            </div> <!-- nameless div necessary to avail of parentsUntil logic-->
 
-                <div style="height: auto">
-                    <div id="four" class="statement"></div>
-                        <div class="ui-block-b">
-
-                          <input class="guessed" id="guessed4" type="radio" name="guessed4" required="required">
-                          <label class="ui-mobile" name="guessed" for="guessed4">Guessed?</label>
-                        </div>
-                        <div class="ui-block-c">
-                          <input class="skip" id="skip4" type="radio" name="skip4" required="required">
-                          <label class="skip" name="skip" for="skip4">Skip?</label>
-                        </div>
+            <div style="height: auto">
+                <div id="two" class="statement"></div>
+                <div class="ui-block-b">
+                  <input class="guessed" id="guessed2" type="radio" name="guessed2" required="required">
+                  <label class="ui-mobile" name="guessed" for="guessed2">Guessed?</label>
                 </div>
+                <div class="ui-block-c">
+                  <input class="skip" id="skip2" type="radio" name="skip2" required="required">
+                  <label class="skip" name="skip" for="skip2">Skip?</label>
+                </div>
+            </div>
 
-                <div style="height: auto">
-                    <div id="five" class="statement"></div>
+            <div style="height: auto">
+                <div id="three" class="statement"></div>
                     <div class="ui-block-b">
 
-                      <input class="guessed" id="guessed5" type="radio" name="guessed5" required="required">
-                      <label class="guessed" name="guessed" for="guessed5">Guessed?</label>
+                      <input class="guessed" id="guessed3" type="radio" name="guessed3" required="required">
+                      <label class="ui-mobile" name="guessed" for="guessed3">Guessed?</label>
                     </div>
                     <div class="ui-block-c">
-                      <input class="skip" id="skip5" type="radio" name="skip5" required="required">
-                      <label class="skip" name="skip" for="skip5">Skip?</label>
+                      <input class="skip" id="skip3" type="radio" name="skip3" required="required">
+                      <label class="skip" name="skip" for="skip3">Skip?</label>
                     </div>
+            </div>
+
+            <div style="height: auto">
+                <div id="four" class="statement"></div>
+                    <div class="ui-block-b">
+
+                      <input class="guessed" id="guessed4" type="radio" name="guessed4" required="required">
+                      <label class="ui-mobile" name="guessed" for="guessed4">Guessed?</label>
+                    </div>
+                    <div class="ui-block-c">
+                      <input class="skip" id="skip4" type="radio" name="skip4" required="required">
+                      <label class="skip" name="skip" for="skip4">Skip?</label>
+                    </div>
+            </div>
+
+            <div style="height: auto">
+                <div id="five" class="statement"></div>
+                <div class="ui-block-b">
+
+                  <input class="guessed" id="guessed5" type="radio" name="guessed5" required="required">
+                  <label class="guessed" name="guessed" for="guessed5">Guessed?</label>
                 </div>
+                <div class="ui-block-c">
+                  <input class="skip" id="skip5" type="radio" name="skip5" required="required">
+                  <label class="skip" name="skip" for="skip5">Skip?</label>
+                </div>
+            </div>
         </div> <!-- end first -->
-    <!-- </fieldset> -->
+        <!-- </fieldset> -->
 
         <div id="second" data-role="content">
 
-                <div style="height: auto">
-                <div id="six" class="statement"></div>
-                    <div class="ui-block-b">
-                <!--| alternative class designation = <input class="radio-input" |-->
-                      <input class="guessed" id="guessed6" type="radio" name="guessed6" required="required">
-                      <label for="guessed6">Guessed?</label>
-                    </div>
-                    <div class="ui-block-c">
-                      <input class="skip" id="skip6" type="radio" name="skip6" required="required">
-                      <label for="skip6">Skip?</label>
-                    </div>
+            <div style="height: auto">
+            <div id="six" class="statement"></div>
+                <div class="ui-block-b">
+            <!--| alternative class designation = <input class="radio-input" |-->
+                  <input class="guessed" id="guessed6" type="radio" name="guessed6" required="required">
+                  <label for="guessed6">Guessed?</label>
                 </div>
-
-                <div style="height: auto">
-                    <div id="seven" class="statement"></div>
-                    <div class="ui-block-b">
-                      <input class="guessed" id="guessed7" type="radio" name="guessed7" required="required">
-                      <label class="ui-mobile" name="guessed" for="guessed7">Guessed?</label>
-                    </div>
-                    <div class="ui-block-c">
-                      <input class="skip" id="skip7" type="radio" name="skip7" required="required">
-                      <label class="skip" name="skip" for="skip7">Skip?</label>
-                    </div>
+                <div class="ui-block-c">
+                  <input class="skip" id="skip6" type="radio" name="skip6" required="required">
+                  <label for="skip6">Skip?</label>
                 </div>
+            </div>
 
-                <div style="height: auto">
-                    <div id="eight" class="statement"></div>
-                        <div class="ui-block-b">
-
-                          <input class="guessed" id="guessed8" type="radio" name="guessed8" required="required">
-                          <label class="ui-mobile" name="guessed" for="guessed8">Guessed?</label>
-                        </div>
-                        <div class="ui-block-c">
-                          <input class="skip" id="skip8" type="radio" name="skip8" required="required">
-                          <label class="skip" name="skip" for="skip8">Skip?</label>
-                        </div>
+            <div style="height: auto">
+                <div id="seven" class="statement"></div>
+                <div class="ui-block-b">
+                  <input class="guessed" id="guessed7" type="radio" name="guessed7" required="required">
+                  <label class="ui-mobile" name="guessed" for="guessed7">Guessed?</label>
                 </div>
-
-                <div style="height: auto">
-                    <div id="nine" class="statement"></div>
-                        <div class="ui-block-b">
-
-                          <input class="guessed" id="guessed9" type="radio" name="guessed9" required="required">
-                          <label class="ui-mobile" name="guessed" for="guessed9">Guessed?</label>
-                        </div>
-                        <div class="ui-block-c">
-                          <input class="skip" id="skip9" type="radio" name="skip9" required="required">
-                          <label class="skip" name="skip" for="skip9">Skip?</label>
-                        </div>
+                <div class="ui-block-c">
+                  <input class="skip" id="skip7" type="radio" name="skip7" required="required">
+                  <label class="skip" name="skip" for="skip7">Skip?</label>
                 </div>
+            </div>
 
-                <div style="height: auto">
-                    <div id="ten" class="statement"></div>
+            <div style="height: auto">
+                <div id="eight" class="statement"></div>
                     <div class="ui-block-b">
 
-                      <input class="guessed" id="guessed10" type="radio" name="guessed10" required="required">
-                      <label class="guessed" name="guessed" for="guessed10">Guessed?</label>
+                      <input class="guessed" id="guessed8" type="radio" name="guessed8" required="required">
+                      <label class="ui-mobile" name="guessed" for="guessed8">Guessed?</label>
                     </div>
                     <div class="ui-block-c">
-                      <input class="skip" id="skip10" type="radio" name="skip10" required="required">
-                      <label class="skip" name="skip" for="skip10">Skip?</label>
+                      <input class="skip" id="skip8" type="radio" name="skip8" required="required">
+                      <label class="skip" name="skip" for="skip8">Skip?</label>
                     </div>
-                </div>
-        </div> <!-- end flip -->
+            </div>
 
-<!-- </fieldset> -->
-    <div data-role="footer">
-        <a href="#main" data-role="button" data-rel="back" data-theme="b">Go Back</a>
+            <div style="height: auto">
+                <div id="nine" class="statement"></div>
+                    <div class="ui-block-b">
+
+                      <input class="guessed" id="guessed9" type="radio" name="guessed9" required="required">
+                      <label class="ui-mobile" name="guessed" for="guessed9">Guessed?</label>
+                    </div>
+                    <div class="ui-block-c">
+                      <input class="skip" id="skip9" type="radio" name="skip9" required="required">
+                      <label class="skip" name="skip" for="skip9">Skip?</label>
+                    </div>
+            </div>
+
+            <div style="height: auto">
+                <div id="ten" class="statement"></div>
+                <div class="ui-block-b">
+
+                  <input class="guessed" id="guessed10" type="radio" name="guessed10" required="required">
+                  <label class="guessed" name="guessed" for="guessed10">Guessed?</label>
+                </div>
+                <div class="ui-block-c">
+                  <input class="skip" id="skip10" type="radio" name="skip10" required="required">
+                  <label class="skip" name="skip" for="skip10">Skip?</label>
+                </div>
+            </div>
+        </div> <!-- end second -->
+
+    <!-- </fieldset> -->
+        <div data-role="footer">
+            <a href="#main" data-role="button" data-rel="back" data-theme="b">Go Back</a>
+        </div>
     </div>
-</div>
 
 </body>
 </html>
